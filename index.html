@@ -57,6 +57,8 @@
         <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792">
         <img id="image3" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage3.jpg?v=1621935547329">
         <img id="image4" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage4.jpg?v=1621935550462">
+        <img id="image5" src= "https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting.png?v=1728323181519">
+        <img id="image6" src= "https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Docker.png?v=1728323168445">
         <img id="floor" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.05.00%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248710705">
         <img id="sky" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.03.24%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248616891">
         <audio id="click-sound" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fclick.mp3?v=1621935559893"></audio>
@@ -79,19 +81,29 @@
 </a-entity>
       
       <!-- Gallery Items -->
-     <a-entity id="gallery" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3; plane: xz">
+     <a-entity id="ClickRolePrompt" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3; plane: xz">
   <a-entity class="project" data-category="portfolio">
+    <a-entity
+      geometry="primitive: box; width: 2; height: 1.5"
+      material="shader: gif; src: #image4"
+      class="clickable"
+      event-set__mouseenter="scale: 1.1 1.1 1"
+      event-set__mouseleave="scale: 1 1 1"
+      position="-4 2.5 2">
+    </a-entity>
+    
+          
+  <a-entity id="MicroservicesArticle" position="-4 3 7" rotation="0 0 0" layout="type: circle; radius: 3; plane: xz">
+  <a-entity class="project" data-category="previewsign">
     <a-entity
       geometry="primitive: box; width: 2; height: 1.5"
       material="shader: gif; src: #gif1"
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
       event-set__mouseleave="scale: 1 1 1"
-      position="-4 0 2"
-      show-info="title: Introduction to Microservices Architecture with Docker and Kubernetes">
+      position="-4 0 2">
     </a-entity>
-    <a-text value="Microservices Architecture Article" align="center" position="0 -1 0" width="2"></a-text>
-  </a-entity>
+   
        
        
   
@@ -105,12 +117,7 @@
     position="0 0 0"
     show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps">
   </a-entity>
-  <a-text 
-    value="Prompt Engineering and Role Prompting" 
-    align="center" 
-    position="0 -1.75 0" 
-    width="2">
-  </a-text>
+
 </a-entity>
   
    

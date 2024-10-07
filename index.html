@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     
+    
     <script>
       AFRAME.registerComponent('show-info', {
         schema: {
@@ -71,15 +72,21 @@
       <!-- Directional Light -->
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
+      <!-- Camera -->
+     <a-entity id="rig" position="25 0 0">
+  <a-entity id="camera" camera look-controls></a-entity>
+</a-entity>
+      
       <!-- Gallery Items -->
-     <a-entity id="gallery" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3;  plane: xz"">
+     <a-entity id="gallery" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3; plane: xz">
   <a-entity class="project" data-category="performance">
     <a-entity
-      geometry="primitive: plane; width: 2; height: 1.5"
+      geometry="primitive: box; width: 2; height: 1.5"
       material="shader: gif; src: #gif1"
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
       event-set__mouseleave="scale: 1 1 1"
+      position="-2 0 0"
       show-info="title: Introduction to Microservices Architecture with Docker and Kubernetes">
     </a-entity>
     <a-text value="Microservices Architecture Article" align="center" position="0 -1 0" width="2"></a-text>
@@ -87,12 +94,12 @@
   
   <a-entity class="project" data-category="vr">
   <a-entity
-    geometry="primitive: plane; width: 2; height: 3"
+    geometry="primitive: box; width: 2; height: 3"
     material="shader: gif; src: #gif2"
     class="clickable"
     event-set__mouseenter="scale: 1.1 1.1 1"
     event-set__mouseleave="scale: 1 1 1"
-    position="0 0.75 0"
+    position="0 0 0"
     show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps">
   </a-entity>
   <a-text 
@@ -103,21 +110,10 @@
   </a-text>
 </a-entity>
   
-  <a-entity class="project" data-category="ai">
-    <a-entity
-      geometry="primitive: plane; width: 2; height: 1.5"
-      material="src: #image3"
-      class="clickable"
-      event-set__mouseenter="scale: 1.1 1.1 1"
-      event-set__mouseleave="scale: 1 1 1"
-      show-info="title: AI in Web Development; description: Investigating the role of AI in modern web development practices.; link: https://example.com/ai-web-development; category: ai">
-    </a-entity>
-    <a-text value="AI in Web Development" align="center" position="0 -1 0" width="2"></a-text>
-  </a-entity>
-  
+   
   <a-entity class="project" data-category="design">
     <a-entity
-      geometry="primitive: plane; width: 2; height: 1.5"
+      geometry="primitive: box; width: 2; height: 1.5"
       material="src: #image4"
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
@@ -152,7 +148,7 @@
       </a-entity>
 
       <!-- Camera and Cursor -->
-      <a-entity camera look-controls position="0 1.6 0">
+      <a-entity camera look-controls position="0 0 0">
         <a-cursor
           raycaster="objects: .clickable"
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"

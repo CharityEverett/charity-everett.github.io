@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Charity Everett's Tech Writing Portfolio</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    
+    <script>
+      AFRAME.registerComponent('show-info', {
+        schema: {
+          title: {type: 'string', default: ''},
+          description: {type: 'string', default: ''},
+          link: {type: 'string', default: ''},
+          category: {type: 'string', default: ''}
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
+          el.addEventListener('click', function () {
+            var infoPanel = document.querySelector('#info-panel');
+            infoPanel.setAttribute('visible', true);
+            infoPanel.querySelector('#info-title').setAttribute('value', data.title);
+            infoPanel.querySelector('#info-description').setAttribute('value', data.description);
+            infoPanel.querySelector('#info-link').setAttribute('value', 'Read More: ' + data.link);
+            document.querySelector('#click-sound').components.sound.playSound();
+          });
+        }
+      });
+
+      AFRAME.registerComponent('filter-projects', {
+        init: function () {
+          this.el.addEventListener('click', function (evt) {
+            var category = evt.target.getAttribute('data-category');
+            var projects = document.querySelectorAll('.project');
+            projects.forEach(function (project) {
+              if (category === 'all' || project.getAttribute('data-category') === category) {
+                project.object3D.visible = true;
+              } else {
+                project.object3D.visible = false;
+              }
+            });
+            document.querySelector('#filter-sound').components.sound.playSound();
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <!-- Replace these with your actual image URLs -->
+        <img id="gif1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775">
+        <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792">
+        <img id="image3" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage3.jpg?v=1621935547329">
+        <img id="image4" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage4.jpg?v=1621935550462">
+        <img id="floor" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.05.00%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248710705">
+        <img id="sky" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.03.24%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248616891">
+        <audio id="click-sound" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fclick.mp3?v=1621935559893"></audio>
+        <audio id="filter-sound" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Ffilter.mp3?v=1621935563040"></audio>
+      </a-assets>
+
+      <!-- Environment -->
+      <a-sky src="#sky"></a-sky>
+      <a-plane src="#floor" rotation="-90 0 0" width="30" height="30"></a-plane>
+      
+      <!-- Ambient Light -->
+      <a-light type="ambient" color="#BBB"></a-light>
+      <!-- Directional Light -->
+      <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
+
+      <!-- Gallery Items -->
+     <a-entity id="gallery" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3;  plane: xz"">
+  <a-entity class="project" data-category="performance">
+    <a-entity
+      geometry="primitive: plane; width: 2; height: 1.5"
+      material="shader: gif; src: #gif1"
+      class="clickable"
+      event-set__mouseenter="scale: 1.1 1.1 1"
+      event-set__mouseleave="scale: 1 1 1"
+      show-info="title: Introduction to Microservices Architecture with Docker and Kubernetes">
+    </a-entity>
+    <a-text value="Microservices Architecture Article" align="center" position="0 -1 0" width="2"></a-text>
+  </a-entity>
+  
+  <a-entity class="project" data-category="vr">
+  <a-entity
+    geometry="primitive: plane; width: 2; height: 3"
+    material="shader: gif; src: #gif2"
+    class="clickable"
+    event-set__mouseenter="scale: 1.1 1.1 1"
+    event-set__mouseleave="scale: 1 1 1"
+    position="0 0.75 0"
+    show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps">
+  </a-entity>
+  <a-text 
+    value="Prompt Engineering and Role Prompting" 
+    align="center" 
+    position="0 -1.75 0" 
+    width="2">
+  </a-text>
+</a-entity>
+  
+  <a-entity class="project" data-category="ai">
+    <a-entity
+      geometry="primitive: plane; width: 2; height: 1.5"
+      material="src: #image3"
+      class="clickable"
+      event-set__mouseenter="scale: 1.1 1.1 1"
+      event-set__mouseleave="scale: 1 1 1"
+      show-info="title: AI in Web Development; description: Investigating the role of AI in modern web development practices.; link: https://example.com/ai-web-development; category: ai">
+    </a-entity>
+    <a-text value="AI in Web Development" align="center" position="0 -1 0" width="2"></a-text>
+  </a-entity>
+  
+  <a-entity class="project" data-category="design">
+    <a-entity
+      geometry="primitive: plane; width: 2; height: 1.5"
+      material="src: #image4"
+      class="clickable"
+      event-set__mouseenter="scale: 1.1 1.1 1"
+      event-set__mouseleave="scale: 1 1 1"
+      show-info="title: Responsive Design Techniques; description: An overview of advanced responsive design techniques for modern websites.; link: https://example.com/responsive-design; category: design">
+    </a-entity>
+    <a-text value="Responsive Design" align="center" position="0 -1 0" width="2"></a-text>
+  </a-entity>
+                                                                                
+
+      <!-- Category Filters -->
+      <a-entity id="filters" position="0 3 -3" layout="type: line; margin: 0.5">
+        <a-entity class="clickable" geometry="primitive: box" material="color: #4CC3D9" scale="0.3 0.3 0.3" 
+                  filter-projects data-category="all" text="value: All; align: center; width: 3"></a-entity>
+        <a-entity class="clickable" geometry="primitive: box" material="color: #EF2D5E" scale="0.3 0.3 0.3" 
+                  filter-projects data-category="performance" text="value: Performance; align: center; width: 3"></a-entity>
+        <a-entity class="clickable" geometry="primitive: box" material="color: #FFC65D" scale="0.3 0.3 0.3" 
+                  filter-projects data-category="vr" text="value: VR; align: center; width: 3"></a-entity>
+        <a-entity class="clickable" geometry="primitive: box" material="color: #7BC8A4" scale="0.3 0.3 0.3" 
+                  filter-projects data-category="ai" text="value: AI; align: center; width: 3"></a-entity>
+        <a-entity class="clickable" geometry="primitive: box" material="color: #FFFFFF" scale="0.3 0.3 0.3" 
+                  filter-projects data-category="design" text="value: Design; align: center; width: 3"></a-entity>
+      </a-entity>
+
+      <!-- Information Panel -->
+      <a-entity id="info-panel" position="0 1.5 -2" rotation="0 0 0" visible="false">
+        <a-plane color="#CCC" opacity="0.8" width="4" height="3"></a-plane>
+        <a-text id="info-title" value="" align="center" width="3.5" position="0 1 0.01"></a-text>
+        <a-text id="info-description" value="" align="left" width="3.5" wrap-count="40" position="0 0 0.01"></a-text>
+        <a-text id="info-link" value="" align="center" width="3.5" position="0 -1 0.01"></a-text>
+        <a-text value="Click anywhere to close" align="center" position="0 -1.3 0.01" scale="0.5 0.5 0.5"></a-text>
+      </a-entity>
+
+      <!-- Camera and Cursor -->
+      <a-entity camera look-controls position="0 1.6 0">
+        <a-cursor
+          raycaster="objects: .clickable"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__mouseenter="color: springgreen"
+          event-set__mouseleave="color: black">
+        </a-cursor>
+      </a-entity>
+
+      <!-- Sound -->
+      <a-entity id="click-sounds" sound="src: #click-sound"></a-entity>
+      <a-entity id="filter-sounds" sound="src: #filter-sound"></a-entity>
+    </a-scene>
+
+    <script>
+      // Close info panel when clicking anywhere
+      document.querySelector('a-scene').addEventListener('click', function (evt) {
+        var infoPanel = document.querySelector('#info-panel');
+        if (infoPanel.getAttribute('visible') === true) {
+          infoPanel.setAttribute('visible', false);
+        }
+      });
+    </script>
+  </body>
+</html>

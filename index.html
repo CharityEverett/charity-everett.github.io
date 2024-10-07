@@ -73,8 +73,31 @@
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera -->
-    <a-entity id="rig" rotation="0 45 0">
-  <a-entity camera position="0 1.6 0" look-controls></a-entity>
+ <script>
+AFRAME.registerComponent('face-gallery', {
+  init: function () {
+    this.faceGallery = this.faceGallery.bind(this);
+    this.el.sceneEl.addEventListener('renderstart', this.faceGallery);
+  },
+  
+  faceGallery: function () {
+    var rig = this.el;
+    var gallery = document.querySelector('#gallery');
+    var camera = rig.querySelector('[camera]');
+    
+    var direction = new THREE.Vector3();
+    direction.subVectors(gallery.object3D.position, rig.object3D.position);
+    
+    var rotation = Math.atan2(-direction.x, -direction.z);
+    var degrees = THREE.MathUtils.radToDeg(rotation);
+    
+    rig.setAttribute('rotation', {x: 0, y: degrees, z: 0});
+  }
+});
+</script>
+
+<a-entity id="rig" position="0 .918 -5.96" rotation="0 0 0">
+  <a-entity camera look-controls></a-entity>
 </a-entity>
       
       <!-- Gallery Items -->
@@ -118,25 +141,14 @@
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
       event-set__mouseleave="scale: 1 1 1"
+      position="6 0 -1"
       show-info="title: Responsive Design Techniques; description: An overview of advanced responsive design techniques for modern websites.; link: https://example.com/responsive-design; category: design">
     </a-entity>
     <a-text value="Responsive Design" align="center" position="0 -1 0" width="2"></a-text>
   </a-entity>
                                                                                 
 
-      <!-- Category Filters -->
-      <a-entity id="filters" position="0 3 -3" layout="type: line; margin: 0.5">
-        <a-entity class="clickable" geometry="primitive: box" material="color: #4CC3D9" scale="0.3 0.3 0.3" 
-                  filter-projects data-category="all" text="value: All; align: center; width: 3"></a-entity>
-        <a-entity class="clickable" geometry="primitive: box" material="color: #EF2D5E" scale="0.3 0.3 0.3" 
-                  filter-projects data-category="performance" text="value: Performance; align: center; width: 3"></a-entity>
-        <a-entity class="clickable" geometry="primitive: box" material="color: #FFC65D" scale="0.3 0.3 0.3" 
-                  filter-projects data-category="vr" text="value: VR; align: center; width: 3"></a-entity>
-        <a-entity class="clickable" geometry="primitive: box" material="color: #7BC8A4" scale="0.3 0.3 0.3" 
-                  filter-projects data-category="ai" text="value: AI; align: center; width: 3"></a-entity>
-        <a-entity class="clickable" geometry="primitive: box" material="color: #FFFFFF" scale="0.3 0.3 0.3" 
-                  filter-projects data-category="design" text="value: Design; align: center; width: 3"></a-entity>
-      </a-entity>
+     
 
       <!-- Information Panel -->
       <a-entity id="info-panel" position="0 1.5 -2" rotation="0 0 0" visible="false">

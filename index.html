@@ -72,6 +72,11 @@
       <!-- Directional Light -->
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
+      <!-- Camera -->
+     <a-entity id="rig" position="25 0 0">
+  <a-entity id="camera" camera look-controls></a-entity>
+</a-entity>
+      
       <!-- Gallery Items -->
      <a-entity id="gallery" position="0 1.5 0" rotation="0 0 0" layout="type: circle; radius: 3; plane: xz">
   <a-entity class="project" data-category="performance">
@@ -81,6 +86,7 @@
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
       event-set__mouseleave="scale: 1 1 1"
+      position="-2 0 0"
       show-info="title: Introduction to Microservices Architecture with Docker and Kubernetes">
     </a-entity>
     <a-text value="Microservices Architecture Article" align="center" position="0 -1 0" width="2"></a-text>
@@ -93,7 +99,7 @@
     class="clickable"
     event-set__mouseenter="scale: 1.1 1.1 1"
     event-set__mouseleave="scale: 1 1 1"
-    position="0 0.75 0"
+    position="0 0 0"
     show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps">
   </a-entity>
   <a-text 
@@ -142,7 +148,7 @@
       </a-entity>
 
       <!-- Camera and Cursor -->
-      <a-entity camera look-controls position="0 1.6 0">
+      <a-entity camera look-controls position="0 0 0">
         <a-cursor
           raycaster="objects: .clickable"
           animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"

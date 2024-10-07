@@ -73,8 +73,8 @@
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera -->
-     <a-entity id="rig" position="25 0 0">
-  <a-entity id="camera" camera look-controls></a-entity>
+    <a-entity id="rig" rotation="0 45 0">
+  <a-entity camera position="0 1.6 0" look-controls></a-entity>
 </a-entity>
       
       <!-- Gallery Items -->
@@ -86,7 +86,7 @@
       class="clickable"
       event-set__mouseenter="scale: 1.1 1.1 1"
       event-set__mouseleave="scale: 1 1 1"
-      position="-2 0 0"
+      position="-4 0 2"
       show-info="title: Introduction to Microservices Architecture with Docker and Kubernetes">
     </a-entity>
     <a-text value="Microservices Architecture Article" align="center" position="0 -1 0" width="2"></a-text>

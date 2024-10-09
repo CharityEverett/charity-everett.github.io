@@ -1,0 +1,13 @@
+{
+  "name": "Charity Everett WebXR Tech Writing Resume",
+  "version": "1.0.0",
+  "description": "My WebXR technical writing portfolio website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "package-json": "^10.0.1"
+  }
+}

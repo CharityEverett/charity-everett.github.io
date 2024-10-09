@@ -1,0 +1,8 @@
+title: My A-Frame Project
+baseurl: "charity-everett"
+url: ""
+exclude: [
+  "node_modules",
+  "package.json",
+  "package-lock.json"
+]

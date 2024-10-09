@@ -102,8 +102,8 @@
         type="directional"
         color="#FFF"
         intensity="0.6"
-        position="-0.5 1 1"
-      ></a-light>
+        position="-0.5 1 1">
+      </a-light>
 
       <!-- Camera Rig -->
       <a-entity id="rig" position=".5 .918 -4.96" rotation="0 195 0">
@@ -113,8 +113,7 @@
             animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
             animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
             event-set__mouseenter="color: springgreen"
-            event-set__mouseleave="color: black"
-          >
+            event-set__mouseleave="color: black">
           </a-cursor>
         </a-entity>
       </a-entity>
@@ -124,69 +123,61 @@
         id="gallery"
         position="0 1.5 0"
         rotation="0 0 0"
-        layout="type: circle; radius: 3; plane: xz"
-      >
+        layout="type: circle; radius: 3; plane: xz">
         <a-entity
           id="ClickRolePrompt"
           class="project"
           data-category="portfolio"
+          geometry="primitive: box; width: 2; height: 1.5"
+          material="shader: gif; src: #image4"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="-4 2.5 2"
+          show-info="title: Click Role Prompt; description: Description of Click Role Prompt; link: https://example.com/click-role-prompt">
+        </a-entity>
+
+        <a-entity
+          data-category="previewsign"
+          geometry="primitive: box; width: 2; height: 1.5"
+          material="shader: gif; src: #gif1"
+          class="clickable"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="-4 0 2"
+          show-info="title: Microservices Architecture; description: An animated infographic explaining microservices architecture.; link: https://example.com/microservices">
+        </a-entity>
+      </a-entity>
+
+      <a-entity class="project" data-category="portfolio">
+        <a-entity
+          geometry="primitive: box; width: 2; height: 3"
+          material="shader: gif; src: #gif2"
+          class="clickable"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="0 2 0"
+          show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps; description: An exploration of how AI can enhance CI/CD processes.; link: https://example.com/ci-cd-ai"
         >
-          <a-entity
-            geometry="primitive: box; width: 2; height: 1.5"
-            material="shader: gif; src: #image4"
-            class="clickable"
-            event-set__mouseenter="scale: 1.1 1.1 1"
-            event-set__mouseleave="scale: 1 1 1"
-            position="-4 2.5 2"
-            show-info="title: Click Role Prompt; description: Description of Click Role Prompt; link: https://example.com/click-role-prompt"
-          >
-          </a-entity>
         </a-entity>
+      </a-entity>
 
-        <a-entity class="project" data-category="previewsign">
-          <a-entity
-            geometry="primitive: box; width: 2; height: 1.5"
-            material="shader: gif; src: #gif1"
-            class="clickable"
-            event-set__mouseenter="scale: 1.1 1.1 1"
-            event-set__mouseleave="scale: 1 1 1"
-            position="-4 0 2"
-            show-info="title: Microservices Architecture; description: An animated infographic explaining microservices architecture.; link: https://example.com/microservices"
-          >
-          </a-entity>
+      <a-entity class="project" data-category="portfolio">
+        <a-entity
+          geometry="primitive: box; width: 2; height: 1.5"
+          material="src: #image4"
+          class="clickable"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="6 0 -1"
+          show-info="title: PLACEHOLDER"
+        >
         </a-entity>
-
-        <a-entity class="project" data-category="portfolio">
-          <a-entity
-            geometry="primitive: box; width: 2; height: 3"
-            material="shader: gif; src: #gif2"
-            class="clickable"
-            event-set__mouseenter="scale: 1.1 1.1 1"
-            event-set__mouseleave="scale: 1 1 1"
-            position="0 0 0"
-            show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps; description: An exploration of how AI can enhance CI/CD processes.; link: https://example.com/ci-cd-ai"
-          >
-          </a-entity>
-        </a-entity>
-
-        <a-entity class="project" data-category="portfolio">
-          <a-entity
-            geometry="primitive: box; width: 2; height: 1.5"
-            material="src: #image4"
-            class="clickable"
-            event-set__mouseenter="scale: 1.1 1.1 1"
-            event-set__mouseleave="scale: 1 1 1"
-            position="6 0 -1"
-            show-info="title: Responsive Design Techniques; description: An overview of advanced responsive design techniques for modern websites.; link: https://example.com/responsive-design; category: design"
-          >
-          </a-entity>
-          <a-text
-            value="Responsive Design"
-            align="center"
-            position="6 -3.6 -1"
-            width="2"
-          ></a-text>
-        </a-entity>
+        <a-text
+          value="Responsive Design"
+          align="center"
+          position="6 -3.6 -1"
+          width="2"
+        ></a-text>
       </a-entity>
 
       <!-- Information Panel -->

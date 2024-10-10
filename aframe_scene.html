@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOC<DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -74,6 +74,18 @@
           src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage4.jpg?v=1621935550462"
         />
         <img
+          id="clickroleprompt"
+          src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting.png?v=1728323181519"
+        />
+          <img
+          id="clickmicroservice"
+          src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Docker.png?v=1728323168445"
+        />
+          <img
+          id="clicknextarticle"
+          src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903"
+        />
+        <img
           id="floor"
           src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.05.00%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248710705"
         />
@@ -102,83 +114,109 @@
         type="directional"
         color="#FFF"
         intensity="0.6"
-        position="-0.5 1 1">
+        position="-0.5 1 1"
+      >
       </a-light>
 
       <!-- Camera Rig -->
-      <a-entity id="rig" position=".5 .918 -4.96" rotation="0 195 0">
+      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
         <a-entity camera look-controls>
           <a-cursor
             raycaster="objects: .clickable"
             animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
             animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
             event-set__mouseenter="color: springgreen"
-            event-set__mouseleave="color: black">
+            event-set__mouseleave="color: black"
+          >
           </a-cursor>
         </a-entity>
       </a-entity>
 
-      <!-- Gallery Items -->
-      <a-entity
-        id="gallery"
-        position="0 1.5 0"
-        rotation="0 0 0"
-        layout="type: circle; radius: 3; plane: xz">
-        <a-entity
-          id="ClickRolePrompt"
-          class="project"
-          data-category="portfolio"
-          geometry="primitive: box; width: 2; height: 1.5"
-          material="shader: gif; src: #image4"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="-4 2.5 2"
-          show-info="title: Click Role Prompt; description: Description of Click Role Prompt; link: https://example.com/click-role-prompt">
-        </a-entity>
+  <!-- Gallery Items -->
+<a-entity id="gallery" position="0 1.5 -5">
+  <!-- Click Role Prompt -->
+  <a-entity
+    id="ClickRolePrompt"
+    class="project clickable"
+    data-category="portfolio"
+    geometry="primitive: box; width: 2; height: 1.5"
+    material="shader: gif; src: #image4"
+    event-set__mouseenter="scale: 1.1 1.1 1"
+    event-set__mouseleave="scale: 1 1 1"
+    position="-6 0 0"
+    show-info="title: Click Role Prompt; description: Description of Click Role Prompt; link: https://example.com/click-role-prompt">
+  </a-entity>
+  <a-entity
+    class="hover-box clickable"
+    geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+    material="src: #clickroleprompt"
+    position="-6 2.5 0"
+    animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true">
+  </a-entity>
 
-        <a-entity
-          data-category="previewsign"
-          geometry="primitive: box; width: 2; height: 1.5"
-          material="shader: gif; src: #gif1"
-          class="clickable"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="-4 0 2"
-          show-info="title: Microservices Architecture; description: An animated infographic explaining microservices architecture.; link: https://example.com/microservices">
-        </a-entity>
-      </a-entity>
+  <!-- Microservices Architecture -->
+  <a-entity
+    class="project clickable"
+    data-category="previewsign"
+    geometry="primitive: box; width: 2; height: 1.5"
+    material="shader: gif; src: #gif1"
+    event-set__mouseenter="scale: 1.1 1.1 1"
+    event-set__mouseleave="scale: 1 1 1"
+    position="-2 0 0"
+    show-info="title: Microservices Architecture; description: An animated infographic explaining microservices architecture.; link: https://example.com/microservices">
+  </a-entity>
+  <a-entity
+    class="hover-box clickable"
+    geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+    material="src: #clickmicroservice"
+    position="-2 2.5 0"
+    animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true">
+  </a-entity>
 
-      <a-entity class="project" data-category="portfolio">
-        <a-entity
-          geometry="primitive: box; width: 2; height: 3"
-          material="shader: gif; src: #gif2"
-          class="clickable"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="0 2 0"
-          show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps; description: An exploration of how AI can enhance CI/CD processes.; link: https://example.com/ci-cd-ai"
-        >
-        </a-entity>
-      </a-entity>
+  <!-- CI/CD Automation -->
+  <a-entity
+    class="project clickable"
+    data-category="portfolio"
+    geometry="primitive: box; width: 2; height: 3"
+    material="shader: gif; src: #gif2"
+    event-set__mouseenter="scale: 1.1 1.1 1"
+    event-set__mouseleave="scale: 1 1 1"
+    position="2 0 0"
+    show-info="title: Boosting CI/CD Automation with AI: Role Prompting in DevOps; description: An exploration of how AI can enhance CI/CD processes.; link: https://example.com/ci-cd-ai">
+  </a-entity>
+  <a-entity
+    class="hover-box clickable"
+    geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+    material="src: #clickroleprompt"
+    position="2 4 0"
+    animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true">
+  </a-entity>
 
-      <a-entity class="project" data-category="portfolio">
-        <a-entity
-          geometry="primitive: box; width: 2; height: 1.5"
-          material="src: #image4"
-          class="clickable"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="6 0 -1"
-          show-info="title: PLACEHOLDER"
-        >
-        </a-entity>
-        <a-text
-          value="Responsive Design"
-          align="center"
-          position="6 -3.6 -1"
-          width="2"
-        ></a-text>
-      </a-entity>
+  <!-- Responsive Design -->
+  <a-entity
+    class="project clickable"
+    data-category="portfolio"
+    geometry="primitive: box; width: 2; height: 1.5"
+    material="src: #image4"
+    event-set__mouseenter="scale: 1.1 1.1 1"
+    event-set__mouseleave="scale: 1 1 1"
+    position="6 0 0"
+    show-info="title: PLACEHOLDER">
+  </a-entity>
+  <a-entity
+    class="hover-box clickable"
+    geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+    material="src: #clicknextarticle"
+    position="6 2.5 0"
+    animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true">
+  </a-entity>
+  <a-text
+    value="Responsive Design"
+    align="center"
+    position="6 -1.6 0"
+    width="2">
+  </a-text>
+</a-entity>
 
       <!-- Information Panel -->
       <a-entity

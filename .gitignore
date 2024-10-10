@@ -1,0 +1,23 @@
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Bundler configuration
+.bundle/
+vendor/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+
+# Ruby environment
+.ruby-version
+.ruby-gemset
+
+# Logs
+*.log

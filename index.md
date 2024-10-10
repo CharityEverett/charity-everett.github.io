@@ -11,7 +11,7 @@ Please explore my embedded WebXR portfolio.
 
 Below is an embedded A-Frame scene:
 
-{% include_relative aframe-scene.html %}
+[View My A-Frame Portfolio](/aframe/)
 
 ## About This Project
 

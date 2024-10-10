@@ -1,8 +1,18 @@
+remote_theme: pages-themes/minimal@v0.2.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  
 title: My A-Frame Project
-baseurl: "charity-everett"
-url: ""
-exclude: [
-  "node_modules",
-  "package.json",
-  "package-lock.json"
+baseurl: "/charity-everett"
+url: "https://charityeverett.github.io/charity-everett.github.io/"
+exclude:
+  - node_modules
+  - package.json
+  - package-lock.json
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - .gitignore
 ]

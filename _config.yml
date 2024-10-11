@@ -4,9 +4,10 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-title: My A-Frame Project
+title: Charity Everett's VR Tech Writing Portfolio
 baseurl: "/charity-everett"
 url: "https://charityeverett.github.io"
+description: "A virtual A-Frame portfolio showcasing tech writing projects"
 
 exclude:
   - node_modules

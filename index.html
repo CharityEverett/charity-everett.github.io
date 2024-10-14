@@ -8,38 +8,47 @@ permalink: /index.html
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Charity Everett's Tech Writing Portfolio</title>
+    <title>Charity Everett WebXR Production Portfolio</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script>
-      AFRAME.registerComponent("show-info", {
+      AFRAME.registerComponent("change-scene", {
         schema: {
           sceneUrl: { type: "string", default: "" }
         },
         init: function () {
           var el = this.el;
           var data = this.data;
+          
           el.addEventListener("click", function () {
-            if (data.sceneUrl) {
-              window.location.href = data.sceneUrl;
-            }
+            changeScene(data.sceneUrl);
+          });
+
+          el.addEventListener("collide", function (e) {
+            changeScene(data.sceneUrl);
           });
         }
       });
+
+      function changeScene(sceneUrl) {
+        if (sceneUrl) {
+          window.location.href = sceneUrl;
+        }
+      }
     </script>
   </head>
   <body>
     <a-scene embedded style="height: 100vh; width: 100vw">
       <a-assets>
-        <img id="gif1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-        <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792" />
-        <img id="image4" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fimage4.jpg?v=1621935550462" />
+        <img id="gif1" src="assets/Microservices Architecture Animated Infographic.gif" />
+        <img id="gif2" src="assets/Role Prompting Animated Infographic.gif" />
+        <img id="gif3" src="assets/Role Prompting Animated Infographic.gif" />
         <img id="clickroleprompt" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting.png?v=1728323181519" />
         <img id="clickmicroservice" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Docker.png?v=1728323168445" />
-        <img id="clicknextarticle" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903" />
-        <img id="floor" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.05.00%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248710705" />
+        <img id="clicknextarticle" src="assets/Placeholder.png" />
+        <img id="floor" src="assets/Floor" />
         <img id="sky" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.03.24%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248616891" />
         <audio id="click-sound" src="https://cdn.glitch.com/cbbc9998-24cc-4de8-9a78-d3270fdb087b%2Fclick.mp3?v=1621935559893"></audio>
       </a-assets>
@@ -72,13 +81,12 @@ permalink: /index.html
         <a-entity
           id="ClickRolePrompt"
           class="project clickable"
-          data-category="portfolio"
           geometry="primitive: box; width: 2; height: 1.5"
-          material="shader: gif; src: #image4"
+          material="shader: gif; src: #gif2"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-6 0 0"
-          show-info="sceneUrl: role-prompt-scene.html">
+          change-scene="sceneUrl: roleprompt.html">
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -91,13 +99,12 @@ permalink: /index.html
         <!-- Microservices Architecture -->
         <a-entity
           class="project clickable"
-          data-category="previewsign"
           geometry="primitive: box; width: 2; height: 1.5"
           material="shader: gif; src: #gif1"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-2 0 0"
-          show-info="sceneUrl: microservices.html">
+          change-scene="sceneUrl: microservices.html">
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -107,16 +114,15 @@ permalink: /index.html
           animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true">
         </a-entity>
 
-        <!-- CI/CD Automation -->
+        <!-- Role Prompting -->
         <a-entity
           class="project clickable"
-          data-category="portfolio"
           geometry="primitive: box; width: 2; height: 3"
           material="shader: gif; src: #gif2"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="2 0 0"
-          show-info="sceneUrl: ci-cd-scene.html">
+          change-scene="sceneUrl: roleprompt.html">
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -129,13 +135,12 @@ permalink: /index.html
         <!-- Responsive Design -->
         <a-entity
           class="project clickable"
-          data-category="portfolio"
           geometry="primitive: box; width: 2; height: 1.5"
           material="src: #image4"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="6 0 0"
-          show-info="sceneUrl: responsive-design-scene.html">
+          change-scene="sceneUrl: responsive-design.html">
         </a-entity>
         <a-entity
           class="hover-box clickable"

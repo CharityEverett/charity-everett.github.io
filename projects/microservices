@@ -1,19 +1,84 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script>
+      AFRAME.registerComponent('open-article', {
+        init: function () {
+          this.el.addEventListener('click', function () {
+            window.open('https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8', '_blank');
+          });
+        }
+      });
+
+      AFRAME.registerComponent('service-interaction', {
+        init: function () {
+          this.el.addEventListener('click', function () {
+            // Implement service interaction logic here
+            console.log('Service clicked:', this.id);
+          });
+        }
+      });
+    </script>
   </head>
   <body>
     <a-scene>
-      <!-- Your new scene content here -->
-      
-      <a-entity
-        geometry="primitive: box"
-        material="color: red"
-        position="0 1.6 -4"
-        onclick="window.location.href='index.html'">
+      <a-assets>
+        <img id="article-preview" src="path_to_article_preview_image.jpg">
+        <!-- Add 3D model assets here -->
+      </a-assets>
+
+      <!-- Environment -->
+      <a-sky color="#ECECEC"></a-sky>
+
+      <!-- Article Screen -->
+      <a-plane position="-4 2 -3" rotation="0 30 0" width="4" height="3" color="#CCC">
+        <a-plane position="0 0 0.01" width="3.8" height="2.8" src="#article-preview" open-article></a-plane>
+        <a-text value="Click to read full article" align="center" position="0 -1.7 0.1" width="4" color="#000"></a-text>
+      </a-plane>
+
+      <!-- Microservices Visualization -->
+      <a-entity position="0 0 -5">
+        <!-- Client -->
+        <a-box position="-3 1 0" depth="0.5" height="0.5" width="0.5" color="red" service-interaction="name: client"></a-box>
+        <a-text value="Client" position="-3 1.5 0" align="center"></a-text>
+
+        <!-- API Gateway -->
+        <a-cylinder position="0 1 0" radius="0.5" height="0.75" color="blue" service-interaction="name: api-gateway"></a-cylinder>
+        <a-text value="API Gateway" position="0 2 0" align="center"></a-text>
+
+        <!-- Authentication Service -->
+        <a-box position="2 2 0" depth="0.5" height="0.5" width="0.5" color="green" service-interaction="name: auth-service"></a-box>
+        <a-text value="Auth Service" position="2 2.5 0" align="center"></a-text>
+
+        <!-- User Service -->
+        <a-box position="2 1 0" depth="0.5" height="0.5" width="0.5" color="yellow" service-interaction="name: user-service"></a-box>
+        <a-text value="User Service" position="2 1.5 0" align="center"></a-text>
+
+        <!-- Product Service -->
+        <a-box position="2 0 0" depth="0.5" height="0.5" width="0.5" color="purple" service-interaction="name: product-service"></a-box>
+        <a-text value="Product Service" position="2 0.5 0" align="center"></a-text>
+
+        <!-- Order Service -->
+        <a-box position="0 -1 0" depth="0.5" height="0.5" width="0.5" color="orange" service-interaction="name: order-service"></a-box>
+        <a-text value="Order Service" position="0 -0.5 0" align="center"></a-text>
+
+        <!-- Payment Service -->
+        <a-box position="-2 -1 0" depth="0.5" height="0.5" width="0.5" color="pink" service-interaction="name: payment-service"></a-box>
+        <a-text value="Payment Service" position="-2 -0.5 0" align="center"></a-text>
+
+        <!-- Add connections between services here -->
       </a-entity>
-      <a-text value="Click the cube to return" position="-1 2 -4"></a-text>
+
+      <!-- Camera -->
+      <a-entity position="0 1.6 5">
+        <a-camera>
+          <a-cursor></a-cursor>
+        </a-camera>
+      </a-entity>
     </a-scene>
   </body>
 </html>

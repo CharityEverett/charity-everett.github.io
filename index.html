@@ -13,6 +13,7 @@ permalink: /index.html
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
       AFRAME.registerComponent("change-scene", {
         schema: {
@@ -40,11 +41,10 @@ permalink: /index.html
     </script>
   </head>
   <body>
-    <a-scene embedded style="height: 100vh; width: 100vw">
+    <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
       <a-assets>
         <img id="gif1" src="assets/Microservices Architecture Animated Infographic.gif" />
         <img id="gif2" src="assets/Role Prompting Animated Infographic.gif" />
-        <img id="gif3" src="assets/Role Prompting Animated Infographic.gif" />
         <img id="clickroleprompt" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting.png?v=1728323181519" />
         <img id="clickmicroservice" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Docker.png?v=1728323168445" />
         <img id="clicknextarticle" src="assets/Placeholder.png" />
@@ -63,7 +63,7 @@ permalink: /index.html
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
+      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0" dynamic-body="mass: 5">
         <a-entity camera look-controls>
           <a-cursor
             raycaster="objects:.clickable"
@@ -86,7 +86,8 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-6 0 0"
-          change-scene="sceneUrl: roleprompt.html">
+          change-scene="sceneUrl: roleprompt.html"
+          static-body>
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -104,7 +105,8 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-2 0 0"
-          change-scene="sceneUrl: microservices.html">
+          change-scene="sceneUrl: microservices.html"
+          static-body>
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -122,7 +124,8 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="2 0 0"
-          change-scene="sceneUrl: roleprompt.html">
+          change-scene="sceneUrl: roleprompt.html"
+          static-body>
         </a-entity>
         <a-entity
           class="hover-box clickable"
@@ -136,11 +139,12 @@ permalink: /index.html
         <a-entity
           class="project clickable"
           geometry="primitive: box; width: 2; height: 1.5"
-          material="src: #image4"
+          material="src: #clicknextarticle"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="6 0 0"
-          change-scene="sceneUrl: responsive-design.html">
+          change-scene="sceneUrl: responsive-design.html"
+          static-body>
         </a-entity>
         <a-entity
           class="hover-box clickable"

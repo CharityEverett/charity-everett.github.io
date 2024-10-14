@@ -15,29 +15,29 @@ permalink: /index.html
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
-      AFRAME.registerComponent("change-scene", {
-        schema: {
-          sceneUrl: { type: "string", default: "" }
-        },
-        init: function () {
-          var el = this.el;
-          var data = this.data;
-          
-          el.addEventListener("click", function () {
-            changeScene(data.sceneUrl);
-          });
+     AFRAME.registerComponent("change-scene", {
+  schema: {
+    sceneUrl: { type: "string", default: "" }
+  },
+  init: function () {
+    var el = this.el;
+    var data = this.data;
+    
+    el.addEventListener("click", function () {
+      changeScene(data.sceneUrl);
+    });
 
-          el.addEventListener("collide", function (e) {
-            changeScene(data.sceneUrl);
-          });
-        }
-      });
+    el.addEventListener("collide", function (e) {
+      changeScene(data.sceneUrl);
+    });
+  }
+});
 
-      function changeScene(sceneUrl) {
-        if (sceneUrl) {
-          window.location.href = sceneUrl;
-        }
-      }
+function changeScene(sceneUrl) {
+  if (sceneUrl) {
+    window.location.href = sceneUrl;
+  }
+}
     </script>
   </head>
   <body>

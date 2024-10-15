@@ -41,13 +41,13 @@ permalink: /index.html
   <body>
     <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
       <a-assets>
-        <img id="gif1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-        <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-        <img id="clickroleprompt" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickRolePrompting.png?v=1728323181519" />
-        <img id="clickmicroservice" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickMicro.png?v=1728323168445" />
-        <img id="clicknextarticle" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903" />
-        <img id="floor" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
-        <img id="sky" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Skybox?v=1728248616891" />
+        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+        <img id="clickroleprompt" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickRolePrompting.png?v=1728323181519" />
+        <img id="clickmicroservice" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickMicro.png?v=1728323168445" />
+        <img id="clicknextarticle" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903" />
+        <img id="floor" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Skybox?v=1728248616891" />
       </a-assets>
 
       <!-- Environment -->
@@ -60,33 +60,29 @@ permalink: /index.html
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
         <a-entity camera look-controls wasd-controls="acceleration: 65">
-          <a-entity
-            cursor="fuse: true; fuseTimeout: 500"
-            position="0 0 -1"
-            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-            material="color: white; shader: flat"
-            raycaster="objects: .clickable; far: 100"
+          <a-cursor
+            raycaster="objects: .clickable"
             animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-            animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-            animation__mouseleave="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 150"
-            visible="true">
-          </a-entity>
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
         </a-entity>
       </a-entity>
 
       <!-- Gallery Items -->
-      <a-entity id="gallery" position="0 1.5 -5">
+      <a-entity id="gallery">
         <!-- Click Role Prompt -->
         <a-entity
           id="ClickRolePrompt"
           class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          geometry="primitive: box; width: 2; height: 1.5"
           material="shader: gif; src: #gif2"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
-          position="-6 0 0"
+          position="0 1.5 -5"
           change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
@@ -94,8 +90,8 @@ permalink: /index.html
           class="hover-box clickable"
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickroleprompt"
-          position="-6 2.5 0"
-          animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true"
+          position="0 4 -5"
+          animation="property: position; to: 0 4.2 -5; dir: alternate; dur: 1000; loop: true"
           change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
@@ -103,11 +99,12 @@ permalink: /index.html
         <!-- Microservices Architecture -->
         <a-entity
           class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          geometry="primitive: box; width: 2; height: 1.5"
           material="shader: gif; src: #gif1"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
-          position="-2 0 0"
+          position="5 1.5 0"
+          rotation="0 -90 0"
           change-scene="sceneUrl: ./microservices.html"
           static-body>
         </a-entity>
@@ -115,8 +112,9 @@ permalink: /index.html
           class="hover-box clickable"
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickmicroservice"
-          position="-2 2.5 0"
-          animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true"
+          position="5 4 0"
+          rotation="0 -90 0"
+          animation="property: position; to: 5 4.2 0; dir: alternate; dur: 1000; loop: true"
           change-scene="sceneUrl: ./microservices.html"
           static-body>
         </a-entity>
@@ -124,11 +122,12 @@ permalink: /index.html
         <!-- Role Prompting -->
         <a-entity
           class="project clickable"
-          geometry="primitive: box; width: 2; height: 3; depth: 0.1"
+          geometry="primitive: box; width: 2; height: 3"
           material="shader: gif; src: #gif2"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
-          position="2 0 0"
+          position="0 1.5 5"
+          rotation="0 180 0"
           change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
@@ -136,8 +135,9 @@ permalink: /index.html
           class="hover-box clickable"
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickroleprompt"
-          position="2 4 0"
-          animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true"
+          position="0 4 5"
+          rotation="0 180 0"
+          animation="property: position; to: 0 4.2 5; dir: alternate; dur: 1000; loop: true"
           change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
@@ -145,11 +145,12 @@ permalink: /index.html
         <!-- Responsive Design -->
         <a-entity
           class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          geometry="primitive: box; width: 2; height: 1.5"
           material="src: #clicknextarticle"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
-          position="6 0 0"
+          position="-5 1.5 0"
+          rotation="0 90 0"
           change-scene="sceneUrl: ./responsive-design.html"
           static-body>
         </a-entity>
@@ -157,15 +158,17 @@ permalink: /index.html
           class="hover-box clickable"
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clicknextarticle"
-          position="6 2.5 0"
-          animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true"
+          position="-5 4 0"
+          rotation="0 90 0"
+          animation="property: position; to: -5 4.2 0; dir: alternate; dur: 1000; loop: true"
           change-scene="sceneUrl: ./responsive-design.html"
           static-body>
         </a-entity>
         <a-text
           value="Responsive Design"
           align="center"
-          position="6 -1.6 0"
+          position="-5 0 0"
+          rotation="0 90 0"
           width="2">
         </a-text>
       </a-entity>

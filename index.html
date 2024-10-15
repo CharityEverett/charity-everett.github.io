@@ -16,25 +16,45 @@ permalink: /index.html
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
       AFRAME.registerComponent("change-scene", {
-  schema: {
-    sceneUrl: { type: "string", default: "" }
-  },
-  init: function () {
-    var el = this.el;
-    var data = this.data;
-    
-    var changeScene = function () {
-      if (data.sceneUrl) {
-        setTimeout(function() {
-          window.location.href = data.sceneUrl;
-        }, 0);
-      }
-    };
-    
-    el.addEventListener("click", changeScene);
-    el.addEventListener("collide", changeScene);
-  }
-});
+        schema: {
+          sceneUrl: { type: "string", default: "" }
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
+          
+          el.addEventListener("click", function () {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+
+          el.addEventListener("collide", function (e) {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+        }
+      });
+
+      AFRAME.registerComponent("rotate-around-camera", {
+        schema: {
+          radius: { type: "number", default: 5 },
+          height: { type: "number", default: 1.5 },
+          angle: { type: "number", default: 0 }
+        },
+        tick: function () {
+          var cameraEl = this.el.sceneEl.camera.el;
+          var cameraPosition = cameraEl.getAttribute("position");
+          var angle = THREE.MathUtils.degToRad(this.data.angle);
+          
+          this.el.setAttribute("position", {
+            x: cameraPosition.x + this.data.radius * Math.cos(angle),
+            y: this.data.height,
+            z: cameraPosition.z + this.data.radius * Math.sin(angle)
+          });
+          
+          this.el.object3D.lookAt(cameraEl.object3D.position);
         }
       });
     </script>
@@ -61,7 +81,7 @@ permalink: /index.html
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
         <a-entity camera look-controls wasd-controls="acceleration: 65">
           <a-entity
             cursor="fuse: true; fuseTimeout: 500"
@@ -78,7 +98,7 @@ permalink: /index.html
       </a-entity>
 
       <!-- Gallery Items -->
-      <a-entity id="gallery" position="0 1.5 -5">
+      <a-entity id="gallery">
         <!-- Click Role Prompt -->
         <a-entity
           id="ClickRolePrompt"
@@ -87,89 +107,10 @@ permalink: /index.html
           material="shader: gif; src: #gif2"
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
-          position="-6 0 0"
+          rotate-around-camera="radius: 5; height: 1.5; angle: 0"
           change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
         <a-entity
           class="hover-box clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-          material="src: #clickroleprompt"
-          position="-6 2.5 0"
-          animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: ./roleprompt.html"
-          static-body>
-        </a-entity>
-
-        <!-- Microservices Architecture -->
-        <a-entity
-          class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5"
-          material="shader: gif; src: #gif1"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="-2 0 0"
-          change-scene="sceneUrl: ./microservices.html"
-          static-body>
-        </a-entity>
-        <a-entity
-          class="hover-box clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-          material="src: #clickmicroservice"
-          position="-2 2.5 0"
-          animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: ./microservices.html"
-          static-body>
-        </a-entity>
-
-        <!-- Role Prompting -->
-        <a-entity
-          class="project clickable"
-          geometry="primitive: box; width: 2; height: 3"
-          material="shader: gif; src: #gif2"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="2 0 0"
-          change-scene="sceneUrl: ./roleprompt.html"
-          static-body>
-        </a-entity>
-        <a-entity
-          class="hover-box clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-          material="src: #clickroleprompt"
-          position="2 4 0"
-          animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: ./roleprompt.html"
-          static-body>
-        </a-entity>
-
-        <!-- Responsive Design -->
-        <a-entity
-          class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5"
-          material="src: #clicknextarticle"
-          event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="6 0 0"
-          change-scene="sceneUrl: ./responsive-design.html"
-          static-body>
-        </a-entity>
-        <a-entity
-          class="hover-box clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-          material="src: #clicknextarticle"
-          position="6 2.5 0"
-          animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: ./responsive-design.html"
-          static-body>
-        </a-entity>
-        <a-text
-          value="Responsive Design"
-          align="center"
-          position="6 -1.6 0"
-          width="2">
-        </a-text>
-      </a-entity>
-    </a-scene>
-  </body>
-</html>
+          geometry="primitive: box;

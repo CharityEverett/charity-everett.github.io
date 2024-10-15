@@ -15,29 +15,29 @@ permalink: /index.html
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
-     AFRAME.registerComponent("change-scene", {
-  schema: {
-    sceneUrl: { type: "string", default: "" }
-  },
-  init: function () {
-    var el = this.el;
-    var data = this.data;
-    
-    el.addEventListener("click", function () {
-      changeScene(data.sceneUrl);
-    });
+      AFRAME.registerComponent("change-scene", {
+        schema: {
+          sceneUrl: { type: "string", default: "" }
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
+          
+          el.addEventListener("click", function () {
+            changeScene(data.sceneUrl);
+          });
 
-    el.addEventListener("collide", function (e) {
-      changeScene(data.sceneUrl);
-    });
-  }
-});
+          el.addEventListener("collide", function (e) {
+            changeScene(data.sceneUrl);
+          });
+        }
+      });
 
-function changeScene(sceneUrl) {
-  if (sceneUrl) {
-    window.location.href = sceneUrl;
-  }
-}
+      function changeScene(sceneUrl) {
+        if (sceneUrl) {
+          window.location.href = sceneUrl;
+        }
+      }
     </script>
   </head>
   <body>
@@ -50,7 +50,7 @@ function changeScene(sceneUrl) {
         <img id="clicknextarticle" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903" />
         <img id="floor" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
         <img id="sky" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/DALL%C2%B7E%202024-10-06%2016.05.00%20-%20A%20futuristic%2C%20high-tech%20art%20gallery%20designed%20for%20a%20virtual%20reality%20skybox.%20The%20walls%20feature%20grid%20lines%20and%20a%20sleek%20metallic%20finish%2C%20with%20glowing%20neon.webp?v=1728248710705" />
-        </a-assets>
+      </a-assets>
 
       <!-- Environment -->
       <a-sky src="#sky"></a-sky>
@@ -93,7 +93,9 @@ function changeScene(sceneUrl) {
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickroleprompt"
           position="-6 2.5 0"
-          animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true">
+          animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true"
+          change-scene="sceneUrl: roleprompt.html"
+          static-body>
         </a-entity>
 
         <!-- Microservices Architecture -->
@@ -112,7 +114,9 @@ function changeScene(sceneUrl) {
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickmicroservice"
           position="-2 2.5 0"
-          animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true">
+          animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true"
+          change-scene="sceneUrl: microservices.html"
+          static-body>
         </a-entity>
 
         <!-- Role Prompting -->
@@ -131,7 +135,9 @@ function changeScene(sceneUrl) {
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clickroleprompt"
           position="2 4 0"
-          animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true">
+          animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true"
+          change-scene="sceneUrl: roleprompt.html"
+          static-body>
         </a-entity>
 
         <!-- Responsive Design -->
@@ -150,7 +156,9 @@ function changeScene(sceneUrl) {
           geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
           material="src: #clicknextarticle"
           position="6 2.5 0"
-          animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true">
+          animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true"
+          change-scene="sceneUrl: responsive-design.html"
+          static-body>
         </a-entity>
         <a-text
           value="Responsive Design"
@@ -159,9 +167,6 @@ function changeScene(sceneUrl) {
           width="2">
         </a-text>
       </a-entity>
-
-      <!-- Sound -->
-      <a-entity id="click-sounds" sound="src: #click-sound"></a-entity>
     </a-scene>
   </body>
 </html>

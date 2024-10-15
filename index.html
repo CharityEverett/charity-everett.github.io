@@ -61,16 +61,19 @@ permalink: /index.html
 
       <!-- Camera Rig -->
       <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
-        <a-entity camera look-controls wasd-controls="acceleration: 65">
-          <a-cursor
-            raycaster="objects: .clickable"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-            event-set__mouseenter="color: springgreen"
-            event-set__mouseleave="color: black">
-          </a-cursor>
-        </a-entity>
-      </a-entity>
+       <a-entity camera look-controls wasd-controls="acceleration: 65">
+  <a-entity
+    cursor="fuse: true; fuseTimeout: 500"
+    position="0 0 -1"
+    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+    material="color: white; shader: flat"
+    raycaster="objects: .clickable; far: 100"
+    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+    animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+    animation__mouseleave="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 150"
+    visible="true">
+  </a-entity>
+</a-entity>
 
       <!-- Gallery Items -->
       <a-entity id="gallery" position="0 1.5 -5">

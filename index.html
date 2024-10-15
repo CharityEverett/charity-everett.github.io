@@ -16,24 +16,25 @@ permalink: /index.html
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
       AFRAME.registerComponent("change-scene", {
-        schema: {
-          sceneUrl: { type: "string", default: "" }
-        },
-        init: function () {
-          var el = this.el;
-          var data = this.data;
-          
-          el.addEventListener("click", function () {
-            if (data.sceneUrl) {
-              window.location.href = data.sceneUrl;
-            }
-          });
-
-          el.addEventListener("collide", function (e) {
-            if (data.sceneUrl) {
-              window.location.href = data.sceneUrl;
-            }
-          });
+  schema: {
+    sceneUrl: { type: "string", default: "" }
+  },
+  init: function () {
+    var el = this.el;
+    var data = this.data;
+    
+    var changeScene = function () {
+      if (data.sceneUrl) {
+        setTimeout(function() {
+          window.location.href = data.sceneUrl;
+        }, 0);
+      }
+    };
+    
+    el.addEventListener("click", changeScene);
+    el.addEventListener("collide", changeScene);
+  }
+});
         }
       });
     </script>

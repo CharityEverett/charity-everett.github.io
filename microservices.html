@@ -28,12 +28,13 @@
     <a-scene>
       <a-assets>
         <img id="article-preview" src="path_to_article_preview_image.jpg">
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252" />
         <!-- Add 3D model assets here -->
       </a-assets>
 
       <!-- Environment -->
-      <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice Skybox.png?v=1729023719252" />
-
+      <a-sky src="#sky"></a-sky>
+      
       <!-- Article Screen -->
       <a-plane position="-4 2 -3" rotation="0 30 0" width="4" height="3" color="#CCC">
         <a-plane position="0 0 0.01" width="3.8" height="2.8" src="#article-preview" open-article></a-plane>

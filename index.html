@@ -61,19 +61,20 @@ permalink: /index.html
 
       <!-- Camera Rig -->
       <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
-       <a-entity camera look-controls wasd-controls="acceleration: 65">
-  <a-entity
-    cursor="fuse: true; fuseTimeout: 500"
-    position="0 0 -1"
-    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-    material="color: white; shader: flat"
-    raycaster="objects: .clickable; far: 100"
-    animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-    animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-    animation__mouseleave="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 150"
-    visible="true">
-  </a-entity>
-</a-entity>
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-entity
+            cursor="fuse: true; fuseTimeout: 500"
+            position="0 0 -1"
+            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+            material="color: white; shader: flat"
+            raycaster="objects: .clickable; far: 100"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: scale; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            animation__mouseleave="property: scale; startEvents: mouseleave; to: 1 1 1; dur: 150"
+            visible="true">
+          </a-entity>
+        </a-entity>
+      </a-entity>
 
       <!-- Gallery Items -->
       <a-entity id="gallery" position="0 1.5 -5">
@@ -86,7 +87,7 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-6 0 0"
-          change-scene="sceneUrl: roleprompt.html"
+          change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
         <a-entity
@@ -95,7 +96,7 @@ permalink: /index.html
           material="src: #clickroleprompt"
           position="-6 2.5 0"
           animation="property: position; to: -6 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: roleprompt.html"
+          change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
 
@@ -107,7 +108,7 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="-2 0 0"
-          change-scene="sceneUrl: microservices.html"
+          change-scene="sceneUrl: ./microservices.html"
           static-body>
         </a-entity>
         <a-entity
@@ -116,7 +117,7 @@ permalink: /index.html
           material="src: #clickmicroservice"
           position="-2 2.5 0"
           animation="property: position; to: -2 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: microservices.html"
+          change-scene="sceneUrl: ./microservices.html"
           static-body>
         </a-entity>
 
@@ -128,7 +129,7 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="2 0 0"
-          change-scene="sceneUrl: roleprompt.html"
+          change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
         <a-entity
@@ -137,7 +138,7 @@ permalink: /index.html
           material="src: #clickroleprompt"
           position="2 4 0"
           animation="property: position; to: 2 4.2 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: roleprompt.html"
+          change-scene="sceneUrl: ./roleprompt.html"
           static-body>
         </a-entity>
 
@@ -149,7 +150,7 @@ permalink: /index.html
           event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           position="6 0 0"
-          change-scene="sceneUrl: responsive-design.html"
+          change-scene="sceneUrl: ./responsive-design.html"
           static-body>
         </a-entity>
         <a-entity
@@ -158,7 +159,7 @@ permalink: /index.html
           material="src: #clicknextarticle"
           position="6 2.5 0"
           animation="property: position; to: 6 2.7 0; dir: alternate; dur: 1000; loop: true"
-          change-scene="sceneUrl: responsive-design.html"
+          change-scene="sceneUrl: ./responsive-design.html"
           static-body>
         </a-entity>
         <a-text

@@ -3,9 +3,6 @@ layout: default
 title: A-Frame Portfolio
 permalink: /index.html
 ---
-<div id="aframe-container" style="height: 600px; width: 100%;">
-  {{ content }}
-</div>
 
 <!DOCTYPE html>
 <html>
@@ -19,75 +16,30 @@ permalink: /index.html
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script>
       AFRAME.registerComponent("change-scene", {
-  schema: {
-    sceneUrl: { type: "string", default: "" }
-  },
-  init: function () {
-    var el = this.el;
-    var data = this.data;
-    
-    el.addEventListener("click", () => this.changeScene());
-    el.addEventListener("collide", (e) => {
-      if (e.detail.body.el.id === 'rig') {
-        this.changeScene();
-      }
-    });
-  },
-  changeScene: function() {
-    if (this.data.sceneUrl) {
-      window.location.href = this.data.sceneUrl;
-    }
-  }
+        schema: {
+          sceneUrl: { type: "string", default: "" }
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
+          
+          el.addEventListener("click", function () {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
 
-     <!-- Custom Arrow Key Controls -->
-       
-      AFRAME.registerComponent('arrow-key-controls', {
-  init: function () {
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.keys = {};
-    this.velocity = new THREE.Vector3();
-    
-    window.addEventListener('keydown', this.onKeyDown);
-    window.addEventListener('keyup', this.onKeyUp);
-  },
-  
-  onKeyDown: function (event) {
-    this.keys[event.key] = true;
-  },
-  
-  onKeyUp: function (event) {
-    this.keys[event.key] = false;
-  },
-  
-  tick: function (time, timeDelta) {
-    var velocity = this.velocity;
-    var position = this.el.object3D.position;
-    var rotation = this.el.object3D.rotation;
-    
-    velocity.set(0, 0, 0);
-    
-    if (this.keys['ArrowUp']) velocity.z -= 1;
-    if (this.keys['ArrowDown']) velocity.z += 1;
-    if (this.keys['ArrowLeft']) velocity.x -= 1;
-    if (this.keys['ArrowRight']) velocity.x += 1;
-    
-    if (velocity.length() > 0) {
-      velocity.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotation.y);
-      velocity.normalize().multiplyScalar(0.15 * timeDelta / 1000);
-      position.add(velocity);
-    }
-  },
-  
-  remove: function () {
-    window.removeEventListener('keydown', this.onKeyDown);
-    window.removeEventListener('keyup', this.onKeyUp);
-  }
-});
+          el.addEventListener("collide", function (e) {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+        }
+      });
     </script>
   </head>
   <body>
-    <a-scene physics="debug: true; gravity: 0">
+    <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
       <a-assets>
         <img id="gif1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
         <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
@@ -108,17 +60,17 @@ permalink: /index.html
       <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
 
       <!-- Camera Rig -->
- <a-entity id="rig" position="0 1.6 5" rotation="0 180 0" dynamic-body="mass: 5" arrow-key-controls>
-  <a-entity camera look-controls>
-    <a-cursor
-      raycaster="objects: .clickable"
-      animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-      animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-      event-set__mouseenter="color: springgreen"
-      event-set__mouseleave="color: black">
-    </a-cursor>
-  </a-entity>
-</a-entity>
+      <a-entity id="rig" position="0 1.6 5" rotation="0 180 0">
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-cursor
+            raycaster="objects: .clickable"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
+        </a-entity>
+      </a-entity>
 
       <!-- Gallery Items -->
       <a-entity id="gallery" position="0 1.5 -5">

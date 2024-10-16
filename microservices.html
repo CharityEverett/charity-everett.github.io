@@ -5,6 +5,7 @@
     <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       AFRAME.registerComponent('service-interaction', {
         init: function () {
@@ -14,26 +15,57 @@
         }
       });
 
-      AFRAME.registerComponent('iframe-scroll', {
+      AFRAME.registerComponent('article-content', {
         init: function () {
-          var iframe = document.querySelector('a-iframe');
-          var scrollUp = document.querySelector('#scroll-up');
-          var scrollDown = document.querySelector('#scroll-down');
-          var scrollAmount = 100;
+          const articleContent = `
+# Introduction to Microservices Architecture with Docker and Kubernetes
 
-          scrollUp.addEventListener('click', function () {
-            iframe.contentWindow.scrollBy(0, -scrollAmount);
-          });
+## Introduction
 
-          scrollDown.addEventListener('click', function () {
-            iframe.contentWindow.scrollBy(0, scrollAmount);
+In the modern DevOps environment, application scaling is critical to efficiently handling workload increases. As user numbers and demand balloon, it is crucial that apps can adapt and perform well to keep up with demand.
+
+![Docker and K8s Microservices Architecture](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o0sqrecu49yrxqiq4ewr.png)
+
+This guide gives foundational information on creating microservices and architecture. It does not give step-by-step information on how to do this. For a hands-on tutorial, this one will get you through the setup.
+
+### Who this guide is for:
+**a. DevOps engineers** new to containerization and orchestration: Professionals looking to learn about scaling and microservices.
+
+**b. Software developers** transitioning to microservices: Developers making the move from monolithic architectures and who want to understand microservice architectures.
+
+**c. IT professionals** focused on scaling: Professionals looking to leverage Docker and Kubernetes to ensure application scalability and performance in SAAS environments.
+
+[... rest of the article content ...]
+          `;
+
+          const htmlContent = marked.parse(articleContent);
+          
+          const contentPlane = document.createElement('a-plane');
+          contentPlane.setAttribute('position', '0 0 0.01');
+          contentPlane.setAttribute('width', '7.8');
+          contentPlane.setAttribute('height', '5.8');
+          contentPlane.setAttribute('color', '#FFF');
+          
+          const contentEntity = document.createElement('a-entity');
+          contentEntity.setAttribute('geometry', 'primitive: plane; width: 7.8; height: 5.8');
+          contentEntity.setAttribute('material', 'color: #FFF');
+          contentEntity.setAttribute('text', {
+            value: htmlContent,
+            width: 7.5,
+            color: '#000',
+            wrapCount: 80,
+            baseline: 'top',
+            anchor: 'center'
           });
+          
+          contentPlane.appendChild(contentEntity);
+          this.el.appendChild(contentPlane);
         }
       });
     </script>
   </head>
   <body>
-    <a-scene iframe-scroll>
+    <a-scene>
       <a-assets>
         <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
       </a-assets>
@@ -41,16 +73,8 @@
       <!-- Environment -->
       <a-sky src="#sky"></a-sky>
       
-   <!-- Embedded Website (using CORS proxy) -->
-<a-entity position="0 1.6 4" rotation="0 180 0">
-  <a-plane id="webpage-container" width="8" height="6" color="#FFF">
-    <a-iframe src="https://cors-anywhere.herokuapp.com/https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8" width="1920" height="1440" frameBorder="0"></a-iframe>
-  </a-plane>
-</a-entity>
-
-      <!-- Scroll Controls -->
-      <a-entity id="scroll-up" position="-4.2 1.6 4" rotation="0 180 0" geometry="primitive: triangle" material="color: #333" scale="0.2 0.2 0.2" rotation="0 0 180"></a-entity>
-      <a-entity id="scroll-down" position="-4.2 1.2 4" rotation="0 180 0" geometry="primitive: triangle" material="color: #333" scale="0.2 0.2 0.2"></a-entity>
+      <!-- Article Content -->
+      <a-entity position="0 1.6 4" rotation="0 180 0" article-content></a-entity>
       
       <!-- Microservices Visualization -->
       <a-entity position="0 2.6 -3" rotation="15 -30 0">

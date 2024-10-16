@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -40,49 +41,48 @@
       </a-plane>
       
      <!-- Microservices Visualization -->
-<!-- Microservices Visualization -->
-<a-entity position="0 2.6 -3" rotation="0 -30 0">
+<a-entity position="0 2.6 -3" rotation="15 -30 0">
   <!-- Client -->
-  <a-box position="0 2 0" depth="0.5" height="0.5" width="0.5" color="red" service-interaction="name: client"></a-box>
-  <a-text value="Client" position="0 2.5 0" align="center" rotation="0 30 0"></a-text>
+  <a-box position="0 2 0" depth="1" height="0.5" width="0.75" color="red" service-interaction="name: client"></a-box>
+  <a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
   <!-- API Gateway -->
-  <a-box position="0 1 0" depth="0.5" height="0.5" width="0.5" color="blue" service-interaction="name: api-gateway"></a-box>
-  <a-text value="API Gateway" position="0 1.5 0" align="center" rotation="0 30 0"></a-text>
+  <a-box position="0 1 0" depth="1" height="0.5" width="0.75" color="blue" service-interaction="name: api-gateway"></a-box>
+  <a-text value="API Gateway" position="0 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
   <!-- Services Row -->
-  <a-box position="-1.5 0 0" depth="0.5" height="0.5" width="0.5" color="green" service-interaction="name: auth-service"></a-box>
-  <a-text value="Auth Service" position="-1.5 0.5 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="-1.5 0 0" depth="1" height="0.5" width="0.75" color="green" service-interaction="name: auth-service"></a-box>
+  <a-text value="Auth Service" position="-1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="-0.5 0 0" depth="0.5" height="0.5" width="0.5" color="yellow" service-interaction="name: user-service"></a-box>
-  <a-text value="User Service" position="-0.5 0.5 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="-0.5 0 0" depth="1" height="0.5" width="0.75" color="yellow" service-interaction="name: user-service"></a-box>
+  <a-text value="User Service" position="-0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="0.5 0 0" depth="0.5" height="0.5" width="0.5" color="purple" service-interaction="name: product-service"></a-box>
-  <a-text value="Product Service" position="0.5 0.5 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="0.5 0 0" depth="1" height="0.5" width="0.75" color="purple" service-interaction="name: product-service"></a-box>
+  <a-text value="Product Service" position="0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="1.5 0 0" depth="0.5" height="0.5" width="0.5" color="orange" service-interaction="name: order-service"></a-box>
-  <a-text value="Order Service" position="1.5 0.5 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="1.5 0 0" depth="1" height="0.5" width="0.75" color="orange" service-interaction="name: order-service"></a-box>
+  <a-text value="Order Service" position="1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
   <!-- Payment Services -->
-  <a-box position="1 -1.5 0" depth="0.5" height="0.5" width="0.5" color="pink" service-interaction="name: payment-service"></a-box>
-  <a-text value="Payment Service" position="1 -1 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="1 -1 0" depth="1" height="0.5" width="0.75" color="pink" service-interaction="name: payment-service"></a-box>
+  <a-text value="Payment Service" position="1 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="2 -1.5 0" depth="0.5" height="0.5" width="0.5" color="cyan" service-interaction="name: external-payment"></a-box>
-  <a-text value="External Payment Provider" position="2 -1 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-box position="2 -1 0" depth="1" height="0.5" width="0.75" color="cyan" service-interaction="name: external-payment"></a-box>
+  <a-text value="External Payment" position="2 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
   <!-- Databases -->
-  <a-cylinder position="-1.5 -1.5 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: user-db"></a-cylinder>
-  <a-text value="User Database" position="-1.5 -1 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-cylinder position="-1.5 -2 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: user-db"></a-cylinder>
+  <a-text value="User DB" position="-1.5 -1.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-cylinder position="-0.5 -1.5 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: product-db"></a-cylinder>
-  <a-text value="Product Database" position="-0.5 -1 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-cylinder position="-0.5 -2 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: product-db"></a-cylinder>
+  <a-text value="Product DB" position="-0.5 -1.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-cylinder position="0.5 -1.5 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: order-db"></a-cylinder>
-  <a-text value="Order Database" position="0.5 -1 0" align="center" width="2" rotation="0 30 0"></a-text>
+  <a-cylinder position="0.5 -2 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: order-db"></a-cylinder>
+  <a-text value="Order DB" position="0.5 -1.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-          <!-- Add connections between services here -->
-      </a-entity>
-
+  <!-- Add connections between services here -->
+  </a-entity>
+      
       <!-- Camera -->
       <a-entity position="0 0.8 0">
         <a-camera>

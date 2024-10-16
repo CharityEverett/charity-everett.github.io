@@ -41,12 +41,12 @@
       <!-- Environment -->
       <a-sky src="#sky"></a-sky>
       
-      <!-- Embedded Website (replacing the article screen) -->
-      <a-entity position="0 1.6 4" rotation="0 180 0">
-        <a-plane id="webpage-container" width="8" height="6" color="#FFF">
-          <a-iframe src="https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8" width="1920" height="1440" frameBorder="0"></a-iframe>
-        </a-plane>
-      </a-entity>
+   <!-- Embedded Website (using CORS proxy) -->
+<a-entity position="0 1.6 4" rotation="0 180 0">
+  <a-plane id="webpage-container" width="8" height="6" color="#FFF">
+    <a-iframe src="https://cors-anywhere.herokuapp.com/https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8" width="1920" height="1440" frameBorder="0"></a-iframe>
+  </a-plane>
+</a-entity>
 
       <!-- Scroll Controls -->
       <a-entity id="scroll-up" position="-4.2 1.6 4" rotation="0 180 0" geometry="primitive: triangle" material="color: #333" scale="0.2 0.2 0.2" rotation="0 0 180"></a-entity>

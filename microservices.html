@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,14 +6,6 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
-      AFRAME.registerComponent('open-article', {
-        init: function () {
-          this.el.addEventListener('click', function () {
-            window.open('https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8', '_blank');
-          });
-        }
-      });
-
       AFRAME.registerComponent('service-interaction', {
         init: function () {
           this.el.addEventListener('click', function () {
@@ -22,68 +13,88 @@
           });
         }
       });
+
+      AFRAME.registerComponent('iframe-scroll', {
+        init: function () {
+          var iframe = document.querySelector('a-iframe');
+          var scrollUp = document.querySelector('#scroll-up');
+          var scrollDown = document.querySelector('#scroll-down');
+          var scrollAmount = 100;
+
+          scrollUp.addEventListener('click', function () {
+            iframe.contentWindow.scrollBy(0, -scrollAmount);
+          });
+
+          scrollDown.addEventListener('click', function () {
+            iframe.contentWindow.scrollBy(0, scrollAmount);
+          });
+        }
+      });
     </script>
   </head>
   <body>
-    <a-scene>
+    <a-scene iframe-scroll>
       <a-assets>
-        <img id="article-preview" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/MicroservicesPage.png?v=1729025756305">
         <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
       </a-assets>
 
       <!-- Environment -->
       <a-sky src="#sky"></a-sky>
       
-<!-- Article Screen -->
-<a-entity position="0 1.6 4" rotation="0 180 0">
-  <a-plane width="8" height="6" color="#CCC">
-    <a-plane position="0 0 0.01" width="7.8" height="5.8" src="#article-preview" open-article></a-plane>
-    <a-text value="Click to read full article" align="center" position="0 -2.9 0.1" width="8" color="#000"></a-text>
-  </a-plane>
-</a-entity>
+      <!-- Embedded Website (replacing the article screen) -->
+      <a-entity position="0 1.6 4" rotation="0 180 0">
+        <a-plane id="webpage-container" width="8" height="6" color="#FFF">
+          <a-iframe src="https://dev.to/charity_everett/introduction-to-microservices-architecture-with-docker-and-kubernetes-3el8" width="1920" height="1440" frameBorder="0"></a-iframe>
+        </a-plane>
+      </a-entity>
+
+      <!-- Scroll Controls -->
+      <a-entity id="scroll-up" position="-4.2 1.6 4" rotation="0 180 0" geometry="primitive: triangle" material="color: #333" scale="0.2 0.2 0.2" rotation="0 0 180"></a-entity>
+      <a-entity id="scroll-down" position="-4.2 1.2 4" rotation="0 180 0" geometry="primitive: triangle" material="color: #333" scale="0.2 0.2 0.2"></a-entity>
       
-<!-- Microservices Visualization -->
-<a-entity position="0 2.6 -3" rotation="15 -30 0">
-  <!-- Client -->
-  <a-box position="0 2.15 0.25" depth="1.2" height="0.4" width="0.6" color="red" rotation="15 -30 15" service-interaction="name: client"></a-box>
-  <a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+      <!-- Microservices Visualization -->
+      <a-entity position="0 2.6 -3" rotation="15 -30 0">
+        <!-- Client -->
+        <a-box position="0 2.15 0.25" depth="1.2" height="0.4" width="0.6" color="red" rotation="15 -30 15" service-interaction="name: client"></a-box>
+        <a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <!-- API Gateway -->
-  <a-box position="0 1.15 0.25" depth="1.2" height="0.4" width="0.6" color="blue" rotation="15 -30 15" service-interaction="name: api-gateway"></a-box>
-  <a-text value="API Gateway" position="0 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <!-- API Gateway -->
+        <a-box position="0 1.15 0.25" depth="1.2" height="0.4" width="0.6" color="blue" rotation="15 -30 15" service-interaction="name: api-gateway"></a-box>
+        <a-text value="API Gateway" position="0 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <!-- Services Row -->
-  <a-box position="-1.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="green" rotation="15 -30 15" service-interaction="name: auth-service"></a-box>
-  <a-text value="Auth Service" position="-1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <!-- Services Row -->
+        <a-box position="-1.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="green" rotation="15 -30 15" service-interaction="name: auth-service"></a-box>
+        <a-text value="Auth Service" position="-1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="-0.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="yellow" rotation="15 -30 15" service-interaction="name: user-service"></a-box>
-  <a-text value="User Service" position="-0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-box position="-0.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="yellow" rotation="15 -30 15" service-interaction="name: user-service"></a-box>
+        <a-text value="User Service" position="-0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="0.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="purple" rotation="15 -30 15" service-interaction="name: product-service"></a-box>
-  <a-text value="Product Service" position="0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-box position="0.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="purple" rotation="15 -30 15" service-interaction="name: product-service"></a-box>
+        <a-text value="Product Service" position="0.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="1.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="orange" rotation="15 -30 15" service-interaction="name: order-service"></a-box>
-  <a-text value="Order Service" position="1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-box position="1.5 0.15 0.25" depth="1.2" height="0.4" width="0.6" color="orange" rotation="15 -30 15" service-interaction="name: order-service"></a-box>
+        <a-text value="Order Service" position="1.5 0.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <!-- Payment Services -->
-  <a-box position="1 -0.85 0.25" depth="1.2" height="0.4" width="0.6" color="pink" rotation="15 -30 15" service-interaction="name: payment-service"></a-box>
-  <a-text value="Payment Service" position="1 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <!-- Payment Services -->
+        <a-box position="1 -0.85 0.25" depth="1.2" height="0.4" width="0.6" color="pink" rotation="15 -30 15" service-interaction="name: payment-service"></a-box>
+        <a-text value="Payment Service" position="1 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-box position="2 -0.85 0.25" depth="1.2" height="0.4" width="0.6" color="cyan" rotation="15 -30 15" service-interaction="name: external-payment"></a-box>
-  <a-text value="External Payment" position="2 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-box position="2 -0.85 0.25" depth="1.2" height="0.4" width="0.6" color="cyan" rotation="15 -30 15" service-interaction="name: external-payment"></a-box>
+        <a-text value="External Payment" position="2 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <!-- Databases -->
-  <a-cylinder position="-0.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: user-db"></a-cylinder>
-  <a-text value="User DB" position="-0.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <!-- Databases -->
+        <a-cylinder position="-0.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: user-db"></a-cylinder>
+        <a-text value="User DB" position="-0.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-cylinder position="-1.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: product-db"></a-cylinder>
-  <a-text value="Product DB" position="-1.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-cylinder position="-1.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: product-db"></a-cylinder>
+        <a-text value="Product DB" position="-1.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <a-cylinder position="-2.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: order-db"></a-cylinder>
-  <a-text value="Order DB" position="-2.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+        <a-cylinder position="-2.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: order-db"></a-cylinder>
+        <a-text value="Order DB" position="-2.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
-  <!-- Add connections between services here -->
-</a-entity>
+        <!-- Add connections between services here -->
+      </a-entity>
+      
       <!-- Camera -->
       <a-entity position="0 0.8 0">
         <a-camera>

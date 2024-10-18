@@ -128,17 +128,28 @@
   }
 });
 
-      AFRAME.registerComponent('microservices-visualization', {
+     AFRAME.registerComponent('microservices-visualization', {
   init: function () {
     this.services = {
-      client: this.el.querySelector('#client'),
-      apiGateway: this.el.querySelector('#apiGateway'),
-      authService: this.el.querySelector('#authService'),
-      userService: this.el.querySelector('#userService'),
-      productService: this.el.querySelector('#productService'),
-      orderService: this.el.querySelector('#orderService'),
-      paymentService: this.el.querySelector('#paymentService')
+      client:         { el: null, position: '-1 2 0' },
+      apiGateway:     { el: null, position: '0 2 0' },
+      authService:    { el: null, position: '1 3 0' },
+      userService:    { el: null, position: '1 2 0' },
+      productService: { el: null, position: '1 1 0' },
+      orderService:   { el: null, position: '2 2 0' },
+      paymentService: { el: null, position: '3 2 0' }
     };
+
+    // Create and position service entities
+    for (let [serviceName, serviceData] of Object.entries(this.services)) {
+      let serviceEl = document.createElement('a-box');
+      serviceEl.setAttribute('id', serviceName);
+      serviceEl.setAttribute('color', this.getServiceColor(serviceName));
+      serviceEl.setAttribute('position', serviceData.position);
+      serviceEl.setAttribute('scale', '0.5 0.5 0.5');
+      this.el.appendChild(serviceEl);
+      serviceData.el = serviceEl;
+    }
 
     this.dataFlow = [
       { from: 'client', to: 'apiGateway', data: { action: "place_order", user_id: "12345", product_id: "67890", quantity: 2 } },
@@ -160,6 +171,23 @@
     this.isPaused = false;
 
     this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+
+    // Adjust the position and rotation of the entire visualization
+    this.el.setAttribute('position', '3 1.6 -2'); // Move to the right
+    this.el.setAttribute('rotation', '0 -30 0');  // Rotate slightly towards the camera
+  },
+
+  getServiceColor: function(serviceName) {
+    const colors = {
+      client: '#FF5733',
+      apiGateway: '#33FF57',
+      authService: '#3357FF',
+      userService: '#FF33F1',
+      productService: '#33FFF1',
+      orderService: '#F1FF33',
+      paymentService: '#FF3333'
+    };
+    return colors[serviceName] || '#CCCCCC';
   },
 
   startDataFlow: function () {
@@ -170,8 +198,8 @@
     if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
     var step = this.dataFlow[this.currentStep];
-    var fromEl = this.services[step.from];
-    var toEl = this.services[step.to];
+    var fromEl = this.services[step.from].el;
+    var toEl = this.services[step.to].el;
 
     // Create a visual representation of data (e.g., a small sphere)
     var dataEl = document.createElement('a-sphere');
@@ -273,36 +301,46 @@
         <a-text value="Order DB" position="-2.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
       </a-entity>
 
-      <!-- Start Button -->
-      <a-entity id="startButton" 
-          geometry="primitive: plane; width: 1; height: 0.5"
-          material="color: green"
-          position="-1 2 -3"
-          text="value: Start Data Flow; align: center; width: 4"
-          start-button>
+    <!-- Start Button (outside of control panel) -->
+<a-entity id="startButton" 
+    geometry="primitive: plane; width: 1; height: 0.5"
+    material="color: green"
+    position="-1 2 -3"
+    text="value: Start Data Flow; align: center; width: 4"
+    start-button>
 </a-entity>
 
-      <!-- Pause Button -->
-      <a-entity id="pauseButton" 
-          geometry="primitive: plane; width: 1; height: 0.5"
-          material="color: orange"
-          position="1 2 -3"
-          text="value: Pause; align: center; width: 4"
-          pause-button>
-
-        <!-- Info Panel -->
-        <a-entity id="infoPanel"
-          geometry="primitive: plane; width: 2; height: 2"
-          material="color: white"
-          position="0 0 -2"
-          text="value: Data will appear here; width: 1.8; color: black; align: left">
+<a-entity id="controlPanel" position="2.5 2.5 -2" rotation="0 -30 0">
+  <a-entity id="startButtonInPanel" 
+            geometry="primitive: plane; width: 0.6; height: 0.3"
+            material="color: green"
+            position="0 0.2 0"
+            text="value: Start; align: center; width: 2"
+            start-button>
+  </a-entity>
+  
+  <a-entity id="pauseButton" 
+            geometry="primitive: plane; width: 0.6; height: 0.3"
+            material="color: orange"
+            position="0 -0.2 0"
+            text="value: Pause; align: center; width: 2"
+            pause-button>
+  </a-entity>
 </a-entity>
+
+<!-- Info Panel (outside of control panel) -->
+<a-entity id="infoPanel"
+      geometry="primitive: plane; width: 1.5; height: 1"
+      material="color: white"
+      position="2.5 1 -2"
+      rotation="0 -30 0"
+      text="value: Data will appear here; width: 1.4; color: black; align: left">
 </a-entity>
 
-      <!-- Camera and Cursor -->
-      <a-camera position="0 1.6 0">
-        <a-cursor></a-cursor>
-      </a-camera>
+<!-- Camera and Cursor -->
+<a-camera position="0 1.6 0" rotation="0 0 0">
+  <a-cursor></a-cursor>
+</a-camera>
     </a-scene>
   </body>
 </html>

@@ -53,7 +53,7 @@
     this.titleText.setAttribute('color', '#FFF');
     this.titleText.setAttribute('align', 'center');
     this.titleText.setAttribute('position', '0 1.8 0.01');
-    this.titleText.setAttribute('scale', '1.2 1.2 1.2');  // Increased by 50% from 0.8
+    this.titleText.setAttribute('scale', '1.0 1.0 1.0');  // Decreased from 1.2 to 1.0
     this.titleText.setAttribute('width', '5');
 
     this.contentText = document.createElement('a-text');
@@ -61,16 +61,17 @@
     this.contentText.setAttribute('position', '-2.7 0 0.01');
     this.contentText.setAttribute('width', '5.5');
     this.contentText.setAttribute('height', '3.2');
-    this.contentText.setAttribute('wrap-count', '53');  // Adjusted for larger text
+    this.contentText.setAttribute('wrap-count', '60');  // Adjusted for better fit
     this.contentText.setAttribute('scroll', 'enabled: true');
     this.contentText.setAttribute('anchor', 'left');
-    this.contentText.setAttribute('scale', '1.5 1.5 1.5');  // Increased by 50% from 1
+    this.contentText.setAttribute('scale', '1.2 1.2 1.2');  // Decreased from 1.5 to 1.2
 
     contentEntity.appendChild(this.titleText);
     contentEntity.appendChild(this.contentText);
     this.el.appendChild(contentEntity);
 
     this.updateContent();
+  },
   },
         
   createNavButtons: function () {

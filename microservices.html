@@ -52,17 +52,18 @@
     this.titleText = document.createElement('a-text');
     this.titleText.setAttribute('color', '#FFF');
     this.titleText.setAttribute('align', 'center');
-    this.titleText.setAttribute('position', '0 2.1 0.01');  // Moved up and slightly in front
+    this.titleText.setAttribute('position', '0 1.8 0.01');  // Moved down
     this.titleText.setAttribute('scale', '0.8 0.8 0.8');
     this.titleText.setAttribute('width', '5');
 
     this.contentText = document.createElement('a-text');
     this.contentText.setAttribute('color', '#FFF');
-    this.contentText.setAttribute('position', '0 0 0.01');  // Slightly in front of the plane
+    this.contentText.setAttribute('position', '-2.7 0 0.01');  // Moved to the left
     this.contentText.setAttribute('width', '5.5');
     this.contentText.setAttribute('height', '3.2');
     this.contentText.setAttribute('wrap-count', '80');
     this.contentText.setAttribute('scroll', 'enabled: true');
+    this.contentText.setAttribute('anchor', 'left'); // Align text to the left
 
     contentEntity.appendChild(this.titleText);
     contentEntity.appendChild(this.contentText);
@@ -70,7 +71,7 @@
 
     this.updateContent();
   },
-
+        
   createNavButtons: function () {
     const prevButton = document.createElement('a-entity');
     prevButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');

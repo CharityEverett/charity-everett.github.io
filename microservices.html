@@ -76,18 +76,18 @@
     this.updateContent();
   },
 
-  createNavButtons: function () {
+ createNavButtons: function () {
     const prevButton = document.createElement('a-entity');
     prevButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     prevButton.setAttribute('material', 'color: #4CAF50');
-    prevButton.setAttribute('position', '-2.5 -1.8 0.1'); // Moved up and in front of the plane
+    prevButton.setAttribute('position', '-0.7 1.2 0.1'); // Adjusted position
     prevButton.setAttribute('text', 'value: Prev; align: center; color: white');
     prevButton.addEventListener('click', () => this.navigate(-1));
 
     const nextButton = document.createElement('a-entity');
     nextButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     nextButton.setAttribute('material', 'color: #4CAF50');
-    nextButton.setAttribute('position', '2.5 -1.8 0.1'); // Moved up and in front of the plane
+    nextButton.setAttribute('position', '0.7 1.2 0.1'); // Adjusted position
     nextButton.setAttribute('text', 'value: Next; align: center; color: white');
     nextButton.addEventListener('click', () => this.navigate(1));
 

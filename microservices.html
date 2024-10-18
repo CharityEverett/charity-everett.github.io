@@ -310,6 +310,21 @@ When you are ready to take the first step and implement these practices, go to t
               contentEntity.setAttribute('position', `0 ${2.7 + currentScroll} 0.01`);
             }
           });
+          // Also add the cursor-listener component here
+  AFRAME.registerComponent('cursor-listener', {
+    init: function () {
+      this.el.addEventListener('mouseenter', function () {
+        this.setAttribute('material', 'color', '#45a049');
+      });
+      this.el.addEventListener('mouseleave', function () {
+        this.setAttribute('material', 'color', '#4CAF50');
+      });
+      this.el.addEventListener('click', function () {
+        this.setAttribute('material', 'color', '#367c39');
+        setTimeout(() => {
+          this.setAttribute('material', 'color', '#4CAF50');
+        }, 150);
+      }); 
         }
       });
     </script>
@@ -373,6 +388,22 @@ When you are ready to take the first step and implement these practices, go to t
   </a-camera>
 </a-entity>
 
+        <!-- Start Data Flow Button -->
+<a-entity
+  position="-2 1.6 -2"
+  rotation="0 30 0"
+  geometry="primitive: plane; width: 1; height: 0.5"
+  material="color: #4CAF50"
+  text="value: Start Data Flow; align: center; color: white; width: 3"
+  start-button
+  cursor-listener>
+</a-entity>
+
+<!-- Camera and Cursor -->
+<a-camera position="0 1.6 0">
+  <a-cursor></a-cursor>
+</a-camera>
+<a-entity raycaster="objects: [cursor-listener]" cursor="rayOrigin: mouse"></a-entity>
     </a-scene>
   </body>
 </html>

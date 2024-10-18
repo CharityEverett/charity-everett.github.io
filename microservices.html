@@ -49,57 +49,61 @@
           contentEntity.setAttribute('material', 'color: #000; opacity: 0.7');
           contentEntity.setAttribute('position', '0 0 0.01');
 
-          this.titleText = document.createElement('a-text');
-          this.titleText.setAttribute('color', '#FFF');
-          this.titleText.setAttribute('align', 'center');
-          this.titleText.setAttribute('position', '0 0.8 0.02');
-          this.titleText.setAttribute('scale', '0.8 0.8 0.8');
+         this.titleText = document.createElement('a-text');
+    this.titleText.setAttribute('color', '#FFF');
+    this.titleText.setAttribute('align', 'center');
+    this.titleText.setAttribute('position', '0 1.8 0.02');
+    this.titleText.setAttribute('scale', '0.8 0.8 0.8');
+    this.titleText.setAttribute('width', '5');
 
-          this.contentText = document.createElement('a-text');
-          this.contentText.setAttribute('color', '#FFF');
-          this.contentText.setAttribute('width', 3.8);
-          this.contentText.setAttribute('position', '0 0.4 0.02');
-          this.contentText.setAttribute('wrap-count', 40);
+    this.contentText = document.createElement('a-text');
+    this.contentText.setAttribute('color', '#FFF');
+    this.contentText.setAttribute('position', '0 1.2 0.02');
+    this.contentText.setAttribute('width', '5.5');
+    this.contentText.setAttribute('height', '3.2');
+    this.contentText.setAttribute('wrap-count', '80');
+    this.contentText.setAttribute('scroll', 'enabled: true');
 
-          contentEntity.appendChild(this.titleText);
-          contentEntity.appendChild(this.contentText);
-          this.el.appendChild(contentEntity);
+    contentEntity.appendChild(this.titleText);
+    contentEntity.appendChild(this.contentText);
+    this.el.appendChild(contentEntity);
 
-          this.updateContent();
-        },
+    this.updateContent();
+  },
 
-        createNavButtons: function () {
-          const prevButton = document.createElement('a-entity');
-          prevButton.setAttribute('geometry', 'primitive: plane; width: 0.4; height: 0.2');
-          prevButton.setAttribute('material', 'color: #4CAF50');
-          prevButton.setAttribute('position', '-2 -0.8 0.02');
-          prevButton.setAttribute('text', 'value: Prev; align: center; color: white');
-          prevButton.addEventListener('click', () => this.navigate(-1));
+  createNavButtons: function () {
+    const prevButton = document.createElement('a-entity');
+    prevButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
+    prevButton.setAttribute('material', 'color: #4CAF50');
+    prevButton.setAttribute('position', '-3 -2 0.02');
+    prevButton.setAttribute('text', 'value: Prev; align: center; color: white');
+    prevButton.addEventListener('click', () => this.navigate(-1));
 
-          const nextButton = document.createElement('a-entity');
-          nextButton.setAttribute('geometry', 'primitive: plane; width: 0.4; height: 0.2');
-          nextButton.setAttribute('material', 'color: #4CAF50');
-          nextButton.setAttribute('position', '2 -0.8 0.02');
-          nextButton.setAttribute('text', 'value: Next; align: center; color: white');
-          nextButton.addEventListener('click', () => this.navigate(1));
+    const nextButton = document.createElement('a-entity');
+    nextButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
+    nextButton.setAttribute('material', 'color: #4CAF50');
+    nextButton.setAttribute('position', '3 -2 0.02');
+    nextButton.setAttribute('text', 'value: Next; align: center; color: white');
+    nextButton.addEventListener('click', () => this.navigate(1));
 
-          this.el.appendChild(prevButton);
-          this.el.appendChild(nextButton);
-        },
+    this.el.appendChild(prevButton);
+    this.el.appendChild(nextButton);
+  },
 
-        navigate: function (direction) {
-          this.currentSection += direction;
-          if (this.currentSection < 0) this.currentSection = 0;
-          if (this.currentSection >= this.sections.length) this.currentSection = this.sections.length - 1;
-          this.updateContent();
-        },
+  navigate: function (direction) {
+    this.currentSection += direction;
+    if (this.currentSection < 0) this.currentSection = 0;
+    if (this.currentSection >= this.sections.length) this.currentSection = this.sections.length - 1;
+    this.updateContent();
+    this.el.emit('sectionchange', { section: this.currentSection });
+  },
 
-        updateContent: function () {
-          const section = this.sections[this.currentSection];
-          this.titleText.setAttribute('value', section.title);
-          this.contentText.setAttribute('value', section.content);
-        }
-      });
+  updateContent: function () {
+    const section = this.sections[this.currentSection];
+    this.titleText.setAttribute('value', section.title);
+    this.contentText.setAttribute('value', section.content);
+  }
+});
 
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {

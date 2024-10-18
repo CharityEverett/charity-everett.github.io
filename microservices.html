@@ -43,22 +43,22 @@
           this.createNavButtons();
         },
 
-        createContent: function () {
-          const contentEntity = document.createElement('a-entity');
-          contentEntity.setAttribute('geometry', 'primitive: plane; width: 4; height: 2');
-          contentEntity.setAttribute('material', 'color: #000; opacity: 0.7');
-          contentEntity.setAttribute('position', '0 0 0.01');
+         createContent: function () {
+    const contentEntity = document.createElement('a-entity');
+    contentEntity.setAttribute('geometry', 'primitive: plane; width: 6; height: 4');
+    contentEntity.setAttribute('material', 'color: #000; opacity: 0.7');
+    contentEntity.setAttribute('position', '0 0 0');
 
-         this.titleText = document.createElement('a-text');
+    this.titleText = document.createElement('a-text');
     this.titleText.setAttribute('color', '#FFF');
     this.titleText.setAttribute('align', 'center');
-    this.titleText.setAttribute('position', '0 1.8 0.02');
+    this.titleText.setAttribute('position', '0 2.1 0.01');  // Moved up and slightly in front
     this.titleText.setAttribute('scale', '0.8 0.8 0.8');
     this.titleText.setAttribute('width', '5');
 
     this.contentText = document.createElement('a-text');
     this.contentText.setAttribute('color', '#FFF');
-    this.contentText.setAttribute('position', '0 1.2 0.02');
+    this.contentText.setAttribute('position', '0 0 0.01');  // Slightly in front of the plane
     this.contentText.setAttribute('width', '5.5');
     this.contentText.setAttribute('height', '3.2');
     this.contentText.setAttribute('wrap-count', '80');
@@ -75,14 +75,14 @@
     const prevButton = document.createElement('a-entity');
     prevButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     prevButton.setAttribute('material', 'color: #4CAF50');
-    prevButton.setAttribute('position', '-3 -2 0.02');
+    prevButton.setAttribute('position', '-3 -2.1 0.01');  // Moved down and slightly in front
     prevButton.setAttribute('text', 'value: Prev; align: center; color: white');
     prevButton.addEventListener('click', () => this.navigate(-1));
 
     const nextButton = document.createElement('a-entity');
     nextButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     nextButton.setAttribute('material', 'color: #4CAF50');
-    nextButton.setAttribute('position', '3 -2 0.02');
+    nextButton.setAttribute('position', '3 -2.1 0.01');  // Moved down and slightly in front
     nextButton.setAttribute('text', 'value: Next; align: center; color: white');
     nextButton.addEventListener('click', () => this.navigate(1));
 

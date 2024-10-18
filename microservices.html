@@ -5,7 +5,43 @@
     <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+      <script src="https://unpkg.com/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js">
     <script>
+      AFRAME.registerComponent('animated-text', {
+         schema: {
+    content: {type: 'string'},
+    speed: {type: 'number', default: 50}
+  },
+
+  init: function() {
+    this.words = this.data.content.split(' ');
+    this.currentIndex = 0;
+    this.el.setAttribute('text', {value: '', align: 'center', width: 2});
+    this.showNextWord();
+  },
+
+  showNextWord: function() {
+    if (this.currentIndex < this.words.length) {
+      let currentText = this.el.getAttribute('text').value;
+      currentText += ' ' + this.words[this.currentIndex];
+      this.el.setAttribute('text', 'value', currentText.trim());
+      this.currentIndex++;
+      setTimeout(() => this.showNextWord(), this.data.speed);
+    } else {
+      this.el.emit('textComplete');
+    }
+  }
+});
+        AFRAME.registerComponent('text-emphasis', {
+  init: function() {
+    this.el.addEventListener('textComplete', () => {
+      const text = this.el.getAttribute('text').value;
+      const emphasizedText = text.replace(/\*(\w+)\*/g, '<span style="color: yellow;">$1</span>');
+      this.el.setAttribute('text', {value: emphasizedText, htmlWhitespacePre: true});
+    });
+  }
+});
+        
       AFRAME.registerComponent('article-content', {
         init: function () {
           this.sections = [
@@ -110,6 +146,32 @@
     this.contentText.setAttribute('value', section.content);
   }
 });
+        AFRAME.registerComponent('model-loader', {
+  schema: {
+    models: {type: 'array'}
+  },
+
+  init: function() {
+    this.currentIndex = 0;
+    this.loadNextModel();
+  },
+
+  loadNextModel: function() {
+    if (this.currentIndex < this.data.models.length) {
+      const model = document.createElement('a-entity');
+      model.setAttribute('gltf-model', this.data.models[this.currentIndex]);
+      model.setAttribute('position', {x: 2, y: 0, z: 0});
+      model.setAttribute('animation', {
+        property: 'position',
+        to: {x: 0, y: 0, z: 0},
+        dur: 1000,
+        easing: 'easeOutQuad'
+      });
+      this.el.appendChild(model);
+      this.currentIndex++;
+    }
+  }
+});
 
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {
@@ -145,6 +207,18 @@
     <a-scene>
       <a-assets>
         <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
+      <a-asset-item id="model1" src="path/to/model1.glb"></a-asset-item>
+    <a-asset-item id="model2" src="path/to/model2.glb"></a-asset-item>
+  </a-assets>
+
+  <a-entity id="textContainer" position="0 1.6 -3"
+            animated-text="content: This is an *animated* text presentation with *emphasis* and 3D models.; speed: 200"
+            text-emphasis>
+  </a-entity>
+
+  <a-entity id="modelContainer" position="-2 1.6 -3"
+            model-loader="models: #model1, #model2">
+  </a-entity>
       </a-assets>
 
       <!-- Environment -->
@@ -189,5 +263,10 @@
         <a-cursor></a-cursor>
       </a-camera>
     </a-scene>
+    <script>
+  document.querySelector('#textContainer').addEventListener('textComplete', function() {
+    document.querySelector('#modelContainer').components['model-loader'].loadNextModel();
+  });
+</script>
   </body>
 </html>

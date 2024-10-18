@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js">
       <script src="https://unpkg.com/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js">
+        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+        </script>
     <script>
       AFRAME.registerComponent('animated-text', {
          schema: {
@@ -39,6 +41,51 @@
       const emphasizedText = text.replace(/\*(\w+)\*/g, '<span style="color: yellow;">$1</span>');
       this.el.setAttribute('text', {value: emphasizedText, htmlWhitespacePre: true});
     });
+
+      AFRAME.registerComponent('model-loader', {
+  schema: {
+    models: { type: 'array' },
+    interval: { type: 'number', default: 5000 } // Time between model changes in milliseconds
+  },
+
+  init: function () {
+    this.modelIndex = 0;
+    this.modelEl = null;
+    this.showNextModel();
+  },
+
+  showNextModel: function () {
+    if (this.modelEl) {
+      // Remove the current model
+      this.el.removeChild(this.modelEl);
+    }
+
+    if (this.modelIndex >= this.data.models.length) {
+      this.modelIndex = 0; // Reset to the first model if we've shown all
+    }
+
+    // Create and add the new model
+    this.modelEl = document.createElement('a-entity');
+    this.modelEl.setAttribute('gltf-model', this.data.models[this.modelIndex]);
+    this.modelEl.setAttribute('scale', '0.5 0.5 0.5'); // Adjust scale as needed
+    this.modelEl.setAttribute('animation-mixer', ''); // This will animate the model if it has animations
+    this.modelEl.setAttribute('position', '0 0 0');
+    
+    // Add fade-in animation
+    this.modelEl.setAttribute('animation', {
+      property: 'opacity',
+      from: 0,
+      to: 1,
+      dur: 1000,
+      easing: 'easeInOutQuad'
+    });
+
+    this.el.appendChild(this.modelEl);
+
+    this.modelIndex++;
+
+    // Schedule the next model change
+    setTimeout(() => this.showNextModel(), this.data.interval);
   }
 });
         

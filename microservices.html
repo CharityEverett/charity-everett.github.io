@@ -47,12 +47,12 @@
     const contentEntity = document.createElement('a-entity');
     contentEntity.setAttribute('geometry', 'primitive: plane; width: 6; height: 4');
     contentEntity.setAttribute('material', 'color: #000; opacity: 0.7');
-    contentEntity.setAttribute('position', '0 1.5 -3'); // Ensure it's in front of the camera
+    contentEntity.setAttribute('position', '-1 1.5 -2'); // Moved closer and to the left
 
     this.titleText = document.createElement('a-text');
     this.titleText.setAttribute('color', '#FFF');
     this.titleText.setAttribute('align', 'center');
-    this.titleText.setAttribute('position', '0 1.6 0.01'); // Slightly above the center of the plane
+    this.titleText.setAttribute('position', '0 1.6 0.01'); // Position remains the same
     this.titleText.setAttribute('scale', '1.0 1.0 1.0'); // Title size
     this.titleText.setAttribute('width', '5');
 

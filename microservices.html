@@ -6,6 +6,23 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
+      AFRAME.registerComponent('start-button', {
+  init: function () {
+    this.el.addEventListener('click', function () {
+      this.emit('start-data-flow');
+    });
+  }
+});
+      AFRAME.registerComponent('pause-button', {
+  init: function () {
+    this.el.addEventListener('click', function () {
+      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
+      vis.isPaused = !vis.isPaused;
+      this.setAttribute('text', 'value', vis.isPaused ? 'Resume' : 'Pause');
+      if (!vis.isPaused) vis.animateNextStep();
+    });
+  }
+});
       AFRAME.registerComponent('article-content', {
         init: function () {
           this.sections = [
@@ -112,33 +129,105 @@
 });
 
       AFRAME.registerComponent('microservices-visualization', {
-        init: function () {
-          this.el.sceneEl.addEventListener('sectionchange', (e) => {
-            this.updateVisualization(e.detail.section);
-          });
-        },
+  init: function () {
+    this.services = {
+      client: this.el.querySelector('#client'),
+      apiGateway: this.el.querySelector('#apiGateway'),
+      authService: this.el.querySelector('#authService'),
+      userService: this.el.querySelector('#userService'),
+      productService: this.el.querySelector('#productService'),
+      orderService: this.el.querySelector('#orderService'),
+      paymentService: this.el.querySelector('#paymentService')
+    };
 
-        updateVisualization: function (section) {
-          // Update visualization based on the current section
-          switch (section) {
-            case 0: // Introduction
-              // Show overview of system
-              break;
-            case 1: // Microservices Architecture
-              // Show detailed microservices layout
-              break;
-            case 2: // Docker
-              // Highlight Docker containers
-              break;
-            case 3: // Kubernetes
-              // Show Kubernetes orchestration
-              break;
-            case 4: // Conclusion
-              // Show final state of system
-              break;
-          }
-        }
-      });
+    this.dataFlow = [
+      { from: 'client', to: 'apiGateway', data: { action: "place_order", user_id: "12345", product_id: "67890", quantity: 2 } },
+      { from: 'apiGateway', to: 'authService', data: { action: "authenticate", user_id: "12345", auth_token: "abcdef" } },
+      { from: 'authService', to: 'apiGateway', data: { user_id: "12345", authenticated: true } },
+      { from: 'apiGateway', to: 'userService', data: { action: "get_user_info", user_id: "12345" } },
+      { from: 'userService', to: 'apiGateway', data: { user_id: "12345", address: "123 Main St", preferred_payment: "credit_card" } },
+      { from: 'apiGateway', to: 'productService', data: { action: "check_product_availability", product_id: "67890", quantity: 2 } },
+      { from: 'productService', to: 'apiGateway', data: { product_id: "67890", available: true, stock: 10 } },
+      { from: 'apiGateway', to: 'orderService', data: { action: "create_order", user_id: "12345", product_id: "67890", quantity: 2, address: "123 Main St", payment: "credit_card" } },
+      { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "pending_payment" } },
+      { from: 'orderService', to: 'paymentService', data: { action: "process_payment", order_id: "A123", amount: 100.00, payment_method: "credit_card" } },
+      { from: 'paymentService', to: 'orderService', data: { payment_status: "success", transaction_id: "TXN789" } },
+      { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "completed" } },
+      { from: 'apiGateway', to: 'client', data: { order_id: "A123", status: "completed", message: "Your order has been successfully placed!" } }
+    ];
+
+    this.currentStep = 0;
+    this.isPaused = false;
+
+    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+  },
+
+  startDataFlow: function () {
+    this.animateNextStep();
+  },
+
+  animateNextStep: function () {
+    if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
+
+    var step = this.dataFlow[this.currentStep];
+    var fromEl = this.services[step.from];
+    var toEl = this.services[step.to];
+
+    // Create a visual representation of data (e.g., a small sphere)
+    var dataEl = document.createElement('a-sphere');
+    dataEl.setAttribute('radius', '0.1');
+    dataEl.setAttribute('color', 'yellow');
+    dataEl.setAttribute('position', fromEl.getAttribute('position'));
+
+    // Animate the data from the 'from' service to the 'to' service
+    dataEl.setAttribute('animation', {
+      property: 'position',
+      to: toEl.getAttribute('position'),
+      dur: 2000,
+      easing: 'linear'
+    });
+
+    this.el.appendChild(dataEl);
+
+    // Remove the data element after animation completes
+    setTimeout(() => {
+      this.el.removeChild(dataEl);
+      this.currentStep++;
+      this.animateNextStep();
+    }, 2000);
+
+    // Update the info panel with the current step's data
+    this.updateInfoPanel(step.data);
+  },
+
+  updateInfoPanel: function (data) {
+    // Update an info panel entity with the current data
+    var infoPanel = document.querySelector('#infoPanel');
+    infoPanel.setAttribute('text', {
+      value: JSON.stringify(data, null, 2),
+      width: 2
+    });
+  },
+
+  pause: function () {
+    this.isPaused = true;
+  },
+
+  resume: function () {
+    this.isPaused = false;
+    this.animateNextStep();
+  },
+
+  reset: function () {
+    this.currentStep = 0;
+    this.isPaused = false;
+    var infoPanel = document.querySelector('#infoPanel');
+    infoPanel.setAttribute('text', {
+      value: 'Data flow reset. Click Start to begin.',
+      width: 2
+    });
+  }
+});
     </script>
   </head>
   <body>
@@ -183,6 +272,32 @@
         <a-cylinder position="-2.5 -1 0" radius="0.25" height="0.5" color="lightgray" service-interaction="name: order-db"></a-cylinder>
         <a-text value="Order DB" position="-2.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
       </a-entity>
+
+      <!-- Start Button -->
+      <a-entity id="startButton" 
+          geometry="primitive: plane; width: 1; height: 0.5"
+          material="color: green"
+          position="-1 2 -3"
+          text="value: Start Data Flow; align: center; width: 4"
+          start-button>
+</a-entity>
+
+      <!-- Pause Button -->
+      <a-entity id="pauseButton" 
+          geometry="primitive: plane; width: 1; height: 0.5"
+          material="color: orange"
+          position="1 2 -3"
+          text="value: Pause; align: center; width: 4"
+          pause-button>
+
+        <!-- Info Panel -->
+        <a-entity id="infoPanel"
+          geometry="primitive: plane; width: 2; height: 2"
+          material="color: white"
+          position="0 0 -2"
+          text="value: Data will appear here; width: 1.8; color: black; align: left">
+</a-entity>
+</a-entity>
 
       <!-- Camera and Cursor -->
       <a-camera position="0 1.6 0">

@@ -43,7 +43,7 @@
           this.createNavButtons();
         },
 
-         createContent: function () {
+        createContent: function () {
     const contentEntity = document.createElement('a-entity');
     contentEntity.setAttribute('geometry', 'primitive: plane; width: 6; height: 4');
     contentEntity.setAttribute('material', 'color: #000; opacity: 0.7');
@@ -52,18 +52,19 @@
     this.titleText = document.createElement('a-text');
     this.titleText.setAttribute('color', '#FFF');
     this.titleText.setAttribute('align', 'center');
-    this.titleText.setAttribute('position', '0 1.8 0.01');  // Moved down
-    this.titleText.setAttribute('scale', '0.8 0.8 0.8');
+    this.titleText.setAttribute('position', '0 1.8 0.01');
+    this.titleText.setAttribute('scale', '1.2 1.2 1.2');  // Increased by 50% from 0.8
     this.titleText.setAttribute('width', '5');
 
     this.contentText = document.createElement('a-text');
     this.contentText.setAttribute('color', '#FFF');
-    this.contentText.setAttribute('position', '-2.7 0 0.01');  // Moved to the left
+    this.contentText.setAttribute('position', '-2.7 0 0.01');
     this.contentText.setAttribute('width', '5.5');
     this.contentText.setAttribute('height', '3.2');
-    this.contentText.setAttribute('wrap-count', '80');
+    this.contentText.setAttribute('wrap-count', '53');  // Adjusted for larger text
     this.contentText.setAttribute('scroll', 'enabled: true');
-    this.contentText.setAttribute('anchor', 'left'); // Align text to the left
+    this.contentText.setAttribute('anchor', 'left');
+    this.contentText.setAttribute('scale', '1.5 1.5 1.5');  // Increased by 50% from 1
 
     contentEntity.appendChild(this.titleText);
     contentEntity.appendChild(this.contentText);

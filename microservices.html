@@ -4,91 +4,8 @@
     <meta charset="utf-8">
     <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js">
-      <script src="https://unpkg.com/aframe-animation-component@5.1.2/dist/aframe-animation-component.min.js">
-        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-        </script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
-      AFRAME.registerComponent('animated-text', {
-         schema: {
-    content: {type: 'string'},
-    speed: {type: 'number', default: 50}
-  },
-
-  init: function() {
-    this.words = this.data.content.split(' ');
-    this.currentIndex = 0;
-    this.el.setAttribute('text', {value: '', align: 'center', width: 2});
-    this.showNextWord();
-  },
-
-  showNextWord: function() {
-    if (this.currentIndex < this.words.length) {
-      let currentText = this.el.getAttribute('text').value;
-      currentText += ' ' + this.words[this.currentIndex];
-      this.el.setAttribute('text', 'value', currentText.trim());
-      this.currentIndex++;
-      setTimeout(() => this.showNextWord(), this.data.speed);
-    } else {
-      this.el.emit('textComplete');
-    }
-  }
-});
-        AFRAME.registerComponent('text-emphasis', {
-  init: function() {
-    this.el.addEventListener('textComplete', () => {
-      const text = this.el.getAttribute('text').value;
-      const emphasizedText = text.replace(/\*(\w+)\*/g, '<span style="color: yellow;">$1</span>');
-      this.el.setAttribute('text', {value: emphasizedText, htmlWhitespacePre: true});
-    });
-
-      AFRAME.registerComponent('model-loader', {
-  schema: {
-    models: { type: 'array' },
-    interval: { type: 'number', default: 5000 } // Time between model changes in milliseconds
-  },
-
-  init: function () {
-    this.modelIndex = 0;
-    this.modelEl = null;
-    this.showNextModel();
-  },
-
-  showNextModel: function () {
-    if (this.modelEl) {
-      // Remove the current model
-      this.el.removeChild(this.modelEl);
-    }
-
-    if (this.modelIndex >= this.data.models.length) {
-      this.modelIndex = 0; // Reset to the first model if we've shown all
-    }
-
-    // Create and add the new model
-    this.modelEl = document.createElement('a-entity');
-    this.modelEl.setAttribute('gltf-model', this.data.models[this.modelIndex]);
-    this.modelEl.setAttribute('scale', '0.5 0.5 0.5'); // Adjust scale as needed
-    this.modelEl.setAttribute('animation-mixer', ''); // This will animate the model if it has animations
-    this.modelEl.setAttribute('position', '0 0 0');
-    
-    // Add fade-in animation
-    this.modelEl.setAttribute('animation', {
-      property: 'opacity',
-      from: 0,
-      to: 1,
-      dur: 1000,
-      easing: 'easeInOutQuad'
-    });
-
-    this.el.appendChild(this.modelEl);
-
-    this.modelIndex++;
-
-    // Schedule the next model change
-    setTimeout(() => this.showNextModel(), this.data.interval);
-  }
-});
-        
       AFRAME.registerComponent('article-content', {
         init: function () {
           this.sections = [
@@ -193,32 +110,6 @@
     this.contentText.setAttribute('value', section.content);
   }
 });
-        AFRAME.registerComponent('model-loader', {
-  schema: {
-    models: {type: 'array'}
-  },
-
-  init: function() {
-    this.currentIndex = 0;
-    this.loadNextModel();
-  },
-
-  loadNextModel: function() {
-    if (this.currentIndex < this.data.models.length) {
-      const model = document.createElement('a-entity');
-      model.setAttribute('gltf-model', this.data.models[this.currentIndex]);
-      model.setAttribute('position', {x: 2, y: 0, z: 0});
-      model.setAttribute('animation', {
-        property: 'position',
-        to: {x: 0, y: 0, z: 0},
-        dur: 1000,
-        easing: 'easeOutQuad'
-      });
-      this.el.appendChild(model);
-      this.currentIndex++;
-    }
-  }
-});
 
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {
@@ -254,18 +145,6 @@
     <a-scene>
       <a-assets>
         <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
-    <a-asset-item id="model1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Scale.glb?v=1729288805885"></a-asset-item>
-  //  <a-asset-item id="model2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Blue_Balloon.glb?v=1729288333198"></a-asset-item>
-  </a-assets>
-
-  <a-entity id="textContainer" position="0 1.6 -3"
-            animated-text="content: This is an *animated* text presentation with *emphasis* and 3D models.; speed: 200"
-            text-emphasis>
-  </a-entity>
-
-  <a-entity id="modelContainer" position="-2 1.6 -3"
-            model-loader="models: #model1, #model2">
-  </a-entity>
       </a-assets>
 
       <!-- Environment -->
@@ -310,10 +189,5 @@
         <a-cursor></a-cursor>
       </a-camera>
     </a-scene>
-    <script>
-  document.querySelector('#textContainer').addEventListener('textComplete', function() {
-    document.querySelector('#modelContainer').components['model-loader'].loadNextModel();
-  });
-</script>
   </body>
 </html>

@@ -173,7 +173,7 @@
     this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
 
     // Adjust the position and rotation of the entire visualization
-    this.el.setAttribute('position', '3 1.6 -2'); // Move to the right
+    this.el.setAttribute('position', '3 1.6 -4'); // Move to the right
     this.el.setAttribute('rotation', '0 -30 0');  // Rotate slightly towards the camera
   },
 
@@ -301,16 +301,16 @@
         <a-text value="Order DB" position="-2.5 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
       </a-entity>
 
-    <!-- Start Button (outside of control panel) -->
+  <!-- Start Button (outside of control panel) -->
 <a-entity id="startButton" 
     geometry="primitive: plane; width: 1; height: 0.5"
     material="color: green"
-    position="-1 2 -3"
+    position="-1 2 -5"
     text="value: Start Data Flow; align: center; width: 4"
     start-button>
 </a-entity>
 
-<a-entity id="controlPanel" position="2.5 2.5 -2" rotation="0 -30 0">
+<a-entity id="controlPanel" position="2.5 2.5 -4" rotation="0 -30 0">
   <a-entity id="startButtonInPanel" 
             geometry="primitive: plane; width: 0.6; height: 0.3"
             material="color: green"
@@ -332,7 +332,7 @@
 <a-entity id="infoPanel"
       geometry="primitive: plane; width: 1.5; height: 1"
       material="color: white"
-      position="2.5 1 -2"
+      position="2.5 1 -4"
       rotation="0 -30 0"
       text="value: Data will appear here; width: 1.4; color: black; align: left">
 </a-entity>

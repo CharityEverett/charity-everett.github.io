@@ -1,4 +1,4 @@
-# Charity Everett Technical Writing Portfolio in WebXR
+# Charity Everett XR Product Management Portfolio in WebXR
 
 ## Explore the environment and check out my portfolio pieces.
 

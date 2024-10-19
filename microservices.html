@@ -261,7 +261,7 @@ Key characteristics of microservices include:
       value: 'Data flow reset. Click Start to begin.',
       width: 2
     });
-  }
+  }                                                                                                                  
 });
     </script>
   </head>
@@ -276,7 +276,12 @@ Key characteristics of microservices include:
       
       <!-- Article Content -->
        <a-entity position="6 1.602 -1.33" rotation="0 -72.64 0" article-content></a-entity>
-     
+
+      <!-- Text Container -->
+     <a-entity id="textContainer" position="-1 1.5 -2" 
+                  animated-text="content: Your text content here; speed: 50"
+                  text-emphasis>
+        </a-entity>
       <!-- Microservices Visualization -->
      <a-entity position="4 1.6 -4" rotation="4.5 2 0" microservices-visualization>
 

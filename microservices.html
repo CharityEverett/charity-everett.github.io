@@ -97,14 +97,14 @@
     const prevButton = document.createElement('a-entity');
     prevButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     prevButton.setAttribute('material', 'color: #4CAF50');
-    prevButton.setAttribute('position', '-0.7 0.2 0.1'); // Moved down by 1 unit
+    prevButton.setAttribute('position', '-2.218 -0.157 -1.251'); // Moved down by 1 unit
     prevButton.setAttribute('text', 'value: Prev; align: center; color: white');
     prevButton.addEventListener('click', () => this.navigate(-1));
 
     const nextButton = document.createElement('a-entity');
     nextButton.setAttribute('geometry', 'primitive: plane; width: 0.6; height: 0.3');
     nextButton.setAttribute('material', 'color: #4CAF50');
-    nextButton.setAttribute('position', '0.7 0.2 0.1'); // Moved down by 1 unit
+    nextButton.setAttribute('position', '0.7 -0.212 -1.866'); // Moved down by 1 unit
     nextButton.setAttribute('text', 'value: Next; align: center; color: white');
     nextButton.addEventListener('click', () => this.navigate(1));
 

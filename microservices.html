@@ -130,14 +130,14 @@
 
      AFRAME.registerComponent('microservices-visualization', {
   init: function () {
-   this.services = {
-  client:         { el: null, position: '-1 2 0' },
+ this.services = {
+  client:         { el: null, position: '-1.5 2 0' },
   apiGateway:     { el: null, position: '0 2 0' },
-  authService:    { el: null, position: '1 3 0' },
-  userService:    { el: null, position: '1 2 0' },
-  productService: { el: null, position: '1 1 0' },
-  orderService:   { el: null, position: '2 2 0' },
-  paymentService: { el: null, position: '3 2 0' }
+  authService:    { el: null, position: '1.5 3 0' },
+  userService:    { el: null, position: '1.5 2 0' },
+  productService: { el: null, position: '1.5 1 0' },
+  orderService:   { el: null, position: '3 2 0' },
+  paymentService: { el: null, position: '4.5 2 0' }
 };
 
     // Create and position service entities
@@ -271,7 +271,7 @@
        <a-entity position="0 1.6 -3" rotation="0 0 0" article-content></a-entity>
      
       <!-- Microservices Visualization -->
-     <a-entity position="4 1.5 -4" rotation="0 -45 0" microservices-visualization>
+     <a-entity position="4 1.6 -4" rotation="0 -45 0" microservices-visualization>
         <!-- Client -->
         <a-box position="0 2.15 0.25" depth="1.2" height="0.4" width="0.6" color="red" rotation="15 -30 15" service-interaction="name: client"></a-box>
         <a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
@@ -310,12 +310,12 @@
     start-button>
 </a-entity>
 
-<a-entity id="controlPanel" position="2.5 0.5 -2" rotation="0 -30 0">
+<a-entity id="controlPanel" position="3.5 2.2 -3.5" rotation="0 -45 0">
   <a-entity id="startButtonInPanel" 
-            geometry="primitive: plane; width: 0.6; height: 0.3"
+            geometry="primitive: plane; width: 0.8; height: 0.4; depth: 0.05"
             material="color: green"
             position="0 0.2 0"
-            text="value: Start; align: center; width: 2"
+            text="value: Start; align: center; width: 2; wrapCount: 20"
             start-button>
   </a-entity>
   
@@ -330,10 +330,10 @@
 
 <!-- Info Panel (outside of control panel) -->
 <a-entity id="infoPanel"
-      geometry="primitive: plane; width: 1.5; height: 1"
+      geometry="primitive: plane; width: 2; height: 1.5; depth: 0.05"
       material="color: white"
-      position="2.5 -1 -2"
-      rotation="0 -30 0"
+      position="3.5 -1 -3.5"
+      rotation="0 -45 0"
       text="value: Data will appear here; width: 1.4; color: black; align: left">
 </a-entity>
 

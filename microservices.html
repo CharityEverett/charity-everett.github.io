@@ -130,15 +130,15 @@
 
      AFRAME.registerComponent('microservices-visualization', {
   init: function () {
-    this.services = {
-      client:         { el: null, position: '-1 2 0' },
-      apiGateway:     { el: null, position: '0 2 0' },
-      authService:    { el: null, position: '1 3 0' },
-      userService:    { el: null, position: '1 2 0' },
-      productService: { el: null, position: '1 1 0' },
-      orderService:   { el: null, position: '2 2 0' },
-      paymentService: { el: null, position: '3 2 0' }
-    };
+   this.services = {
+  client:         { el: null, position: '-1 2 0' },
+  apiGateway:     { el: null, position: '0 2 0' },
+  authService:    { el: null, position: '1 3 0' },
+  userService:    { el: null, position: '1 2 0' },
+  productService: { el: null, position: '1 1 0' },
+  orderService:   { el: null, position: '2 2 0' },
+  paymentService: { el: null, position: '3 2 0' }
+};
 
     // Create and position service entities
     for (let [serviceName, serviceData] of Object.entries(this.services)) {
@@ -173,7 +173,7 @@
     this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
 
     // Adjust the position and rotation of the entire visualization
-    this.el.setAttribute('position', '3 0.4 -2'); // Move to the right
+    this.el.setAttribute('position', '3 0.4 -3'); // Move to the right
     this.el.setAttribute('rotation', '0 -30 0');  // Rotate slightly towards the camera
   },
 

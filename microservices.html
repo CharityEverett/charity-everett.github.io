@@ -23,6 +23,42 @@
     });
   }
 });
+       AFRAME.registerComponent('animated-text', {
+            schema: {
+                content: { type: 'string', default: '' },
+                speed: { type: 'number', default: 50 }
+            },
+            init: function () {
+                this.textElement = document.createElement('a-text');
+                this.textElement.setAttribute('value', '');
+                this.textElement.setAttribute('color', 'black');
+                this.textElement.setAttribute('align', 'center');
+                this.textElement.setAttribute('width', '3');
+                this.el.appendChild(this.textElement);
+
+                this.currentIndex = 0;
+                this.animateText();
+            },
+            animateText: function () {
+                if (this.currentIndex < this.data.content.length) {
+                    this.textElement.setAttribute('value', this.data.content.substring(0, this.currentIndex + 1));
+                    this.currentIndex++;
+                    setTimeout(this.animateText.bind(this), this.data.speed);
+                }
+            }
+        });
+
+        AFRAME.registerComponent('text-emphasis', {
+            init: function () {
+                this.el.addEventListener('mouseenter', function () {
+                    this.setAttribute('scale', '1.2 1.2 1.2');
+                });
+                this.el.addEventListener('mouseleave', function () {
+                    this.setAttribute('scale', '1 1 1');
+                });
+            }
+        });
+
       AFRAME.registerComponent('article-content', {
         init: function () {
           this.sections = [

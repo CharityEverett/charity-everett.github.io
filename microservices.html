@@ -153,8 +153,12 @@
         <img id="authenticationservicetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Authenticationservicetexture.png?v=1729799920834">
         <img id="paymentservicetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Paymentservicetexture.png?v=1729800540387">
         <img id="externalpaymentprovidertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Externalpaymentprovidertexture.png?v=1729801308250">
-        <img id="databasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729804038376">
+        <img id="productdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Productdatabase.png?v=1729805693716">
+        <img id="orderdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Orderdatabase.png?v=1729805778934">
+        <img id="userdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Userdatabase?v=1729805780820">
 
+
+        
       </a-assets>
 
       <a-sky src="#sky"></a-sky>
@@ -211,15 +215,15 @@
   
     <!-- Databases -->
 <!-- User Database -->
-<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
+<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #userdatabasetexture" rotation="15 30 15" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
 <a-text value="User Database" position="-4 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
 <!-- Product Database -->
-<a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: product-database"></a-cylinder> <!-- Accent color -->
+<a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #productdatabasetexture" rotation="15 30 15" service-interaction="name: product-database"></a-cylinder> <!-- Accent color -->
 <a-text value="Product Database" position="-1 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
 
 <!-- Order Database -->
-<a-cylinder position="0 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: order-database"></a-cylinder> <!-- Accent color -->
+<a-cylinder position="0 -1 0" radius="0.5" height="1.5" width="0.75" material="src: #orderdatabasetexture" rotation="15 30 15" service-interaction="name: order-database"></a-cylinder> <!-- Accent color -->
 <a-text value="Order Database" position="1 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
     </a-entity>
 

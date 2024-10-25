@@ -156,6 +156,8 @@
         <img id="productdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Productdatabase.png?v=1729805693716">
         <img id="orderdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Orderdatabase.png?v=1729805778934">
         <img id="userdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Userdatabase?v=1729805780820">
+        <img id="databasesidetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729805082190">
+
 
 
         
@@ -215,10 +217,11 @@
   
     <!-- Databases -->
 <!-- User Database -->
-<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #userdatabasetexture" rotation="2.84 115 15" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
+<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" material="src: #databasesidetexture" rotation="2.84 115 15" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
+<a-circle position="-4 0.75 0" radius="0.5" material="src: #userdatabasetexture" rotation="-90 0 0"></a-circle>
 <a-text value="User Database" position="-2.241 0.375 2.619" align="center" rotation="-15 25 0" scale="0.5 0.5 0.5"></a-text>
 
-<!-- Product Database -->
+  <!-- Product Database -->
 <a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #productdatabasetexture" rotation="2.84 107.471 17.59" service-interaction="name: product-database"></a-cylinder> <!-- Accent color -->
 <a-text value="Product Database" position="-1.397 0.373 2.089" align="center" rotation="-15 20.460 0" scale="0.5 0.5 0.5"></a-text>
 

@@ -141,7 +141,7 @@
   <body>
     <a-scene>
       <a-assets>
-        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Underwaterskybox?v=1729884418777">
         <img id="article-preview" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/MicroservicesPage.png?v=1729025756305">
         <img id="shippingcontainertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/shippingcontainertexture.png?v=1729534098043">      
         <img id="graycontainertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Untitled%20design%20(12).png?v=1729796945452">
@@ -157,6 +157,7 @@
         <img id="orderdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Orderdatabase.png?v=1729805778934">
         <img id="userdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Userdatabase.png?v=1729823236896">
         <img id="databasesidetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729805082190">
+        <a-asset-item id="anchormodel" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Anchormodel.glb?v=1729882245433"></a-asset-item>
 
 
 
@@ -226,6 +227,9 @@
 <!-- <a-text value="Order Database" position="-0.027 0.154 0.778" align="center" rotation="-15 0.120 0" scale="0.5 0.5 0.5"></a-text> -->
 </a-entity>
 
+<!-- Anchor -->
+<a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
+      
 <!-- Start Button -->
 <a-entity id="startButton" geometry="primitive: plane; width: 1; height: 0.5"  material="color: #01E3E2" position="-3.225 0.5 -2" text='value: Start Data Flow; align: center; width:4' start-button></a-entity>
   
@@ -240,5 +244,6 @@
     <a-cursor></a-cursor>
     </a-camera>
   </a-scene>
+    
   </body>
 </html>

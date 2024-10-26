@@ -231,62 +231,51 @@ AFRAME.registerComponent('tilt-and-float', {
           this.animateNextStep();
         },
 
-        animateNextStep: function () {
-          if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
+      animateNextStep: function () {
+  if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
-          var step = this.dataFlow[this.currentStep];
-          var fromEl = this.services[step.from];
-          var toEl = this.services[step.to];
+  var step = this.dataFlow[this.currentStep];
+  var fromEl = this.services[step.from];
+  var toEl = this.services[step.to];
 
-          var dataEl = document.createElement('a-sphere');
-          dataEl.setAttribute('radius', '0.1');
-          dataEl.setAttribute('color', 'yellow');
-          dataEl.setAttribute('position', fromEl.getAttribute('position'));
+  var beam = document.querySelector('#lightBeam');
+  beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
+  beam.components['light-beam'].animate();
 
-          dataEl.setAttribute('animation', {
-            property: 'position',
-            to: toEl.getAttribute('position'),
-            dur: 2000,
-            easing: 'linear'
-          });
+  this.updateInfoPanel(step.data);
 
-          this.el.appendChild(dataEl);
+  setTimeout(() => {
+    this.currentStep++;
+    this.animateNextStep();
+  }, 2000);
+},
 
-          setTimeout(() => {
-            this.el.removeChild(dataEl);
-            this.currentStep++;
-            this.animateNextStep();
-          }, 2000);
+updateInfoPanel: function (data) {
+  var infoPanel = document.querySelector('#infoPanel');
+  infoPanel.setAttribute('text', {
+    value: JSON.stringify(data, null, 2),
+    width: 2
+  });
+},
 
-          this.updateInfoPanel(step.data);
-        },
+pause: function () {
+  this.isPaused = true;
+},
 
-        updateInfoPanel: function (data) {
-          var infoPanel = document.querySelector('#infoPanel');
-          infoPanel.setAttribute('text', {
-            value: JSON.stringify(data, null, 2),
-            width: 2
-          });
-        },
+resume: function () {
+  this.isPaused = false;
+  this.animateNextStep();
+},
 
-        pause: function () {
-          this.isPaused = true;
-        },
-
-        resume: function () {
-          this.isPaused = false;
-          this.animateNextStep();
-        },
-
-        reset: function () {
-          this.currentStep = 0;
-          this.isPaused = false;
-          var infoPanel = document.querySelector('#infoPanel');
-          infoPanel.setAttribute('text', {
-            value: 'Data flow reset. Click Start to begin.',
-            width: 2
-          });
-        }
+reset: function () {
+  this.currentStep = 0;
+  this.isPaused = false;
+  var infoPanel = document.querySelector('#infoPanel');
+  infoPanel.setAttribute('text', {
+    value: 'Data flow reset. Click Start to begin.',
+    width: 2
+  });
+}
       });
     </script>
   </head>
@@ -397,7 +386,7 @@ AFRAME.registerComponent('tilt-and-float', {
 </a-sphere>
 
 <!-- Light Beams -->
-<a-cylinder position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan"></a-cylinder>
+<a-cylinder id="lightBeam" position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan" opacity="0.5" visible="false" light-beam></a-cylinder>
   
 <!-- Bubble Info Panel -->
 <a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double" info-panel-updater>

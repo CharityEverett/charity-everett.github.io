@@ -42,7 +42,7 @@
         }
       });
 
-      AFRAME.registerComponent('underwater-float', {
+    AFRAME.registerComponent('underwater-float', {
   schema: {
     amplitude: {type: 'number', default: 0.05},
     period: {type: 'number', default: 2}
@@ -74,7 +74,7 @@
   }
 });
 
-      AFRAME.registerComponent('tilt-and-float', {
+AFRAME.registerComponent('tilt-and-float', {
   schema: {
     tiltX: {type: 'number', default: 30},
     tiltY: {type: 'number', default: 0},
@@ -92,6 +92,23 @@
       THREE.MathUtils.degToRad(this.data.tiltZ)
     );
   },
+
+  tick: function (time, timeDelta) {
+    var el = this.el;
+    var amplitude = this.data.floatAmplitude;
+    var period = this.data.floatPeriod;
+
+    // Calculate vertical displacement
+    var displacement = Math.sin(time * 0.001 * Math.PI * 2 / period) * amplitude;
+
+    // Apply displacement to the initial position
+    el.object3D.position.y = this.initialPosition.y + displacement;
+
+    // Add slight horizontal movement
+    el.object3D.position.x = this.initialPosition.x + Math.sin(time * 0.0005) * amplitude * 0.5;
+    el.object3D.position.z = this.initialPosition.z + Math.cos(time * 0.0007) * amplitude * 0.5;
+  }
+});
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {
           this.services = {

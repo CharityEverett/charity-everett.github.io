@@ -26,6 +26,90 @@
         }
       });
 
+      AFRAME.registerComponent('light-beam', {
+  schema: {
+    from: {type: 'selector'},
+    to: {type: 'selector'},
+    duration: {type: 'number', default: 1000}
+  },
+
+  init: function () {
+    this.animate = this.animate.bind(this);
+    this.el.setAttribute('visible', false);
+  },
+
+  animate: function () {
+    var beam = this.el;
+    var fromEl = this.data.from;
+    var toEl = this.data.to;
+    var fromPos = fromEl.object3D.getWorldPosition(new THREE.Vector3());
+    var toPos = toEl.object3D.getWorldPosition(new THREE.Vector3());
+
+    beam.setAttribute('visible', true);
+    beam.setAttribute('position', fromPos);
+
+    var direction = new THREE.Vector3().subVectors(toPos, fromPos);
+    var distance = direction.length();
+    var midPoint = new THREE.Vector3().addVectors(fromPos, toPos).multiplyScalar(0.5);
+
+    beam.setAttribute('height', distance);
+    beam.setAttribute('position', midPoint);
+    beam.object3D.lookAt(toPos);
+
+    beam.setAttribute('animation', {
+      property: 'scale',
+      from: '0 0 0',
+      to: '1 1 1',
+      dur: this.data.duration,
+      easing: 'easeInOutQuad'
+    });
+
+    setTimeout(() => {
+      beam.setAttribute('visible', false);
+      this.el.emit('beamComplete', {from: fromEl, to: toEl});
+    }, this.data.duration);
+  }
+});
+      AFRAME.registerComponent('beam-controller', {
+  init: function() {
+    this.triggerBeam = this.triggerBeam.bind(this);
+    // Add event listeners to trigger beams
+    this.el.addEventListener('click', this.triggerBeam);
+  },
+
+  triggerBeam: function(event) {
+    var fromEl = event.target;
+    var toEl = this.getRandomComponent(); // Implement this method to select a random component
+    
+    var beam = document.querySelector('#lightBeam');
+    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 1000});
+    beam.components['light-beam'].animate();
+  },
+
+  getRandomComponent: function() {
+    // Implement logic to select a random component in your scene
+    var components = document.querySelectorAll('.interactive-component');
+    return components[Math.floor(Math.random() * components.length)];
+  }
+});
+      
+      AFRAME.registerComponent('info-bubble', {
+  init: function () {
+    this.updateInfo = this.updateInfo.bind(this);
+    this.el.sceneEl.addEventListener('beamComplete', this.updateInfo);
+  },
+
+  updateInfo: function (evt) {
+    var fromName = evt.detail.from.getAttribute('name');
+    var toName = evt.detail.to.getAttribute('name');
+    var currentTime = new Date().toLocaleTimeString();
+    
+    this.el.setAttribute('text', {
+      value: `Last beam: ${fromName} to ${toName}\nTime: ${currentTime}`
+    });
+  }
+});
+
       AFRAME.registerComponent('open-article', {
         init: function () {
           this.el.addEventListener('click', function () {
@@ -316,8 +400,8 @@ AFRAME.registerComponent('tilt-and-float', {
 <a-cylinder position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan"></a-cylinder>
   
 <!-- Bubble Info Panel -->
-<a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double">
-<a-entity text="value: Order Data:\n{ 'order_id': 'A123', \n'status': 'pending' }; width: 1.5; color: #000000; align: center; baseline:center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1 animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">  </a-entity>
+<a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double" info-panel-updater>
+<a-entity id="info-panel-text" text="value: Order Data:\n{ 'order_id': 'A123', \n'status': 'pending' }; width: 1.5; color: #000000; align: center; baseline:center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">  </a-entity>
 </a-sphere>
       
 <a-camera position="0 1.6 0" 

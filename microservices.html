@@ -230,10 +230,10 @@
 <!-- <a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity> -->
       
 <!-- Start Button -->
-<a-entity id="startButton" geometry="primitive: plane; width: 1; height: 0.5"  material="color: #01E3E2" position="-2.485 0.5 -2" text='value: Start Data Flow; align: center; width:4' start-button></a-entity>
+<a-entity id="startButton" material="color: #01E3E2" position="-2.485 0.5 -2" radius="0.25" opacity="0.7" text='value: Start Data Flow; align: center; width:4' material="side: double" start-button start-button></a-entity>
   
 <!-- Pause Button -->      
-<a-entity id="pauseButton" geometry='primitive: plane; width:1; height:0.5' material='color:#2A7BA3' position="2.307 0.5 -2" text='value: Pause; align:center; width:4' pause-button></a-entity>
+<a-entity id="pauseButton" material='color:#2A7BA3' position="2.307 0.5 -2" radius="0.25"  opacity="0.7" text='value: Pause; align:center; width:4'  material="side: double" pause-button></a-entity>
 
 <!-- Light Beams -->
 <a-cylinder position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan"></a-cylinder>

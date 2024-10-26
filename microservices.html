@@ -231,12 +231,32 @@
 <!-- <a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity> -->
       
 <!-- Start Button -->
-<a-sphere id="startButton" material="color: #01E3E2" position="-2.485 0.5 -2" radius="0.25" opacity="0.7" text='value: Start Data Flow; align: center; width:4' material="side: double; shader; flat" start-button visible="true"></a-sphere>
-  
-<!-- Pause Button -->      
-<a-sphere id="pauseButton" material="color:#2A7BA3" position="2.485 0.5 -2" radius="0.25"  opacity="0.7" text='value: Pause; align:center; width:4'  material="side: double; shader; flat" pause-button visible="true"></a-sphere>
+<a-sphere id="startButton" position="-2.485 0.5 -2" radius="0.25" material="color: #01E3E2; opacity: 0.7; side: double; shader: flat" start-button visible="true">
+    <!-- Front text -->
+    <a-text value="Start" align="center" width="1" color="black" position="0 0.05 0.24" rotation="0 180 0" material="side: double"></a-text>
+    <a-text value="Data" align="center" width="1" color="black" position="0 -0.05 0.24" rotation="0 180 0" material="side: double"></a-text>
+    <a-text value="Flow" align="center" width="1" color="black" position="0 -0.15 0.24" rotation="0 180 0" material="side: double"></a-text>
+    <!-- Left text -->
+    <a-text value="Start" align="center" width="1" color="black" position="-0.24 0.05 0" rotation="0 -90 0" material="side: double"></a-text>
+    <a-text value="Data" align="center" width="1" color="black" position="-0.24 -0.05 0" rotation="0 -90 0" material="side: double"></a-text>
+    <a-text value="Flow" align="center" width="1" color="black" position="-0.24 -0.15 0" rotation="0 -90 0" material="side: double"></a-text>
+    <!-- Right text -->
+    <a-text value="Start" align="center" width="1" color="black" position="0.24 0.05 0" rotation="0 90 0" material="side: double"></a-text>
+    <a-text value="Data" align="center" width="1" color="black" position="0.24 -0.05 0" rotation="0 90 0" material="side: double"></a-text>
+    <a-text value="Flow" align="center" width="1" color="black" position="0.24 -0.15 0" rotation="0 90 0" material="side: double"></a-text>
+</a-sphere>
 
-<!-- Light Beams -->
+<!-- Pause Button -->
+<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" material="color: #2A7BA3; opacity: 0.7; side: double; shader: flat" pause-button visible="true">
+    <!-- Front text -->
+    <a-text value="Pause" align="center" width="1" color="black" position="0 0 0.24" rotation="0 180 0" material="side: double"></a-text>
+    <!-- Left text -->
+    <a-text value="Pause" align="center" width="1" color="black" position="-0.24 0 0" rotation="0 -90 0" material="side: double"></a-text>
+    <!-- Right text -->
+    <a-text value="Pause" align="center" width="1" color="black" position="0.24 0 0" rotation="0 90 0" material="side: double"></a-text>
+</a-sphere>
+
+      <!-- Light Beams -->
 <a-cylinder position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan"></a-cylinder>
   
 <!-- Bubble Info Panel -->

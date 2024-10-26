@@ -234,14 +234,6 @@ AFRAME.registerComponent('tilt-and-float', {
           this.currentStep = 0;
           this.isPaused = false;
 
-          pause: function () {
-          this.isPaused = true;
-          },
-
-          resume: function () {
-          this.isPaused = false;
-          this.animateNextStep();
-          },
           this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
         },
         
@@ -250,6 +242,15 @@ AFRAME.registerComponent('tilt-and-float', {
         this.currentStep = 0;
         this.animateNextStep();
       },
+
+         pause: function () {
+          this.isPaused = true;
+          },
+
+          resume: function () {
+          this.isPaused = false;
+          this.animateNextStep();
+          },
 
         startDataFlow: function () {
           this.animateNextStep();

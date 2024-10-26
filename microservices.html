@@ -74,6 +74,24 @@
   }
 });
 
+      AFRAME.registerComponent('tilt-and-float', {
+  schema: {
+    tiltX: {type: 'number', default: 30},
+    tiltY: {type: 'number', default: 0},
+    tiltZ: {type: 'number', default: 0},
+    floatAmplitude: {type: 'number', default: 0.03},
+    floatPeriod: {type: 'number', default: 2.8}
+  },
+
+  init: function () {
+    this.initialPosition = new THREE.Vector3();
+    this.initialPosition.copy(this.el.object3D.position);
+    this.el.object3D.rotation.set(
+      THREE.MathUtils.degToRad(this.data.tiltX),
+      THREE.MathUtils.degToRad(this.data.tiltY),
+      THREE.MathUtils.degToRad(this.data.tiltZ)
+    );
+  },
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {
           this.services = {
@@ -252,16 +270,14 @@
    
 <!-- Databases -->
 <!-- User Database -->
-<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" material="src: #userdatabasetexture" rotation="3.160 117.471 17.510" service-interaction="name: user-database" underwater-float="amplitude: 0.03; period: 2.8"></a-cylinder> <!-- Accent color -->
-<!-- <a-text value="User Database" position="-3.735 0.078 0.479" align="center" rotation="-15 25 0" scale="0.5 0.5 0.5"></a-text> -->
+<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" material="src: #userdatabasetexture" rotation="3.160 117.471 17.510" service-interaction="name: user-database" tilt-and-float="tiltX: 3.160; tiltY: 117.471; tiltZ: 17.510; floatAmplitude: 0.03; floatPeriod: 2.8"></a-cylinder><!-- <a-text value="User Database" position="-3.735 0.078 0.479" align="center" rotation="-15 25 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- Product Database -->
-<a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #productdatabasetexture" rotation="2.84 107.471 17.59" service-interaction="name: product-database" underwater-float="amplitude: 0.035; period: 2.6"></a-cylinder> <!-- Accent color -->
+<a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #productdatabasetexture" rotation="2.84 107.471 17.59" service-interaction="name: product-database" tilt-and-float="tiltX: 2.84; tiltY: 107.471; tiltZ: 17.59; floatAmplitude: 0.035; floatPeriod: 2.6"></a-cylinder>
 <!-- <a-text value="Product Database" position="1.397 0.373 2.089" align="center" rotation="-15 20.460 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- Order Database -->
-<a-cylinder position="0 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #orderdatabasetexture" rotation="-0.34 95.6 18.31" service-interaction="name: order-database" underwater-float="amplitude: 0.025; period: 3.0"></a-cylinder> <!-- Accent color -->
-<!-- <a-text value="Order Database" position="-0.027 0.154 0.778" align="center" rotation="-15 0.120 0" scale="0.5 0.5 0.5"></a-text> -->
+<a-cylinder position="0 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #orderdatabasetexture" rotation="-0.34 95.6 18.31" service-interaction="name: order-database" tilt-and-float="tiltX: -0.34; tiltY: 95.6; tiltZ: 18.31; floatAmplitude: 0.025; floatPeriod: 3.0"></a-cylinder><!-- <a-text value="Order Database" position="-0.027 0.154 0.778" align="center" rotation="-15 0.120 0" scale="0.5 0.5 0.5"></a-text> -->
 </a-entity>
 
 <!-- Anchor -->

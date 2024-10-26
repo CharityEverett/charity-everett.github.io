@@ -393,8 +393,7 @@ reset: function () {
 </a-sphere>
 
 <!-- Light Beam -->
-<a-cylinder id="lightBeam" position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan" opacity="0.5" visible="false" light-beam></a-cylinder>
-  
+<a-cylinder id="lightBeam" radius="0.05" color="#00FFFF" opacity="0.5" visible="false" light-beam></a-cylinder>  
 <!-- Bubble Info Panel -->
 <a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double" info-panel-updater>
 <a-entity id="info-panel-text" text="value: Order Data:\n{ 'order_id': 'A123', \n'status': 'pending' }; width: 1.5; color: #000000; align: center; baseline:center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">  </a-entity>

@@ -7,13 +7,14 @@
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
-      AFRAME.registerComponent('start-button', {
-        init: function () {
-          this.el.addEventListener('click', function () {
-            this.emit('start-data-flow');
-          });
-        }
-      });
+     AFRAME.registerComponent('start-button', {
+  init: function () {
+    this.el.addEventListener('click', function () {
+      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
+      vis.start();
+    });
+  }
+});
 
       AFRAME.registerComponent('pause-button', {
         init: function () {
@@ -226,6 +227,12 @@ AFRAME.registerComponent('tilt-and-float', {
 
           this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
         },
+        
+        start: function () {
+        this.isPaused = false;
+        this.currentStep = 0;
+        this.animateNextStep();
+      },
 
         startDataFlow: function () {
           this.animateNextStep();
@@ -385,7 +392,7 @@ reset: function () {
     <a-text value="Pause" align="center" width="3" height="2" color="black" position="0 0 0.1" rotation="0 0 0"></a-text>
 </a-sphere>
 
-<!-- Light Beams -->
+<!-- Light Beam -->
 <a-cylinder id="lightBeam" position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan" opacity="0.5" visible="false" light-beam></a-cylinder>
   
 <!-- Bubble Info Panel -->

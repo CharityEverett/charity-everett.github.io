@@ -141,7 +141,7 @@
   <body>
     <a-scene>
       <a-assets>
-        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservice%20Skybox.png?v=1729023719252">
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Underwaterskybox?v=1729884418777">
         <img id="article-preview" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/MicroservicesPage.png?v=1729025756305">
         <img id="shippingcontainertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/shippingcontainertexture.png?v=1729534098043">      
         <img id="graycontainertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Untitled%20design%20(12).png?v=1729796945452">
@@ -152,9 +152,16 @@
         <img id="orderservicetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Orderservicetexture.png?v=1729799935005">
         <img id="authenticationservicetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Authenticationservicetexture.png?v=1729799920834">
         <img id="paymentservicetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Paymentservicetexture.png?v=1729800540387">
-        <img id="externalpaymentprovidertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Externalpaymentprovidertexture.png?v=1729801308250">
-        <img id="databasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729803551782">
-        <img id="ropeTexture" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Rope Texture.png?v=1729901883108">
+        <img id="externalpaymentprovidertexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Externalpaymentprovidertexture.png?v=1729806679552">
+        <img id="productdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Productdatabase.png?v=1729805693716">
+        <img id="orderdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Orderdatabase.png?v=1729805778934">
+        <img id="userdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Userdatabase.png?v=1729823236896">
+        <img id="databasesidetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729805082190">
+        <a-asset-item id="anchormodel" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Anchormodel.glb?v=1729882245433"></a-asset-item>
+
+
+
+        
       </a-assets>
 
       <a-sky src="#sky"></a-sky>
@@ -170,104 +177,73 @@
       
 
 <!-- Microservices Architecture Viz -->
-<a-entity microservices-visualization position="0 1.726 -3" scale=".75 .75 .75">
+<a-entity microservices-visualization position="0 1.726 -3" rotation="8 4 .15" scale=".75 .75 .75">
 <!-- Microservices Architecture Title -->
-<a-text value="Microservices Architecture" position="0 4.231 -2" align="center" color="#00CED1" scale="3 3 3" font="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-text>
+<a-text value="Microservices          Architecture" position="0.011 3.988 -2.08" rotation="2.23 -0.85 3.6" align="center" color="#00CED1" scale="3 3 3" font="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-text>
 
 <!-- Client -->
-<a-box position="0 2.15 0.25" depth="1.2" height="0.4" width="0.6"  material="src: #clientcontainertexture" 
- rotation="15 30 15" service-interaction="name: client"></a-box> <!-- Secondary color -->
-<a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box position="0.001 2.554 0.193" depth="1.2" height="0.4" width="0.6"  material="src: #clientcontainertexture"  rotation="15 30 15" service-interaction="name: client"></a-box> 
+<!-- <a-text value="Client" position="0 2.3 0.5" align="center" rotation="-15 6 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- API Gateway -->
-<a-box position="0 1.15 0.25" depth="1.2" height="0.4" width="0.6" material="src: #apigatewaytexture" rotation="15 30 15" service-interaction="name: api-gateway"></a-box> <!-- Secondary color -->
-<a-text value="API Gateway" position="0 1.8 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box position="0.001 1.478 0.204" depth="1.2" height="0.4" width="0.6" material="src: #apigatewaytexture" rotation="15 30 15" service-interaction="name: api-gateway"></a-box> 
+<!-- <a-text value="API Gateway" position="0 1.631 0.524" align="center" rotation="-15 14.27 0" scale="0.5 0.5 0.5"></a-text> -->
  
 <!-- Auth Service -->
-<a-box  position="-2 1 0" depth="1.2" height="0.4" width="0.6" material="src: #authenticationservicetexture" rotation="15 30 15" service-interaction="name: auth-service"></a-box> <!-- Accent color -->
-<a-text value="Auth Service" position="-2 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box  position="-2.368 0.620 0.25" depth="1.2" height="0.4" width="0.6" material="src: #authenticationservicetexture" rotation="15 30 15" service-interaction="name: auth-service"></a-box> 
+<!-- <a-text value="Auth Service" position="-2 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- User Service -->
-<a-box  position="-1 1 0" depth="1.2" height="0.4" width="0.6"  material="src: #userservicetexture" rotation="15 30 15" service-interaction="name: user-service"></a-box> <!-- Accent color -->
-<a-text value="User Service" position="-1 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box  position="-1 0.649 0" depth="1.2" height="0.4" width="0.6"  material="src: #userservicetexture" rotation="15 30 15" service-interaction="name: user-service"></a-box> 
+<!-- <a-text value="User Service" position="-1 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text> -->
   
 <!-- Product Service -->
-<a-box position="1 1 0" depth="1.2" height="0.4" width="0.6"  material="src: #productservicetexture" rotation="15 30 15" service-interaction="name: produce-service"></a-box> <!-- Accent color -->
-<a-text value="Product Service" position="1 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box position="1 0.649 0" depth="1.2" height="0.4" width="0.6"  material="src: #productservicetexture" rotation="15 30 15" service-interaction="name: produce-service"></a-box> 
+<!-- <a-text value="Product Service" position="1 1.3 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- Order Service -->
-<a-box position="2 1 -1" depth="1.2" height="0.4" width="0.6" material="src: #orderservicetexture" rotation="15 30 15" service-interaction="name: order-service"></a-box> <!-- Accent color -->
-<a-text value="Order Service" position="2 -1 -1" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box position="2.515 0.6453 -0.964" depth="1.2" height="0.4" width="0.6" material="src: #orderservicetexture" rotation="15 30 15" service-interaction="name: order-service"></a-box> <!-- Accent color -->
+<!-- <a-text value="Order Service" position="1.933 1.373 -0.275" align="center" rotation="-15 12.53 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- Payment Service -->
-<a-box id="paymentService" position="2 -1 0" depth="1.2" height="0.4" width="0.6"
-       material="src: #orderservicetexture"
-       rotation="15 30 15" service-interaction="name: payment-service"></a-box>
-<a-text value="Payment Service" position="2 -0.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-box id="paymentService" position="2 -1 0" depth="1.2" height="0.4" width="0.6" material="src: #paymentservicetexture" rotation="15 30 15" service-interaction="name: payment-service"></a-box>          
+<!-- <a-text value="Payment Service" position="2.001 -0.374 0.454" align="center" rotation="-15 10.99 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- External Payment Provider -->
 <a-box position="2 -2 0" depth="1.2" height="0.4" width="0.6" material="src: #externalpaymentprovidertexture" rotation="15 30 15" service-interaction="name: external-payment-provider"></a-box> <!-- Accent color -->
-<a-text value="External Payment Provider" position="2 -1.7 0.5" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<!-- <a-text value="External Payment Provider" position="2 -1.552 0.479" align="center" rotation="-15 22.81 0" scale="0.5 0.5 0.5"></a-text> -->
   
-    <!-- Databases -->
+<!-- Databases -->
 <!-- User Database -->
-<a-cylinder position="-4 -1 0" radius="0.75" height="1" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
-<a-text value="User Database" position="-4 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+<a-cylinder position="-4 -1 0" radius="0.5" height="1.5" material="src: #userdatabasetexture" rotation="3.160 117.471 17.510" service-interaction="name: user-database"></a-cylinder> <!-- Accent color -->
+<!-- <a-text value="User Database" position="-3.735 0.078 0.479" align="center" rotation="-15 25 0" scale="0.5 0.5 0.5"></a-text> -->
 
-<!-- Product Database -->
-<a-cylinder position="-2 -1 0" radius="0.75" height="1" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: product-database"></a-cylinder> <!-- Accent color -->
-<a-text value="Product Database" position="-1 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
+  <!-- Product Database -->
+<a-cylinder position="-2 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #productdatabasetexture" rotation="2.84 107.471 17.59" service-interaction="name: product-database"></a-cylinder> <!-- Accent color -->
+<!-- <a-text value="Product Database" position="1.397 0.373 2.089" align="center" rotation="-15 20.460 0" scale="0.5 0.5 0.5"></a-text> -->
 
 <!-- Order Database -->
-<a-cylinder position="0 -1 0" radius="0.75" height="1" width="0.75" material="src: #databasetexture" rotation="15 30 15" service-interaction="name: order-database"></a-cylinder> <!-- Accent color -->
-<a-text value="Order Database" position="1 -0.2 0" align="center" rotation="-15 30 0" scale="0.5 0.5 0.5"></a-text>
-    </a-entity>
-<!-- Rope from Client to API Gateway -->
-<a-cylinder position="0 2 0" radius="0.05" height="1.5" rotation="90 0 45" material="src: #ropeTexture"></a-cylinder>
+<a-cylinder position="0 -1 0" radius="0.5" height="1.5" width="0.5" material="src: #orderdatabasetexture" rotation="-0.34 95.6 18.31" service-interaction="name: order-database"></a-cylinder> <!-- Accent color -->
+<!-- <a-text value="Order Database" position="-0.027 0.154 0.778" align="center" rotation="-15 0.120 0" scale="0.5 0.5 0.5"></a-text> -->
+</a-entity>
 
-<!-- Rope from API Gateway to Auth Service -->
-<a-cylinder position="-1 1.5 0" radius="0.05" height="2" rotation="90 0 -30" material="src: #ropeTexture"></a-cylinder>
+<!-- Anchor -->
+<a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity>
+      
+<!-- Start Button -->
+<a-entity id="startButton" geometry="primitive: plane; width: 1; height: 0.5"  material="color: #01E3E2" position="-3.225 0.5 -2" text='value: Start Data Flow; align: center; width:4' start-button></a-entity>
+  
+<!-- Pause Button -->      
+<a-entity id="pauseButton" geometry='primitive: plane; width:1; height:0.5' material='color:#2A7BA3' position="2.58 0.5 -2" text='value: Pause; align:center; width:4' pause-button></a-entity>
 
-<!-- Rope from Auth Service to User Service -->
-<a-cylinder position="-2 1 0" radius="0.05" height="1.5" rotation="90 0 -45" material="src: #ropeTexture"></a-cylinder>
-
-<!-- Rope from User Service to Product Service -->
-<a-cylinder position="-3 0.5 0" radius="0.05" height="1.5" rotation="90 0 -60" material="src: #ropeTexture"></a-cylinder>
-
-<!-- Rope from Product Service to Order Service -->
-<a-cylinder position="-4 0 0" radius="0.05" height="1.5" rotation="90 0 -75" material="src: #ropeTexture"></a-cylinder>
-
-<!-- Rope from Order Service to Payment Service -->
-<a-cylinder position="-5 -0.5 0" radius="0.05" height="1.5" rotation="90 0 -90" material="src: #ropeTexture"></a-cylinder>
-      <!-- Start Button -->
-      <a-entity id="startButton"
-                geometry="primitive: plane; width: 1; height: 0.5"
-                material="color: #01E3E2"
-                position="-4 0.5 -2"
-                text='value: Start Data Flow; align: center; width:4'
-                start-button>
-      </a-entity>
-
-      <!-- Pause Button -->
-      <a-entity id="pauseButton"
-                geometry='primitive: plane; width:1; height:0.5'
-                material='color:#FFA500'
-                position="4 0.5 -2"
-                text='value: Pause; align:center; width:4'
-                pause-button>
-      </a-entity>
-
-      <!-- Info Panel -->
-      <a-entity id='infoPanel'
-                geometry='primitive: plane; width:2; height:2'
-                material='color:#FFFFFF'
-                position='0 -1 -3'
-                text='value: DATA BOX; width:1.8; color:#000000; align:left'>
-      </a-entity>
-
-      <a-camera position="0 1.6 0" rotation="3.1412 -10 0">
-        <a-cursor></a-cursor>
-      </a-camera>
-    </a-scene>
+<!-- Info Panel -->
+<a-entity id='infoPanel' geometry='primitive: plane; width:2; height:2' material='color:#4795B6' position='0 -1 -3'>
+  <a-text value='DATA BOX' width='1.8' color='#000000' align='center' position='0 0.9 0.01'></a-text>
+</a-entity> 
+<a-camera position="0 1.6 0" 
+    <a-cursor></a-cursor>
+    </a-camera>
+  </a-scene>
+    
   </body>
 </html>

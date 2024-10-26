@@ -5,6 +5,7 @@
     <title>Microservices Architecture Scene</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
       AFRAME.registerComponent('start-button', {
         init: function () {
@@ -40,6 +41,38 @@
           });
         }
       });
+
+      AFRAME.registerComponent('underwater-float', {
+  schema: {
+    amplitude: {type: 'number', default: 0.05},
+    period: {type: 'number', default: 2}
+  },
+
+  init: function () {
+    this.initialPosition = new THREE.Vector3();
+    this.initialPosition.copy(this.el.object3D.position);
+  },
+
+  tick: function (time, timeDelta) {
+    var el = this.el;
+    var amplitude = this.data.amplitude;
+    var period = this.data.period;
+
+    // Calculate vertical displacement
+    var displacement = Math.sin(time * 0.001 * Math.PI * 2 / period) * amplitude;
+
+    // Apply displacement to the initial position
+    el.object3D.position.y = this.initialPosition.y + displacement;
+
+    // Add slight horizontal movement
+    el.object3D.position.x = this.initialPosition.x + Math.sin(time * 0.0005) * amplitude * 0.5;
+    el.object3D.position.z = this.initialPosition.z + Math.cos(time * 0.0007) * amplitude * 0.5;
+
+    // Add slight rotation
+    el.object3D.rotation.x = Math.sin(time * 0.0003) * 0.02;
+    el.object3D.rotation.z = Math.cos(time * 0.0004) * 0.02;
+  }
+});
 
       AFRAME.registerComponent('microservices-visualization', {
         init: function () {
@@ -163,7 +196,11 @@
         
       </a-assets>
 
+      <!-- Sky -->
       <a-sky src="#sky"></a-sky>
+
+    <!-- Ocean -->
+      <a-ocean width="50" depth="50" density="10" opacity="0.5"></a-ocean>
       
      <!-- Article Screen -->
     <a-entity position="0 1.6 4" rotation="0 180 0">
@@ -231,7 +268,7 @@
 <!-- <a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity> -->
       
 <!-- Start Button -->
-<a-sphere id="startButton" position="-2.485 0.5 -2" radius="0.25" material="color: #01E3E2; opacity: 0.7; side: double; shader: flat" start-button visible="true">
+<a-sphere id="startButton" position="-2.485 0.5 -2" radius="0.25" material="color: #01E3E2; opacity: 0.7; side: double; shader: flat" start-button visible="true"  underwater-float="amplitude: 0.03; period: 2.5>
     <!-- Front text -->
     <a-text value="Start" align="center" width="1" color="black" position="0 0.05 0.24" rotation="0 180 0" material="side: double"></a-text>
     <a-text value="Data" align="center" width="1" color="black" position="0 -0.05 0.24" rotation="0 180 0" material="side: double"></a-text>
@@ -247,7 +284,7 @@
 </a-sphere>
 
 <!-- Pause Button -->
-<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" material="color: #2A7BA3; opacity: 0.7; side: double; shader: flat" pause-button visible="true">
+<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" material="color: #2A7BA3; opacity: 0.7; side: double; shader: flat" pause-button visible="true" underwater-float="amplitude: 0.04; period: 2.2">
     <!-- Front text -->
     <a-text value="Pause" align="center" width="1" color="black" position="0 0 0.24" rotation="0 180 0" material="side: double"></a-text>
     <!-- Left text -->
@@ -256,7 +293,7 @@
     <a-text value="Pause" align="center" width="1" color="black" position="0.24 0 0" rotation="0 90 0" material="side: double"></a-text>
 </a-sphere>
 
-      <!-- Light Beams -->
+<!-- Light Beams -->
 <a-cylinder position="0 2 0" radius="0.02" height="5" rotation="90 0 45" color="cyan"></a-cylinder>
   
 <!-- Bubble Info Panel -->

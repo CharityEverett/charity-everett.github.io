@@ -158,9 +158,8 @@
         <img id="userdatabasetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Userdatabase.png?v=1729823236896">
         <img id="databasesidetexture" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Databasetexture.png?v=1729805082190">
         <a-asset-item id="anchormodel" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Anchormodel.glb?v=1729882245433"></a-asset-item>
-
-
-
+        <a-asset-item id="font" src="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-asset-item>
+     
         
       </a-assets>
 
@@ -241,7 +240,9 @@
   
 <!-- Bubble Info Panel -->
 <a-sphere position="0 -1 -3" radius="1" color="#87CEEB" opacity="0.7">
-<a-text value="Order Data: { 'order_id': 'A123', 'status': 'pending' }" width="2" color="#000000" align="center" position="0 0.9 0.01"></a-text>
+  <a-entity 
+    text-geometry="value: Order Data: { 'order_id': 'A123', 'status': 'pending' }; font: #font; size: 0.2; height: 0.05" material="color: #000000" position="0 0 1.1" rotation="0 180 0">
+  </a-entity>
 </a-sphere>
       
 <a-camera position="0 1.6 0" 

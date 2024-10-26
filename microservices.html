@@ -237,9 +237,9 @@ AFRAME.registerComponent('tilt-and-float', {
     <!-- Ocean -->
       <a-ocean width="50" depth="50" density="10" opacity="0.5"></a-ocean>
       
-  <!-- Article Screen -->
-<a-entity id="article-screen-container" position="0 1.6 -3" underwater-float="amplitude: 0.02; period: 4.0">
-  <a-entity position="0 0 0" rotation="0 0 0">
+ <!-- Article Screen -->
+<a-entity id="article-screen-container" position="0 1.6 3" rotation="0 180 0" underwater-float="amplitude: 0.02; period: 4.0">
+  <a-entity>
     <a-plane width="8" height="6" color="#008bcf"> <!-- Primary color -->
       <a-plane position="0 0 0.01" width="7.8" height="5.8" src="#article-preview" open-article></a-plane>
       <a-text value="Click to read full article" align="center" position="0 -2.9 0.1" width="8" color="#FFFFFF"></a-text>

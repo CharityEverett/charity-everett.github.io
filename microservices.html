@@ -226,44 +226,33 @@ AFRAME.registerComponent('tilt-and-float', {
     this.animateNextStep();
   },
 
- animateNextStep: function() {
+  animateNextStep: function () {
     if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
     var step = this.dataFlow[this.currentStep];
     var fromEl = this.services[step.from];
     var toEl = this.services[step.to];
 
-    // Animate light beam
     var beam = document.querySelector('#lightBeam');
-    beam.setAttribute('light-beam', {
-      from: fromEl,
-      to: toEl,
-      duration: 2000,
-      visible: true
-    });
+    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
+    beam.components['light-beam'].animate();
 
-    // Update info panel
     this.updateInfoPanel(step.data);
 
-    // Schedule next step
     setTimeout(() => {
-      beam.setAttribute('light-beam', 'visible', false);
       this.currentStep++;
       this.animateNextStep();
     }, 2000);
   },
 
-  reset: function () {
-    this.currentStep = 0;
-    this.isPaused = false;
+  updateInfoPanel: function (data) {
     var infoPanel = document.querySelector('#info-panel-bubble');
-    var textEntity = infoPanel.querySelector('#info-panel-text');
-    textEntity.setAttribute('text', {
-        value: "Press 'Start' to see Data flow",
-        width: 1.5
-    });
-}
-      
+    var textEntity = infoPanel.querySelector('a-entity[text]');
+    var currentText = textEntity.getAttribute('text').value;
+    var newText = `Current Data:\n${JSON.stringify(data, null, 2)}\n\n${currentText}`;
+    textEntity.setAttribute('text', 'value', newText);
+  },
+
   startDataFlow: function () {
     this.start();
   },
@@ -271,11 +260,9 @@ AFRAME.registerComponent('tilt-and-float', {
   reset: function () {
     this.currentStep = 0;
     this.isPaused = false;
-    var infoPanel = document.querySelector('#infoPanel');
-    infoPanel.setAttribute('text', {
-      value: 'Data flow reset. Click Start to begin.',
-      width: 2
-    });
+    var infoPanel = document.querySelector('#info-panel-bubble');
+    var textEntity = infoPanel.querySelector('a-entity[text]');
+    textEntity.setAttribute('text', 'value', 'Press "Start" to see Data flow');
   }
 });
     

@@ -226,7 +226,7 @@ AFRAME.registerComponent('tilt-and-float', {
     this.animateNextStep();
   },
 
-  animateNextStep: function () {
+ animateNextStep: function () {
     if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
     var step = this.dataFlow[this.currentStep];
@@ -234,24 +234,39 @@ AFRAME.registerComponent('tilt-and-float', {
     var toEl = this.services[step.to];
 
     var beam = document.querySelector('#lightBeam');
-    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
-    beam.components['light-beam'].animate();
+    beam.setAttribute('visible', true);
+    
+    // Set the beam's position and orientation
+    var fromPosition = fromEl.object3D.position;
+    var toPosition = toEl.object3D.position;
+    
+    beam.object3D.position.copy(fromPosition);
+    beam.object3D.lookAt(toPosition);
+    
+    // Set the beam's height to the distance between the two points
+    var distance = fromPosition.distanceTo(toPosition);
+    beam.setAttribute('height', distance);
 
+    // Animate the beam
+    beam.setAttribute('animation', {
+      property: 'scale',
+      from: '0 1 0',
+      to: '1 1 1',
+      dur: 2000,
+      easing: 'easeInOutQuad'
+    });
+
+    // Update info panel
     this.updateInfoPanel(step.data);
 
+    // Schedule next step
     setTimeout(() => {
+      beam.setAttribute('visible', false);
       this.currentStep++;
       this.animateNextStep();
     }, 2000);
   },
 
-  updateInfoPanel: function (data) {
-    var infoPanel = document.querySelector('#info-panel-bubble');
-    var textEntity = infoPanel.querySelector('a-entity[text]');
-    var currentText = textEntity.getAttribute('text').value;
-    var newText = `Current Data:\n${JSON.stringify(data, null, 2)}\n\n${currentText}`;
-    textEntity.setAttribute('text', 'value', newText);
-  },
 
   startDataFlow: function () {
     this.start();

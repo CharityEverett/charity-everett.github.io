@@ -17,7 +17,7 @@
   }
 });
 
-      AFRAME.registerComponent('pause-button', {
+     AFRAME.registerComponent('pause-button', {
   init: function () {
     this.togglePause = this.togglePause.bind(this);
     this.el.addEventListener('click', this.togglePause);
@@ -27,13 +27,11 @@
     var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
     if (vis.isPaused) {
       vis.resume();
+      this.textEl.setAttribute('value', 'Pause');
     } else {
       vis.pause();
+      this.textEl.setAttribute('value', 'Resume');
     }
-    this.updateText(vis.isPaused);
-  },
-  updateText: function (isPaused) {
-    this.textEl.setAttribute('value', isPaused ? 'Resume' : 'Pause');
   }
 });
 
@@ -266,6 +264,7 @@ AFRAME.registerComponent('tilt-and-float', {
       this.animateNextStep();
     }, 2000);
   },
+
 
 
   startDataFlow: function () {

@@ -8,15 +8,20 @@
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
       
-   AFRAME.registerComponent('start-button', {
+AFRAME.registerComponent('start-button', {
   init: function() {
     this.el.addEventListener('click', () => {
+      console.log('Start button clicked'); // Add this for debugging
       var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-      vis.start();
+      if (vis) {
+        vis.start();
+      } else {
+        console.error('Microservices visualization component not found');
+      }
     });
   }
 });
-
+      
      AFRAME.registerComponent('pause-button', {
   init: function () {
     this.togglePause = this.togglePause.bind(this);
@@ -209,11 +214,12 @@ AFRAME.registerComponent('tilt-and-float', {
     this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
   },
 
-  start: function () {
-    this.isPaused = false;
-    this.currentStep = 0;
-    this.animateNextStep();
-  },
+start: function () {
+  console.log('Start function called'); // Add this for debugging
+  this.isPaused = false;
+  this.currentStep = 0;
+  this.animateNextStep();
+},
 
   pause: function () {
     this.isPaused = true;
@@ -224,46 +230,52 @@ AFRAME.registerComponent('tilt-and-float', {
     this.animateNextStep();
   },
 
- animateNextStep: function () {
-    if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
+animateNextStep: function () {
+  console.log('Animating step:', this.currentStep); // Add this for debugging
+  if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
-    var step = this.dataFlow[this.currentStep];
-    var fromEl = this.services[step.from];
-    var toEl = this.services[step.to];
+  var step = this.dataFlow[this.currentStep];
+  var fromEl = this.services[step.from];
+  var toEl = this.services[step.to];
 
-    var beam = document.querySelector('#lightBeam');
-    beam.setAttribute('visible', true);
-    
-    // Set the beam's position and orientation
-    var fromPosition = fromEl.object3D.position;
-    var toPosition = toEl.object3D.position;
-    
-    beam.object3D.position.copy(fromPosition);
-    beam.object3D.lookAt(toPosition);
-    
-    // Set the beam's height to the distance between the two points
-    var distance = fromPosition.distanceTo(toPosition);
-    beam.setAttribute('height', distance);
+  var beam = document.querySelector('#lightBeam');
+  beam.setAttribute('visible', true);
+  
+  // Update beam position and orientation
+  beam.object3D.position.copy(fromEl.object3D.position);
+  beam.object3D.lookAt(toEl.object3D.position);
+  
+  // Set beam length
+  var distance = fromEl.object3D.position.distanceTo(toEl.object3D.position);
+  beam.setAttribute('height', distance);
 
-    // Animate the beam
-    beam.setAttribute('animation', {
-      property: 'scale',
-      from: '0 1 0',
-      to: '1 1 1',
-      dur: 2000,
-      easing: 'easeInOutQuad'
-    });
+  // Animate the beam
+  beam.setAttribute('animation', {
+    property: 'scale',
+    from: '0 1 0',
+    to: '1 1 1',
+    dur: 2000,
+    easing: 'easeInOutQuad'
+  });
 
-    // Update info panel
-    this.updateInfoPanel(step.data);
+  // Update info panel
+updateInfoPanel: function (step) {
+  var infoPanel = document.querySelector('#info-panel-bubble');
+  var textEntity = infoPanel.querySelector('#info-panel-text');
+  var newText = `Step ${this.currentStep + 1}/${this.dataFlow.length}\n` +
+                `From: ${step.from}\n` +
+                `To: ${step.to}\n` +
+                `Data: ${JSON.stringify(step.data, null, 2)}`;
+  textEntity.setAttribute('text', 'value', newText);
+},
 
-    // Schedule next step
-    setTimeout(() => {
-      beam.setAttribute('visible', false);
-      this.currentStep++;
-      this.animateNextStep();
-    }, 2000);
-  },
+  // Schedule next step
+  setTimeout(() => {
+    beam.setAttribute('visible', false);
+    this.currentStep++;
+    this.animateNextStep();
+  }, 2000);
+},
 
 
 

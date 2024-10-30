@@ -203,104 +203,96 @@ AFRAME.registerComponent('tilt-and-float', {
     el.object3D.position.z = this.initialPosition.z + Math.cos(time * 0.0007) * amplitude * 0.5;
   }
 });
-      AFRAME.registerComponent('microservices-visualization', {
-        init: function () {
-          this.services = {
-            client: this.el.querySelector('#client'),
-            apiGateway: this.el.querySelector('#apiGateway'),
-            authService: this.el.querySelector('#authService'),
-            userService: this.el.querySelector('#userService'),
-            productService: this.el.querySelector('#productService'),
-            orderService: this.el.querySelector('#orderService'),
-            paymentService: this.el.querySelector('#paymentService')
-          };
+    AFRAME.registerComponent('microservices-visualization', {
+  init: function () {
+    this.services = {
+      client: this.el.querySelector('#client'),
+      apiGateway: this.el.querySelector('#apiGateway'),
+      authService: this.el.querySelector('#authService'),
+      userService: this.el.querySelector('#userService'),
+      productService: this.el.querySelector('#productService'),
+      orderService: this.el.querySelector('#orderService'),
+      paymentService: this.el.querySelector('#paymentService')
+    };
 
-          this.dataFlow = [
-            { from: 'client', to: 'apiGateway', data: { action: "place_order", user_id: "12345", product_id: "67890", quantity: 2 } },
-            { from: 'apiGateway', to: 'authService', data: { action: "authenticate", user_id: "12345", auth_token: "abcdef" } },
-            { from: 'authService', to: 'apiGateway', data: { user_id: "12345", authenticated: true } },
-            { from: 'apiGateway', to: 'userService', data: { action: "get_user_info", user_id: "12345" } },
-            { from: 'userService', to: 'apiGateway', data: { user_id: "12345", address: "123 Main St", preferred_payment: "credit_card" } },
-            { from: 'apiGateway', to: 'productService', data: { action: "check_product_availability", product_id: "67890", quantity: 2 } },
-            { from: 'productService', to: 'apiGateway', data: { product_id: "67890", available: true, stock: 10 } },
-            { from: 'apiGateway', to: 'orderService', data: { action: "create_order", user_id: "12345", product_id: "67890", quantity: 2, address: "123 Main St", payment: "credit_card" } },
-            { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "pending_payment" } },
-            { from: 'orderService', to: 'paymentService', data: { action: "process_payment", order_id: "A123", amount: 100.00, payment_method: "credit_card" } },
-            { from: 'paymentService', to: 'orderService', data: { payment_status: "success", transaction_id: "TXN789" } },
-            { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "completed" } },
-            { from: 'apiGateway', to: 'client', data: { order_id: "A123", status: "completed", message: "Your order has been successfully placed!" } }
-          ];
+    this.dataFlow = [
+      { from: 'client', to: 'apiGateway', data: { action: "place_order", user_id: "12345", product_id: "67890", quantity: 2 } },
+      { from: 'apiGateway', to: 'authService', data: { action: "authenticate", user_id: "12345", auth_token: "abcdef" } },
+      { from: 'authService', to: 'apiGateway', data: { user_id: "12345", authenticated: true } },
+      { from: 'apiGateway', to: 'userService', data: { action: "get_user_info", user_id: "12345" } },
+      { from: 'userService', to: 'apiGateway', data: { user_id: "12345", address: "123 Main St", preferred_payment: "credit_card" } },
+      { from: 'apiGateway', to: 'productService', data: { action: "check_product_availability", product_id: "67890", quantity: 2 } },
+      { from: 'productService', to: 'apiGateway', data: { product_id: "67890", available: true, stock: 10 } },
+      { from: 'apiGateway', to: 'orderService', data: { action: "create_order", user_id: "12345", product_id: "67890", quantity: 2, address: "123 Main St", payment: "credit_card" } },
+      { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "pending_payment" } },
+      { from: 'orderService', to: 'paymentService', data: { action: "process_payment", order_id: "A123", amount: 100.00, payment_method: "credit_card" } },
+      { from: 'paymentService', to: 'orderService', data: { payment_status: "success", transaction_id: "TXN789" } },
+      { from: 'orderService', to: 'apiGateway', data: { order_id: "A123", status: "completed" } },
+      { from: 'apiGateway', to: 'client', data: { order_id: "A123", status: "completed", message: "Your order has been successfully placed!" } }
+    ];
 
-          this.currentStep = 0;
-          this.isPaused = false;
+    this.currentStep = 0;
+    this.isPaused = false;
 
-          this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
-        },
-        
-        start: function () {
-        this.isPaused = false;
-        this.currentStep = 0;
-        this.animateNextStep();
-      },
+    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+  },
 
-         pause: function () {
-          this.isPaused = true;
-          },
-
-          resume: function () {
-          this.isPaused = false;
-          this.animateNextStep();
-          },
-
-        startDataFlow: function () {
-          this.animateNextStep();
-        },
-
-      animateNextStep: function () {
-  if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
-
-  var step = this.dataFlow[this.currentStep];
-  var fromEl = this.services[step.from];
-  var toEl = this.services[step.to];
-
-  var beam = document.querySelector('#lightBeam');
-  beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
-  beam.components['light-beam'].animate();
-
-  this.updateInfoPanel(step.data);
-
-  setTimeout(() => {
-    this.currentStep++;
+  start: function () {
+    this.isPaused = false;
+    this.currentStep = 0;
     this.animateNextStep();
-  }, 2000);
-},
+  },
 
-updateInfoPanel: function (data) {
-  var infoPanel = document.querySelector('#infoPanel');
-  infoPanel.setAttribute('text', {
-    value: JSON.stringify(data, null, 2),
-    width: 2
- });
+  pause: function () {
+    this.isPaused = true;
+  },
+
+  resume: function () {
+    this.isPaused = false;
+    this.animateNextStep();
+  },
+
+  animateNextStep: function () {
+    if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
+
+    var step = this.dataFlow[this.currentStep];
+    var fromEl = this.services[step.from];
+    var toEl = this.services[step.to];
+
+    var beam = document.querySelector('#lightBeam');
+    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
+    beam.components['light-beam'].animate();
+
+    this.updateInfoPanel(step.data);
+
+    setTimeout(() => {
+      this.currentStep++;
+      this.animateNextStep();
+    }, 2000);
+  },
+
+  updateInfoPanel: function (data) {
+    var infoPanel = document.querySelector('#info-panel-bubble');
+    var textEntity = infoPanel.querySelector('a-entity[text]');
+    var currentText = textEntity.getAttribute('text').value;
+    var newText = `Current Data:\n${JSON.stringify(data, null, 2)}\n\n${currentText}`;
+    textEntity.setAttribute('text', 'value', newText);
+  },
+
+  startDataFlow: function () {
+    this.start();
+  },
+
+  reset: function () {
+    this.currentStep = 0;
+    this.isPaused = false;
+    var infoPanel = document.querySelector('#infoPanel');
+    infoPanel.setAttribute('text', {
+      value: 'Data flow reset. Click Start to begin.',
+      width: 2
+    });
   }
 });
-pause: function () {
-  this.isPaused = true;
-},
-
-resume: function () {
-  this.isPaused = false;
-  this.animateNextStep();
-},
-
-reset: function () {
-  this.currentStep = 0;
-  this.isPaused = false;
-  var infoPanel = document.querySelector('#infoPanel');
-  infoPanel.setAttribute('text', {
-    value: 'Data flow reset. Click Start to begin.',
-    width: 2
-  });
-}
     
     </script>
   </head>

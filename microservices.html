@@ -7,9 +7,10 @@
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
-     AFRAME.registerComponent('start-button', {
-  init: function () {
-    this.el.addEventListener('click', function () {
+      
+   AFRAME.registerComponent('start-button', {
+  init: function() {
+    this.el.addEventListener('click', () => {
       var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
       vis.start();
     });
@@ -40,66 +41,39 @@
   schema: {
     from: {type: 'selector'},
     to: {type: 'selector'},
-    duration: {type: 'number', default: 1000}
+    duration: {type: 'number', default: 1000},
+    visible: {type: 'boolean', default: false}
   },
 
-  init: function () {
-    this.animate = this.animate.bind(this);
-    this.el.setAttribute('visible', false);
+  init: function() {
+    this.el.setAttribute('geometry', {primitive: 'cylinder', radius: 0.02});
+    this.el.setAttribute('material', {color: '#00ffff', opacity: 0.5});
   },
 
-  animate: function () {
-    var beam = this.el;
-    var fromEl = this.data.from;
-    var toEl = this.data.to;
-    var fromPos = fromEl.object3D.getWorldPosition(new THREE.Vector3());
-    var toPos = toEl.object3D.getWorldPosition(new THREE.Vector3());
+  update: function() {
+    if (this.data.from && this.data.to) {
+      this.animate();
+    }
+    this.el.setAttribute('visible', this.data.visible);
+  },
 
-    beam.setAttribute('visible', true);
-    beam.setAttribute('position', fromPos);
+  animate: function() {
+    var fromPos = this.data.from.object3D.position;
+    var toPos = this.data.to.object3D.position;
+    var distance = fromPos.distanceTo(toPos);
 
-    var direction = new THREE.Vector3().subVectors(toPos, fromPos);
-    var distance = direction.length();
-    var midPoint = new THREE.Vector3().addVectors(fromPos, toPos).multiplyScalar(0.5);
+    this.el.setAttribute('height', distance);
+    this.el.object3D.position.copy(fromPos);
+    this.el.object3D.lookAt(toPos);
+    this.el.object3D.rotateX(Math.PI / 2);
 
-    beam.setAttribute('height', distance);
-    beam.setAttribute('position', midPoint);
-    beam.object3D.lookAt(toPos);
-
-    beam.setAttribute('animation', {
+    this.el.setAttribute('animation', {
       property: 'scale',
-      from: '0 0 0',
-      to: '1 1 1',
+      from: {x: 0, y: distance, z: 0},
+      to: {x: 1, y: 1, z: 1},
       dur: this.data.duration,
       easing: 'easeInOutQuad'
     });
-
-    setTimeout(() => {
-      beam.setAttribute('visible', false);
-      this.el.emit('beamComplete', {from: fromEl, to: toEl});
-    }, this.data.duration);
-  }
-});
-      AFRAME.registerComponent('beam-controller', {
-  init: function() {
-    this.triggerBeam = this.triggerBeam.bind(this);
-    // Add event listeners to trigger beams
-    this.el.addEventListener('click', this.triggerBeam);
-  },
-
-  triggerBeam: function(event) {
-    var fromEl = event.target;
-    var toEl = this.getRandomComponent(); // Implement this method to select a random component
-    
-    var beam = document.querySelector('#lightBeam');
-    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 1000});
-    beam.components['light-beam'].animate();
-  },
-
-  getRandomComponent: function() {
-    // Implement logic to select a random component in your scene
-    var components = document.querySelectorAll('.interactive-component');
-    return components[Math.floor(Math.random() * components.length)];
   }
 });
       
@@ -252,33 +226,40 @@ AFRAME.registerComponent('tilt-and-float', {
     this.animateNextStep();
   },
 
-  animateNextStep: function () {
+ animateNextStep: function() {
     if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
     var step = this.dataFlow[this.currentStep];
     var fromEl = this.services[step.from];
     var toEl = this.services[step.to];
 
+    // Animate light beam
     var beam = document.querySelector('#lightBeam');
-    beam.setAttribute('light-beam', {from: fromEl, to: toEl, duration: 2000});
-    beam.components['light-beam'].animate();
+    beam.setAttribute('light-beam', {
+      from: fromEl,
+      to: toEl,
+      duration: 2000,
+      visible: true
+    });
 
+    // Update info panel
     this.updateInfoPanel(step.data);
 
+    // Schedule next step
     setTimeout(() => {
+      beam.setAttribute('light-beam', 'visible', false);
       this.currentStep++;
       this.animateNextStep();
     }, 2000);
   },
 
-  updateInfoPanel: function (data) {
+  updateInfoPanel: function(data) {
     var infoPanel = document.querySelector('#info-panel-bubble');
     var textEntity = infoPanel.querySelector('a-entity[text]');
-    var currentText = textEntity.getAttribute('text').value;
-    var newText = `Current Data:\n${JSON.stringify(data, null, 2)}\n\n${currentText}`;
+    var newText = `Current Step: ${this.currentStep + 1}\nFrom: ${this.dataFlow[this.currentStep].from}\nTo: ${this.dataFlow[this.currentStep].to}\nData: ${JSON.stringify(data, null, 2)}`;
     textEntity.setAttribute('text', 'value', newText);
   },
-
+      
   startDataFlow: function () {
     this.start();
   },

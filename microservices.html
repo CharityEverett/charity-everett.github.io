@@ -11,13 +11,8 @@
 AFRAME.registerComponent('start-button', {
   init: function() {
     this.el.addEventListener('click', () => {
-      console.log('Start button clicked'); // Add this for debugging
       var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-      if (vis) {
-        vis.start();
-      } else {
-        console.error('Microservices visualization component not found');
-      }
+      vis.start();
     });
   }
 });
@@ -209,73 +204,51 @@ AFRAME.registerComponent('tilt-and-float', {
     ];
 
     this.currentStep = 0;
-    this.isPaused = false;
-
-    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+    this.isPaused = true;
   },
 
-start: function () {
-  console.log('Start function called'); // Add this for debugging
-  this.isPaused = false;
-  this.currentStep = 0;
-  this.animateNextStep();
-},
+  start: function () {
+    this.isPaused = false;
+    this.currentStep = 0;
+    this.updateInfoPanel();
+  },
 
   pause: function () {
     this.isPaused = true;
   },
 
   resume: function () {
-    this.isPaused = false;
-    this.animateNextStep();
+    if (this.isPaused) {
+      this.isPaused = false;
+      this.updateInfoPanel();
+    }
   },
 
-animateNextStep: function () {
-  console.log('Animating step:', this.currentStep); // Add this for debugging
-  if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
+  updateInfoPanel: function () {
+    if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
-  var step = this.dataFlow[this.currentStep];
-  var fromEl = this.services[step.from];
-  var toEl = this.services[step.to];
+    var step = this.dataFlow[this.currentStep];
+    var infoPanel = document.querySelector('#info-panel-text');
+    var newText = `Step ${this.currentStep + 1}/${this.dataFlow.length}\n` +
+                  `From: ${step.from}\n` +
+                  `To: ${step.to}\n` +
+                  `Data: ${JSON.stringify(step.data, null, 2)}`;
+    infoPanel.setAttribute('text', 'value', newText);
 
-  var beam = document.querySelector('#lightBeam');
-  beam.setAttribute('visible', true);
-  
-  // Update beam position and orientation
-  beam.object3D.position.copy(fromEl.object3D.position);
-  beam.object3D.lookAt(toEl.object3D.position);
-  
-  // Set beam length
-  var distance = fromEl.object3D.position.distanceTo(toEl.object3D.position);
-  beam.setAttribute('height', distance);
-
-  // Animate the beam
-  beam.setAttribute('animation', {
-    property: 'scale',
-    from: '0 1 0',
-    to: '1 1 1',
-    dur: 2000,
-    easing: 'easeInOutQuad'
-  });
-
-  // Update info panel
-updateInfoPanel: function (step) {
-  var infoPanel = document.querySelector('#info-panel-bubble');
-  var textEntity = infoPanel.querySelector('#info-panel-text');
-  var newText = `Step ${this.currentStep + 1}/${this.dataFlow.length}\n` +
-                `From: ${step.from}\n` +
-                `To: ${step.to}\n` +
-                `Data: ${JSON.stringify(step.data, null, 2)}`;
-  textEntity.setAttribute('text', 'value', newText);
-},
-
-  // Schedule next step
-  setTimeout(() => {
-    beam.setAttribute('visible', false);
     this.currentStep++;
-    this.animateNextStep();
-  }, 2000);
-},
+
+    if (!this.isPaused) {
+      setTimeout(() => this.updateInfoPanel(), 10000);
+    }
+  },
+
+  reset: function () {
+    this.currentStep = 0;
+    this.isPaused = true;
+    var infoPanel = document.querySelector('#info-panel-text');
+    infoPanel.setAttribute('text', 'value', 'Press "Start" to see Data flow');
+  }
+});
 
 
 

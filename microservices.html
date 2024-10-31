@@ -192,6 +192,9 @@ AFRAME.registerComponent('tilt-and-float', {
     paymentService: this.el.querySelector('#paymentService')
   };
 
+    // Add this for debugging
+  console.log('Services found:', Object.keys(this.services).filter(key => this.services[key]));
+
   // Log found services
   Object.entries(this.services).forEach(([key, value]) => {
     if (!value) {

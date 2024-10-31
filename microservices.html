@@ -259,6 +259,18 @@ animateNextStep: function () {
   });
 
   // Update info panel
+  this.updateInfoPanel(step);
+
+  // Schedule next step
+  setTimeout(() => {
+    beam.setAttribute('visible', false);
+    this.currentStep++;
+    if (!this.isPaused) {
+      this.animateNextStep();
+    }
+  }, 10000); // Changed from 2000 to 10000 for a 10-second delay
+},
+
 updateInfoPanel: function (step) {
   var infoPanel = document.querySelector('#info-panel-bubble');
   var textEntity = infoPanel.querySelector('#info-panel-text');
@@ -269,27 +281,17 @@ updateInfoPanel: function (step) {
   textEntity.setAttribute('text', 'value', newText);
 },
 
-  // Schedule next step
-  setTimeout(() => {
-    beam.setAttribute('visible', false);
-    this.currentStep++;
-    this.animateNextStep();
-  }, 2000);
+startDataFlow: function () {
+  this.start();
 },
 
-
-
-  startDataFlow: function () {
-    this.start();
-  },
-
-  reset: function () {
-    this.currentStep = 0;
-    this.isPaused = false;
-    var infoPanel = document.querySelector('#info-panel-bubble');
-    var textEntity = infoPanel.querySelector('a-entity[text]');
-    textEntity.setAttribute('text', 'value', 'Press "Start" to see Data flow');
-  }
+reset: function () {
+  this.currentStep = 0;
+  this.isPaused = false;
+  var infoPanel = document.querySelector('#info-panel-bubble');
+  var textEntity = infoPanel.querySelector('a-entity[text]');
+  textEntity.setAttribute('text', 'value', 'Press "Start" to see Data flow');
+}
 });
     
     </script>

@@ -181,16 +181,23 @@ AFRAME.registerComponent('tilt-and-float', {
   }
 });
     AFRAME.registerComponent('microservices-visualization', {
-  init: function () {
-    this.services = {
-      client: this.el.querySelector('#client'),
-      apiGateway: this.el.querySelector('#apiGateway'),
-      authService: this.el.querySelector('#authService'),
-      userService: this.el.querySelector('#userService'),
-      productService: this.el.querySelector('#productService'),
-      orderService: this.el.querySelector('#orderService'),
-      paymentService: this.el.querySelector('#paymentService')
-    };
+ init: function () {
+  this.services = {
+    client: this.el.querySelector('#client'),
+    apiGateway: this.el.querySelector('#apiGateway'),
+    authService: this.el.querySelector('#authService'),
+    userService: this.el.querySelector('#userService'),
+    productService: this.el.querySelector('#productService'),
+    orderService: this.el.querySelector('#orderService'),
+    paymentService: this.el.querySelector('#paymentService')
+  };
+
+  // Log found services
+  Object.entries(this.services).forEach(([key, value]) => {
+    if (!value) {
+      console.error(`Service not found: ${key}`);
+    }
+  });
 
     this.dataFlow = [
       { from: 'client', to: 'apiGateway', data: { action: "place_order", user_id: "12345", product_id: "67890", quantity: 2 } },
@@ -238,7 +245,19 @@ animateNextStep: function () {
   var fromEl = this.services[step.from];
   var toEl = this.services[step.to];
 
+  if (!fromEl || !toEl) {
+    console.error('Service not found:', !fromEl ? step.from : step.to);
+    this.currentStep++;
+    this.animateNextStep();
+    return;
+  }
+
   var beam = document.querySelector('#lightBeam');
+  if (!beam) {
+    console.error('Light beam element not found');
+    return;
+  }
+
   beam.setAttribute('visible', true);
   
   // Update beam position and orientation
@@ -259,39 +278,15 @@ animateNextStep: function () {
   });
 
   // Update info panel
-  this.updateInfoPanel(step);
+  this.updateInfoPanel(step.data);
 
   // Schedule next step
   setTimeout(() => {
     beam.setAttribute('visible', false);
     this.currentStep++;
-    if (!this.isPaused) {
-      this.animateNextStep();
-    }
-  }, 10000); // Changed from 2000 to 10000 for a 10-second delay
+    this.animateNextStep();
+  }, 2000);
 },
-
-updateInfoPanel: function (step) {
-  var infoPanel = document.querySelector('#info-panel-bubble');
-  var textEntity = infoPanel.querySelector('#info-panel-text');
-  var newText = `Step ${this.currentStep + 1}/${this.dataFlow.length}\n` +
-                `From: ${step.from}\n` +
-                `To: ${step.to}\n` +
-                `Data: ${JSON.stringify(step.data, null, 2)}`;
-  textEntity.setAttribute('text', 'value', newText);
-},
-
-startDataFlow: function () {
-  this.start();
-},
-
-reset: function () {
-  this.currentStep = 0;
-  this.isPaused = false;
-  var infoPanel = document.querySelector('#info-panel-bubble');
-  var textEntity = infoPanel.querySelector('a-entity[text]');
-  textEntity.setAttribute('text', 'value', 'Press "Start" to see Data flow');
-}
 });
     
     </script>

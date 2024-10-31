@@ -183,23 +183,18 @@ AFRAME.registerComponent('tilt-and-float', {
     AFRAME.registerComponent('microservices-visualization', {
  init: function () {
   this.services = {
-    client: this.el.querySelector('#client'),
-    apiGateway: this.el.querySelector('#apiGateway'),
-    authService: this.el.querySelector('#authService'),
-    userService: this.el.querySelector('#userService'),
-    productService: this.el.querySelector('#productService'),
-    orderService: this.el.querySelector('#orderService'),
-    paymentService: this.el.querySelector('#paymentService')
+    client: document.querySelector('#client'),
+    apiGateway: document.querySelector('#apiGateway'),
+    authService: document.querySelector('#authService'),
+    userService: document.querySelector('#userService'),
+    productService: document.querySelector('#productService'),
+    orderService: document.querySelector('#orderService'),
+    paymentService: document.querySelector('#paymentService')
   };
 
-    // Add this for debugging
-  console.log('Services found:', Object.keys(this.services).filter(key => this.services[key]));
-
-  // Log found services
+  // Log found services for debugging
   Object.entries(this.services).forEach(([key, value]) => {
-    if (!value) {
-      console.error(`Service not found: ${key}`);
-    }
+    console.log(`Service ${key}: ${value ? 'Found' : 'Not found'}`);
   });
 
     this.dataFlow = [

@@ -5,15 +5,43 @@
   </head>
   <body>
     <a-scene>
-      <!-- Your new scene content here -->
-      
-      <a-entity
-        geometry="primitive: box"
-        material="color: red"
-        position="0 1.6 -4"
-        onclick="window.location.href='index.html'">
-      </a-entity>
-      <a-text value="Click the cube to return" position="-1 2 -4"></a-text>
-    </a-scene>
+  <a-assets>
+    <!-- Load your 3D models, textures, etc. here -->
+  </a-assets>
+
+  <!-- DevOps workspace environment -->
+  <a-sky color="#87CEEB"></a-sky>
+  <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#7BC8A4"></a-plane>
+
+  <!-- AI assistant entity -->
+  <a-entity id="ai-assistant" position="0 1.6 -2">
+    <a-sphere color="#FFC65D" radius="0.5"></a-sphere>
+    <!-- Add more details to represent the AI -->
+  </a-entity>
+
+  <!-- Accuracy increase bar chart -->
+  <a-entity id="accuracy-chart" position="-3 0 -3">
+    <a-box id="baseline" height="1" width="0.5" depth="0.5" color="#4CC3D9"></a-box>
+    <a-box id="improved" position="1 0 0" height="1.188" width="0.5" depth="0.5" color="#7BC8A4">
+      <a-animation attribute="height" from="1" to="1.188" begin="pull" dur="1000"></a-animation>
+    </a-box>
+  </a-entity>
+
+  <!-- AQuA and SVAMP spheres -->
+  <a-entity id="benchmarks" position="3 1.5 -3">
+    <a-sphere id="aqua" radius="0.7" color="#4CC3D9"></a-sphere>
+    <a-sphere id="svamp" position="2 0 0" radius="0.7" color="#FFC65D"></a-sphere>
+  </a-entity>
+
+  <!-- CI/CD Pipeline -->
+  <a-entity id="pipeline" position="0 0.5 -5">
+    <!-- Add conveyor belt and code package entities here -->
+  </a-entity>
+
+  <!-- Camera and controls -->
+  <a-entity camera look-controls position="0 1.6 0"></a-entity>
+  <a-entity laser-controls="hand: left"></a-entity>
+  <a-entity laser-controls="hand: right"></a-entity>
+</a-scene>
   </body>
 </html>

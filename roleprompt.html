@@ -40,6 +40,17 @@
 
   <!-- Camera and controls -->
   <a-entity camera look-controls position="0 1.6 0"></a-entity>
+      <!-- Camera Rig -->
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-cursor
+            raycaster="objects: .clickable"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
+        </a-entity>
   <a-entity laser-controls="hand: left"></a-entity>
   <a-entity laser-controls="hand: right"></a-entity>
 </a-scene>

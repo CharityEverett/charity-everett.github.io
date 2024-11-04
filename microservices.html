@@ -9,10 +9,15 @@
     <script>
       
 AFRAME.registerComponent('start-button', {
-  init: function () {
+  init: function() {
     this.el.addEventListener('click', () => {
+      console.log('Start button clicked'); // Add this for debugging
       var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-      vis.startDataFlow();
+      if (vis) {
+        vis.start();
+      } else {
+        console.error('Microservices visualization component not found');
+      }
     });
   }
 });
@@ -211,13 +216,15 @@ AFRAME.registerComponent('tilt-and-float', {
     this.currentStep = 0;
     this.isPaused = false;
 
+    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
   },
 
- startDataFlow: function () {
-    this.currentStep = 0;
-    this.isPaused = false;
-    this.animateNextStep();
-  },
+start: function () {
+  console.log('Start function called'); // Add this for debugging
+  this.isPaused = false;
+  this.currentStep = 0;
+  this.animateNextStep();
+},
 
   pause: function () {
     this.isPaused = true;
@@ -379,7 +386,9 @@ animateNextStep: function () {
 <!-- <a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity> -->
       
 <!-- Start Button -->
-<a-sphere id="startButton" position="-1.91 0.821 -2.014" radius="0.25" color="#01E3E2" opacity="0.7" material="side: double; shader: flat" start-button visible="true"  underwater-float="amplitude: 0.03; period: 2.5" class="clickable" animation>
+<a-sphere id="startButton" position="-1.91 0.821 -2.014" radius="0.25" color="#01E3E2" opacity="0.7" material="side: double; shader: flat" start-button visible="true" underwater-float="amplitude: 0.03; period: 2.5">
+    <a-text value="Start" align="center" width="3" height="2" color="black" position="0 0 0.1" rotation="0 0 0"></a-text>
+</a-sphere>
 
 <!-- Pause Button -->
 <a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" color="#2A7BA3" opacity="0.7" material="side: double; shader: flat" pause-button visible="true" underwater-float="amplitude: 0.04; period: 2.2">

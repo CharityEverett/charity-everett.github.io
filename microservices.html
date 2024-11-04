@@ -8,35 +8,24 @@
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
       
-AFRAME.registerComponent('start-button', {
+AFRAME.registerComponent('play-pause-toggle', {
   init: function () {
-    this.el.addEventListener('click', () => {
-      console.log('Start button clicked');
-      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-      if (vis) {
-        vis.startDataFlow();
+    var el = this.el;
+    var sceneEl = document.querySelector('a-scene');
+    var visualizationEl = sceneEl.querySelector('[microservices-visualization]');
+    var isPlaying = false;
+
+    el.addEventListener('click', function () {
+      var vis = visualizationEl.components['microservices-visualization'];
+      if (isPlaying) {
+        vis.pauseDataFlow();
+        el.querySelector('a-text').setAttribute('value', 'Click to Start');
       } else {
-        console.error('Microservices visualization component not found');
+        vis.startDataFlow();
+        el.querySelector('a-text').setAttribute('value', 'Click to Pause');
       }
+      isPlaying = !isPlaying;
     });
-  }
-});
-      
-     AFRAME.registerComponent('pause-button', {
-  init: function () {
-    this.togglePause = this.togglePause.bind(this);
-    this.el.addEventListener('click', this.togglePause);
-    this.textEl = this.el.querySelector('#pause-text');
-  },
-  togglePause: function () {
-    var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-    if (vis.isPaused) {
-      vis.resume();
-      this.textEl.setAttribute('value', 'Pause');
-    } else {
-      vis.pause();
-      this.textEl.setAttribute('value', 'Resume');
-    }
   }
 });
 
@@ -213,29 +202,25 @@ AFRAME.registerComponent('tilt-and-float', {
       { from: 'apiGateway', to: 'client', data: { order_id: "A123", status: "completed", message: "Your order has been successfully placed!" } }
     ];
 
-    this.currentStep = 0;
-    this.isPaused = false;
-
-    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+    this.isPlaying = false;
   },
 
   startDataFlow: function () {
     console.log('Starting data flow');
-    this.currentStep = 0;
-    this.isPaused = false;
-    this.animateNextStep();
+    if (!this.isPlaying) {
+      this.currentStep = 0;
+      this.isPlaying = true;
+      this.animateNextStep();
+    }
   },
 
-  pause: function () {
-    this.isPaused = true;
+  pauseDataFlow: function () {
+    console.log('Pausing data flow');
+    this.isPlaying = false;
   },
 
-  resume: function () {
-    this.isPaused = false;
-    this.animateNextStep();
-  },
-
-animateNextStep: function () {
+  animateNextStep: function () {
+    if (!this.isPlaying) return;
   console.log('Animating step:', this.currentStep); // Add this for debugging
   if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
@@ -249,6 +234,13 @@ animateNextStep: function () {
     this.animateNextStep();
     return;
   }
+   if (this.currentStep < this.totalSteps) {
+      setTimeout(() => this.animateNextStep(), this.stepDuration);
+    } else {
+      this.isPlaying = false;
+      document.querySelector('#infoBubble a-text').setAttribute('value', 'Click to Restart');
+    }
+  } 
 
   var beam = document.querySelector('#lightBeam');
   if (!beam) {
@@ -399,9 +391,9 @@ animateNextStep: function () {
 <a-cylinder id="lightBeam" position="0 0.058 -2.572" radius="0.05" color="#00FFFF" opacity="0.5" visible="false" light-beam></a-cylinder>
       
 <!-- Bubble Info Panel -->
-<a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double">
+<a-sphere id="info-panel-bubble" class="clickable" play-pause-toggle underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double">
   <a-entity 
-  id="info-panel-text" text="value: Press 'Start' to see Data flow; width: 1.5; color: #000000; align: center; baseline: center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">
+  id="info-panel-text" text="value: Click to Start; width: 1.5; color: #000000; align: center; baseline: center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">
   </a-entity>
 </a-sphere>
       

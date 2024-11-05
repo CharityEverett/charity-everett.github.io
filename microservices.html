@@ -281,6 +281,17 @@ AFRAME.registerComponent('tilt-and-float', {
   // Update info panel
   this.updateInfoPanel(step.data);
 
+  //Reset function
+      reset: function () {
+  this.currentStep = 0;
+  this.isPaused = false;
+  var infoPanel = document.querySelector('#infoPanel');
+  infoPanel.setAttribute('text', {
+    value: 'Data flow reset. Click Start to begin.',
+    width: 2
+  });
+}
+}); // Correct closing of the component registration
  
 },
 });

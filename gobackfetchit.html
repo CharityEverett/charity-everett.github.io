@@ -1,19 +1,165 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>Charity Everett WebXR Production Portfolio</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script>
+      AFRAME.registerComponent("change-scene", {
+        schema: {
+          sceneUrl: { type: "string", default: "" }
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
+          
+          el.addEventListener("click", function () {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+
+          el.addEventListener("collide", function (e) {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+        }
+      });
+    </script>
   </head>
   <body>
-    <a-scene>
-      <!-- Your new scene content here -->
-      
-      <a-entity
-        geometry="primitive: box"
-        material="color: red"
-        position="0 1.6 -4"
-        onclick="window.location.href='index.html'">
+    <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
+      <a-assets>
+        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+        <img id="clickroleprompt" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickRolePrompting.png?v=1728323181519" />
+        <img id="clickmicroservice" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/ClickMicro.png?v=1728323168445" />
+        <img id="clicknextarticle" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Placeholder.png?v=1728323142903" />
+        <img id="floor" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Skybox?v=1728248616891" />
+      </a-assets>
+
+      <!-- Environment -->
+      <a-sky color="#FFFFFF"></a-sky>
+      <a-plane src="#floor" rotation="-90 0 0" width="30" height="30"></a-plane>
+
+      <!-- Ambient Light -->
+      <a-light type="ambient" color="#BBB"></a-light>
+      <!-- Directional Light -->
+      <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
+
+      <!-- Camera Rig -->
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-cursor
+            raycaster="objects: .clickable"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
+        </a-entity>
       </a-entity>
-      <a-text value="Click the cube to return" position="-1 2 -4"></a-text>
+
+      <!-- Gallery Items -->
+      <a-entity id="gallery">
+       <!-- Click Role Prompt -->
+<a-entity
+  id="ClickRolePrompt"
+  class="project clickable"
+  geometry="primitive: box; width: 2; height: 1.5"
+  material="shader: gif; src: #gif2"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="5 1.5 0"
+  rotation="0 -90 0"
+  change-scene="sceneUrl: ./roleprompt.html"
+  static-body>
+</a-entity>
+
+<a-entity
+  class="hover-box clickable"
+  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+  material="src: #clickroleprompt"
+  position="5 4 0"
+  rotation="0 -90 0"
+  animation="property: position; to: 5 4.2 0; dir: alternate; dur: 1000; loop: true"
+   static-body>
+</a-entity>
+
+<!-- Microservices Architecture -->
+<a-entity
+  class="project clickable"
+  geometry="primitive: box; width: 2; height: 1.5"
+  material="shader: gif; src: #gif1"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="0 1.5 -5"
+  static-body>
+</a-entity>
+<a-entity
+  class="hover-box clickable"
+  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+  material="src: #clickmicroservice"
+  position="0 4 -5"
+  animation="property: position; to: 0 4.2 -5; dir: alternate; dur: 1000; loop: true"
+    static-body>
+</a-entity>
+      
+        <!-- Role Prompting -->
+        <a-entity
+          class="project clickable"
+          geometry="primitive: box; width: 2; height: 3"
+          material="shader: gif; src: #gif2"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="0 1.5 5"
+          rotation="0 180 0"
+                    static-body>
+        </a-entity>
+        <a-entity
+          class="hover-box clickable"
+          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          material="src: #clickroleprompt"
+          position="0 4 5"
+          rotation="0 180 0"
+          animation="property: position; to: 0 4.2 5; dir: alternate; dur: 1000; loop: true"
+                 static-body>
+        </a-entity>
+
+        <!-- Responsive Design -->
+        <a-entity
+          class="project clickable"
+          geometry="primitive: box; width: 2; height: 1.5"
+          material="src: #clicknextarticle"
+          event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="-5 1.5 0"
+          rotation="0 90 0"
+                    static-body>
+        </a-entity>
+        <a-entity
+          class="hover-box clickable"
+          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          material="src: #clicknextarticle"
+          position="-5 4 0"
+          rotation="0 90 0"
+          animation="property: position; to: -5 4.2 0; dir: alternate; dur: 1000; loop: true"
+                    static-body>
+        </a-entity>
+        <a-text
+          value="Responsive Design"
+          align="center"
+          position="-5 0 0"
+          rotation="0 90 0"
+          width="2">
+        </a-text>
+      </a-entity>
     </a-scene>
   </body>
 </html>

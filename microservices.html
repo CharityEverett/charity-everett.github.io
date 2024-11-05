@@ -205,6 +205,17 @@ AFRAME.registerComponent('tilt-and-float', {
     this.isPlaying = false;
   },
 
+       // Schedule next step
+  setTimeout(() => {
+    beam.setAttribute('visible', false);
+    this.currentStep++;
+    this.animateNextStep();
+  }, 2000);
+
+  this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
+      ],
+
+      
   startDataFlow: function () {
     console.log('Starting data flow');
     if (!this.isPlaying) {
@@ -270,12 +281,7 @@ AFRAME.registerComponent('tilt-and-float', {
   // Update info panel
   this.updateInfoPanel(step.data);
 
-  // Schedule next step
-  setTimeout(() => {
-    beam.setAttribute('visible', false);
-    this.currentStep++;
-    this.animateNextStep();
-  }, 2000);
+ 
 },
 });
     

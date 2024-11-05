@@ -205,17 +205,6 @@ AFRAME.registerComponent('tilt-and-float', {
     this.isPlaying = false;
   },
 
-       // Schedule next step
-  setTimeout(() => {
-    beam.setAttribute('visible', false);
-    this.currentStep++;
-    this.animateNextStep();
-  }, 2000);
-
-  this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
-      ],
-
-      
   startDataFlow: function () {
     console.log('Starting data flow');
     if (!this.isPlaying) {
@@ -281,18 +270,14 @@ AFRAME.registerComponent('tilt-and-float', {
   // Update info panel
   this.updateInfoPanel(step.data);
 
-  //Reset function
-      reset: function () {
-  this.currentStep = 0;
-  this.isPaused = false;
-  var infoPanel = document.querySelector('#infoPanel');
-  infoPanel.setAttribute('text', {
-    value: 'Data flow reset. Click Start to begin.',
-    width: 2
-    });
-  }
+  // Schedule next step
+  setTimeout(() => {
+    beam.setAttribute('visible', false);
+    this.currentStep++;
+    this.animateNextStep();
+  }, 2000);
+},
 });
-
     
     </script>
   </head>
@@ -392,6 +377,15 @@ AFRAME.registerComponent('tilt-and-float', {
 <!-- Anchor -->
 <!-- <a-entity gltf-model="#anchormodel" position="0 0 0" scale="0.5 0.5 0.5"></a-entity> -->
       
+<!-- Start Button -->
+<a-sphere id="startButton" position="-1.91 0.821 -2.014" radius="0.25" color="#01E3E2" opacity="0.7" material="side: double; shader: flat" start-button visible="true" underwater-float="amplitude: 0.03; period: 2.5">
+    <a-text value="Start" align="center" width="3" height="2" color="black" position="0 0 0.1" rotation="0 0 0"></a-text>
+</a-sphere>
+
+<!-- Pause Button -->
+<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" color="#2A7BA3" opacity="0.7" material="side: double; shader: flat" pause-button visible="true" underwater-float="amplitude: 0.04; period: 2.2" class="clickable">
+  <a-text id="pause-text" value="Pause" align="center" width="3" color="black" position="0 0 0.1" rotation="0 0 0"></a-text>
+</a-sphere>
 
 <!-- Light Beam -->
 <a-cylinder id="lightBeam" position="0 0.058 -2.572" radius="0.05" color="#00FFFF" opacity="0.5" visible="false" light-beam></a-cylinder>

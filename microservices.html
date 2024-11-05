@@ -8,35 +8,59 @@
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
       
-AFRAME.registerComponent('start-button', {
-  init: function() {
-    this.el.addEventListener('click', () => {
-      console.log('Start button clicked'); // Add this for debugging
-      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-      if (vis) {
-        vis.start();
-      } else {
-        console.error('Microservices visualization component not found');
-      }
-    });
-  }
-});
-      
-     AFRAME.registerComponent('pause-button', {
-  init: function () {
-    this.togglePause = this.togglePause.bind(this);
-    this.el.addEventListener('click', this.togglePause);
-    this.textEl = this.el.querySelector('#pause-text');
+AFRAME.registerComponent('info-bubble', {
+  schema: {
+    title: {type: 'string', default: ''},
+    description: {type: 'string', default: ''}
   },
-  togglePause: function () {
-    var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
-    if (vis.isPaused) {
-      vis.resume();
-      this.textEl.setAttribute('value', 'Pause');
-    } else {
-      vis.pause();
-      this.textEl.setAttribute('value', 'Resume');
-    }
+
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+
+    // Create bubble geometry
+    el.setAttribute('geometry', {
+      primitive: 'sphere',
+      radius: 0.3
+    });
+
+    // Create bubble material
+    el.setAttribute('material', {
+      color: '#FFF',
+      opacity: 0.5
+    });
+
+    // Create text entity for title
+    var titleEl = document.createElement('a-text');
+    titleEl.setAttribute('value', data.title);
+    titleEl.setAttribute('align', 'center');
+    titleEl.setAttribute('position', '0 0.5 0');
+    el.appendChild(titleEl);
+
+    // Create text entity for description (hidden by default)
+    var descEl = document.createElement('a-text');
+    descEl.setAttribute('value', data.description);
+    descEl.setAttribute('align', 'center');
+    descEl.setAttribute('position', '0 0 0');
+    descEl.setAttribute('visible', false);
+    el.appendChild(descEl);
+
+    // Add click event listener to start data flow
+    el.addEventListener('click', function () {
+      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
+      vis.startDataFlow();
+    });
+
+    // Add mouseenter and mouseleave events for description visibility
+    el.addEventListener('mouseenter', function () {
+      el.setAttribute('material', 'opacity', 0.8);
+      descEl.setAttribute('visible', true);
+    });
+
+    el.addEventListener('mouseleave', function () {
+      el.setAttribute('material', 'opacity', 0.5);
+      descEl.setAttribute('visible', false);
+    });
   }
 });
 
@@ -226,7 +250,6 @@ AFRAME.registerComponent('tilt-and-float', {
     this.currentStep = 0;
     this.isPaused = false;
 
-    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
   },
 
 start: function () {

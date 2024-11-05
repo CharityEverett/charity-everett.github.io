@@ -8,24 +8,35 @@
     <script src="https://unpkg.com/aframe-ocean-component/dist/aframe-ocean-component.min.js"></script>
     <script>
       
-AFRAME.registerComponent('play-pause-toggle', {
-  init: function () {
-    var el = this.el;
-    var sceneEl = document.querySelector('a-scene');
-    var visualizationEl = sceneEl.querySelector('[microservices-visualization]');
-    var isPlaying = false;
-
-    el.addEventListener('click', function () {
-      var vis = visualizationEl.components['microservices-visualization'];
-      if (isPlaying) {
-        vis.pauseDataFlow();
-        el.querySelector('a-text').setAttribute('value', 'Click to Start');
+AFRAME.registerComponent('start-button', {
+  init: function() {
+    this.el.addEventListener('click', () => {
+      console.log('Start button clicked'); // Add this for debugging
+      var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
+      if (vis) {
+        vis.start();
       } else {
-        vis.startDataFlow();
-        el.querySelector('a-text').setAttribute('value', 'Click to Pause');
+        console.error('Microservices visualization component not found');
       }
-      isPlaying = !isPlaying;
     });
+  }
+});
+      
+     AFRAME.registerComponent('pause-button', {
+  init: function () {
+    this.togglePause = this.togglePause.bind(this);
+    this.el.addEventListener('click', this.togglePause);
+    this.textEl = this.el.querySelector('#pause-text');
+  },
+  togglePause: function () {
+    var vis = document.querySelector('[microservices-visualization]').components['microservices-visualization'];
+    if (vis.isPaused) {
+      vis.resume();
+      this.textEl.setAttribute('value', 'Pause');
+    } else {
+      vis.pause();
+      this.textEl.setAttribute('value', 'Resume');
+    }
   }
 });
 
@@ -202,25 +213,29 @@ AFRAME.registerComponent('tilt-and-float', {
       { from: 'apiGateway', to: 'client', data: { order_id: "A123", status: "completed", message: "Your order has been successfully placed!" } }
     ];
 
-    this.isPlaying = false;
+    this.currentStep = 0;
+    this.isPaused = false;
+
+    this.el.sceneEl.addEventListener('start-data-flow', this.startDataFlow.bind(this));
   },
 
-  startDataFlow: function () {
-    console.log('Starting data flow');
-    if (!this.isPlaying) {
-      this.currentStep = 0;
-      this.isPlaying = true;
-      this.animateNextStep();
-    }
+start: function () {
+  console.log('Start function called'); // Add this for debugging
+  this.isPaused = false;
+  this.currentStep = 0;
+  this.animateNextStep();
+},
+
+  pause: function () {
+    this.isPaused = true;
   },
 
-  pauseDataFlow: function () {
-    console.log('Pausing data flow');
-    this.isPlaying = false;
+  resume: function () {
+    this.isPaused = false;
+    this.animateNextStep();
   },
 
-  animateNextStep: function () {
-    if (!this.isPlaying) return;
+animateNextStep: function () {
   console.log('Animating step:', this.currentStep); // Add this for debugging
   if (this.isPaused || this.currentStep >= this.dataFlow.length) return;
 
@@ -234,13 +249,6 @@ AFRAME.registerComponent('tilt-and-float', {
     this.animateNextStep();
     return;
   }
-   if (this.currentStep < this.totalSteps) {
-      setTimeout(() => this.animateNextStep(), this.stepDuration);
-    } else {
-      this.isPlaying = false;
-      document.querySelector('#infoBubble a-text').setAttribute('value', 'Click to Restart');
-    }
-  } 
 
   var beam = document.querySelector('#lightBeam');
   if (!beam) {
@@ -383,7 +391,7 @@ AFRAME.registerComponent('tilt-and-float', {
 </a-sphere>
 
 <!-- Pause Button -->
-<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" color="#2A7BA3" opacity="0.7" material="side: double; shader: flat" pause-button visible="true" underwater-float="amplitude: 0.04; period: 2.2" class="clickable">
+<a-sphere id="pauseButton" position="2.485 0.5 -2" radius="0.25" color="#2A7BA3" opacity="0.7" material="side: double; shader: flat" pause-button visible="true" underwater-float="amplitude: 0.04; period: 2.2">
   <a-text id="pause-text" value="Pause" align="center" width="3" color="black" position="0 0 0.1" rotation="0 0 0"></a-text>
 </a-sphere>
 
@@ -391,9 +399,9 @@ AFRAME.registerComponent('tilt-and-float', {
 <a-cylinder id="lightBeam" position="0 0.058 -2.572" radius="0.05" color="#00FFFF" opacity="0.5" visible="false" light-beam></a-cylinder>
       
 <!-- Bubble Info Panel -->
-<a-sphere id="info-panel-bubble" class="clickable" play-pause-toggle underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double">
+<a-sphere id="info-panel-bubble" underwater-float="amplitude: 0.04; period: 2.5" position="0 -0.042 -2.572" radius="1" color="#87CEEB" opacity="0.7" material="side: double">
   <a-entity 
-  id="info-panel-text" text="value: Click to Start; width: 1.5; color: #000000; align: center; baseline: center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">
+  id="info-panel-text" text="value: Press 'Start' to see Data flow; width: 1.5; color: #000000; align: center; baseline: center; wrapCount: 20;" material="side: double" position="0 0.403 0.634" rotation="0 0 0" scale="1 1.1 1" animation="property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true">
   </a-entity>
 </a-sphere>
       

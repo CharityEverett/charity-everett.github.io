@@ -36,6 +36,21 @@ permalink: /index.html
           });
         }
       });
+
+      AFRAME.registerComponent('open-url', {
+  schema: {
+    url: {type: 'string'}
+  },
+  
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    
+    el.addEventListener('click', function () {
+      window.open(data.url, '_blank');
+    });
+  }
+});
     </script>
   </head>
   <body>
@@ -74,7 +89,7 @@ permalink: /index.html
 
       <!-- Gallery Items -->
       <a-entity id="gallery">
-       <!-- Click Role Prompt -->
+      <!-- Click Role Prompt -->
 <a-entity
   id="ClickRolePrompt"
   class="project clickable"
@@ -84,7 +99,7 @@ permalink: /index.html
   event-set__mouseleave="scale: 1 1 1"
   position="5 1.5 0"
   rotation="0 -90 0"
-  change-scene="sceneUrl: ./roleprompt.html"
+  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
   static-body>
 </a-entity>
 
@@ -95,10 +110,9 @@ permalink: /index.html
   position="5 4 0"
   rotation="0 -90 0"
   animation="property: position; to: 5 4.2 0; dir: alternate; dur: 1000; loop: true"
-  change-scene="sceneUrl: ./roleprompt.html"
+  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
   static-body>
 </a-entity>
-
 <!-- Microservices Architecture -->
 <a-entity
   class="project clickable"

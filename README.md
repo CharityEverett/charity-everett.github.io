@@ -1,4 +1,4 @@
-# Charity Everett XR Product Management Portfolio in WebXR
+# Charity Everett WebXR Data Journalist
 
 ## Explore the environment and check out my portfolio pieces.
 

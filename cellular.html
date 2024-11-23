@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Cell Membrane -->
+      <a-sphere position="0 1 -5" radius="5" color="#88cc88" opacity="0.3"></a-sphere>
+
+      <!-- Nucleus -->
+      <a-sphere id="nucleus" position="0 1 -5" radius="1" color="#ffcc00">
+        <a-animation attribute="scale" dur="2000" from="1 1 1" to="1.2 1.2 1.2" repeat="indefinite"></a-animation>
+        <a-text value="Nucleus: Main Project" align="center" position="0 -1 0"></a-text>
+      </a-sphere>
+
+      <!-- Mitochondria -->
+      <a-sphere id="mitochondria" position="-2 0 -4" radius="0.5" color="#ff5733">
+        <a-text value="Mitochondria: Skill A" align="center" position="0 -0.7 0"></a-text>
+      </a-sphere>
+
+      <!-- Ribosome -->
+      <a-sphere id="ribosome" position="2 0 -4" radius="0.5" color="#33c4ff">
+        <a-text value="Ribosome: Skill B" align="center" position="0 -0.7 0"></a-text>
+      </a-sphere>
+
+      <!-- Golgi Apparatus -->
+      <a-box id="golgi-apparatus" position="-1 -1 -5" depth="0.5" height="1" width="2" color="#9933ff">
+        <a-text value="Golgi Apparatus: Workflow C" align="center" position="0 -0.7 0"></a-text>
+      </a-box>
+
+      <!-- Interactivity -->
+      <script>
+        document.querySelector('#nucleus').addEventListener('click', () => {
+          window.location.href = 'https://github.com/your-main-project';
+        });
+        document.querySelector('#mitochondria').addEventListener('click', () => {
+          alert('Skill A Details');
+        });
+        document.querySelector('#ribosome').addEventListener('click', () => {
+          alert('Skill B Details');
+        });
+        document.querySelector('#golgi-apparatus').addEventListener('click', () => {
+          alert('Workflow C Details');
+        });
+      </script>
+    </a-scene>
+  </body>
+</html>

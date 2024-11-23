@@ -119,27 +119,38 @@ neuralNetwork.setAttribute('neural-animation', '');
   </a-gltf-model>
 </a-entity>
 
-   <!-- Cortex (Main Projects) -->
-<a-sphere id="cortex" class="clickable" radius="0.5" color="#4682B4" position="0 5 -5"
-          event-set__mouseenter="scale: 1.1 1.1 1.1"
-          event-set__mouseleave="scale: 1 1 1"
-          region-info>
-</a-sphere>
+ <a-entity id="brain-regions">
+  <!-- Cortex  Go Back Fetch It-->
+  <a-entity position="0 1.6 -5">
+    <a-sphere id="cortex" class="clickable" radius="0.5" color="#4682B4"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              region-info>
+    </a-sphere>
+    <a-text value="Go Back Fetch It XR Storytelling" position="0 0.6 0" align="center" color="#FFF"></a-text>
+  </a-entity>
 
-<!-- Thalamus (Skills) -->
-<a-sphere id="thalamus" class="clickable" radius="0.3" color="#FF6347" position="-2 4 -5"
-          event-set__mouseenter="scale: 1.1 1.1 1.1"
-          event-set__mouseleave="scale: 1 1 1"
-          region-info>
-</a-sphere>
+  <!-- Thalamus  Microservices Architecture-->
+  <a-entity position="-2 1.6 -5">
+    <a-sphere id="thalamus" class="clickable" radius="0.3" color="#FF6347"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              region-info>
+    </a-sphere>
+    <a-text value="Introduction to Microservices Architecture" position="0 0.6 0" align="center" color="#FFF"></a-text>
+  </a-entity>
 
-<!-- Hippocampus (Learning & Growth) -->
-<a-sphere id="hippocampus" class="clickable" radius="0.3" color="#32CD32" position="2 4 -5"
-          event-set__mouseenter="scale: 1.1 1.1 1.1"
-          event-set__mouseleave="scale: 1 1 1"
-          region-info>
-</a-sphere>
-
+  <!-- Hippocampus Role Prompting in CI/CD -->
+  <a-entity position="2 1.6 -5">
+    <a-sphere id="hippocampus" class="clickable" radius="0.3" color="#32CD32"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              region-info>
+    </a-sphere>
+    <a-text value="Role Prompting AI in CI/CD Automations" position="0 0.6 0" align="center" color="#FFF"></a-text>
+  </a-entity>
+</a-entity>
+      
       <!-- Neural Network -->
 <a-entity id="neural-network"></a-entity>
       <a-entity class="pathway" position="0 0 -15" scale="0.5 0.5 0.5">
@@ -155,12 +166,6 @@ neuralNetwork.setAttribute('neural-animation', '');
     <a-cylinder height="35" radius="0.05" color="pink"></a-cylinder>
   </a-entity>
 </a-entity>
-
-<!-- Labels -->
-<!-- Labels -->
-<a-text value="Main Projects" position="0 2.2 -5" align="center" color="#FFF"></a-text>
-<a-text value="Skills" position="-2 2.2 -5" align="center" color="#FFF"></a-text>
-<a-text value="Learning & Growth" position="2 2.2 -5" align="center" color="#FFF"></a-text>
       
       <!-- Info display -->
 <a-text id="info-display" value="" position="0 0 -2" align="center" color="#FFF" width="2"></a-text>

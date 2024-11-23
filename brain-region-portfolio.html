@@ -41,15 +41,26 @@
   </a-gltf-model>
 </a-entity>
 
-      <!-- Cortex (Main Projects) -->
- 
-<a-sphere id="cortex" class="clickable" radius="2" color="#4682B4" position="0 10 -15" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
+   <!-- Cortex (Main Projects) -->
+<a-sphere id="cortex" class="clickable" radius="0.5" color="#4682B4" position="0 5 -5"
+          event-set__mouseenter="scale: 1.1 1.1 1.1"
+          event-set__mouseleave="scale: 1 1 1"
+          region-info>
+</a-sphere>
 
-      <!-- Thalamus (Skills) -->
-     
-<a-sphere id="thalamus" class="clickable" radius="1.5" color="#FF6347" position="-7 5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
-      <!-- Hippocampus (Learning & Growth) -->
-     <a-sphere id="hippocampus" class="clickable" radius="1.5" color="#32CD32" position="7 -5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
+<!-- Thalamus (Skills) -->
+<a-sphere id="thalamus" class="clickable" radius="0.3" color="#FF6347" position="-2 4 -5"
+          event-set__mouseenter="scale: 1.1 1.1 1.1"
+          event-set__mouseleave="scale: 1 1 1"
+          region-info>
+</a-sphere>
+
+<!-- Hippocampus (Learning & Growth) -->
+<a-sphere id="hippocampus" class="clickable" radius="0.3" color="#32CD32" position="2 4 -5"
+          event-set__mouseenter="scale: 1.1 1.1 1.1"
+          event-set__mouseleave="scale: 1 1 1"
+          region-info>
+</a-sphere>
 
       <!-- Neural Network -->
       <a-entity id="neural-network" neural-animation>
@@ -67,9 +78,11 @@
   </a-entity>
 </a-entity>
 
-      <!-- Labels -->
-   <a-sphere id="hippocampus" class="clickable" radius="1.5" color="#32CD32" position="7 -5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
-
+<!-- Labels -->
+<a-text value="Main Projects" position="0 6 -5" align="center" color="#FFF"></a-text>
+<a-text value="Skills" position="-2 5 -5" align="center" color="#FFF"></a-text>
+<a-text value="Learning & Growth" position="2 5 -5" align="center" color="#FFF"></a-text>
+      
       <!-- Info display -->
 <a-text id="info-display" value="" position="0 0 -2" align="center" color="#FFF" width="2"></a-text>
       

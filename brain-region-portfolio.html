@@ -25,6 +25,84 @@
         }
       });
 
+      //Neural Animation
+    AFRAME.registerComponent('neural-animation', {
+  init: function() {
+    this.animate();
+  },
+  animate: function() {
+    const pathways = this.el.querySelectorAll('.pathway');
+    const duration = 2000;
+    const delay = 500;
+
+    pathways.forEach((pathway, index) => {
+      const sphere = pathway.querySelector('a-sphere');
+      const cylinder = pathway.querySelector('a-cylinder');
+
+      setTimeout(() => {
+        sphere.setAttribute('animation', {
+          property: 'opacity',
+          from: 0.2,
+          to: 1,
+          dur: duration,
+          easing: 'easeInOutQuad'
+        });
+        cylinder.setAttribute('animation', {
+          property: 'opacity',
+          from: 0.2,
+          to: 1,
+          dur: duration,
+          easing: 'easeInOutQuad'
+        });
+
+        setTimeout(() => {
+          sphere.setAttribute('opacity', 0.2);
+          cylinder.setAttribute('opacity', 0.2);
+        }, duration);
+      }, index * delay);
+    });
+const pathwayData = [
+  {'position': [3.968412883120479, 4.687934910363383, -14.146222815524384], 'radius': 0.08873971275799374, 'color': '#2fa5bb'},
+  {'position': [1.7188294871195957, 3.552048691687869, -10.899898019542828], 'radius': 0.08085800484262204, 'color': '#4d98c2'},
+  {'position': [-2.926061105900768, 2.40848718350552, -10.437715257190657], 'radius': 0.05300754141071641, 'color': '#7dcea2'},
+  {'position': [4.048664833309267, -2.9339763217240753, -12.763769009547618], 'radius': 0.050654003579604916, 'color': '#251a81'},
+  {'position': [0.9813815674515638, 1.8834446922952246, -10.248611530207143], 'radius': 0.07876555791176768, 'color': '#ec8b82'},
+  {'position': [1.4917182166405842, -0.3900624097343268, -11.836563026612437], 'radius': 0.05704596434259754, 'color': '#60208e'},
+  {'position': [-2.623392023051916, -0.83923800878277, -13.364110239296092], 'radius': 0.05360441439388834, 'color': '#3d4f59'},
+  {'position': [-1.8793230868759245, 2.3846781850780543, -11.101454850494061], 'radius': 0.07278054113138183, 'color': '#565d69'},
+  {'position': [2.3024692901915955, 3.108358801547471, -14.839310254103138], 'radius': 0.0933801675251219, 'color': '#ed88c7'},
+  {'position': [-0.6665008042029648, -3.602419686142712, -14.567388878103932], 'radius': 0.09267609418633538, 'color': '#0924b9'}
+];
+
+const neuralNetwork = document.querySelector('#neural-network');
+
+pathwayData.forEach(pathway => {
+  const pathwayEntity = document.createElement('a-entity');
+  pathwayEntity.classList.add('pathway');
+  
+  const sphere = document.createElement('a-sphere');
+  sphere.setAttribute('radius', pathway.radius);
+  sphere.setAttribute('color', pathway.color);
+  sphere.setAttribute('opacity', 0.2);
+  
+  const cylinder = document.createElement('a-cylinder');
+  cylinder.setAttribute('height', 10);
+  cylinder.setAttribute('radius', pathway.radius / 2);
+  cylinder.setAttribute('color', pathway.color);
+  cylinder.setAttribute('opacity', 0.2);
+  
+  pathwayEntity.setAttribute('position', pathway.position.join(' '));
+  pathwayEntity.appendChild(sphere);
+  pathwayEntity.appendChild(cylinder);
+  
+  neuralNetwork.appendChild(pathwayEntity);
+});
+
+neuralNetwork.setAttribute('neural-animation', '');
+    
+    setTimeout(() => this.animate(), pathways.length * delay + duration);
+  }
+});
    
     </script>
   </head>
@@ -63,8 +141,8 @@
 </a-sphere>
 
       <!-- Neural Network -->
-      <a-entity id="neural-network" neural-animation>
-  <a-entity class="pathway" position="0 0 -15" scale="0.5 0.5 0.5">
+<a-entity id="neural-network"></a-entity>
+      <a-entity class="pathway" position="0 0 -15" scale="0.5 0.5 0.5">
     <a-sphere radius="0.1" color="skyblue"></a-sphere>
     <a-cylinder height="30" radius="0.05" color="skyblue"></a-cylinder>
   </a-entity>

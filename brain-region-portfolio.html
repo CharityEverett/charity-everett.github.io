@@ -59,34 +59,37 @@
 </a-entity>
 
       <!-- Cortex (Main Projects) -->
-      <a-sphere id="cortex" radius="0.5" color="#4682B4" position="0 2 -3"
-                event-set__mouseenter="scale: 1.1 1.1 1.1"
-                event-set__mouseleave="scale: 1 1 1"
-                region-info>
-      </a-sphere>
+ 
+<a-sphere id="cortex" class="clickable" radius="2" color="#4682B4" position="0 10 -15" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
 
       <!-- Thalamus (Skills) -->
-      <a-sphere id="thalamus" radius="0.3" color="#FF6347" position="-0.7 1.5 -2.5"
-                event-set__mouseenter="scale: 1.1 1.1 1.1"
-                event-set__mouseleave="scale: 1 1 1"
-                region-info>
-      </a-sphere>
-
+     
+<a-sphere id="thalamus" class="clickable" radius="1.5" color="#FF6347" position="-7 5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
       <!-- Hippocampus (Learning & Growth) -->
-      <a-sphere id="hippocampus" radius="0.3" color="#32CD32" position="0.7 1.5 -2.5"
-                event-set__mouseenter="scale: 1.1 1.1 1.1"
-                event-set__mouseleave="scale: 1 1 1"
-                region-info>
-      </a-sphere>
+     <a-sphere id="hippocampus" class="clickable" radius="1.5" color="#32CD32" position="7 -5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
+
+      <!-- Neural Network -->
+      <a-entity id="neural-network" neural-animation>
+  <a-entity class="pathway" position="0 0 -15" scale="0.5 0.5 0.5">
+    <a-sphere radius="0.1" color="skyblue"></a-sphere>
+    <a-cylinder height="30" radius="0.05" color="skyblue"></a-cylinder>
+  </a-entity>
+  <a-entity class="pathway" position="10 5 -10" rotation="0 -30 20" scale="0.5 0.5 0.5">
+    <a-sphere radius="0.1" color="lightgreen"></a-sphere>
+    <a-cylinder height="25" radius="0.05" color="lightgreen"></a-cylinder>
+  </a-entity>
+  <a-entity class="pathway" position="-10 -5 -10" rotation="0 30 -20" scale="0.5 0.5 0.5">
+    <a-sphere radius="0.1" color="pink"></a-sphere>
+    <a-cylinder height="35" radius="0.05" color="pink"></a-cylinder>
+  </a-entity>
+</a-entity>
 
       <!-- Labels -->
-      <a-text value="Main Projects" position="0 2.6 -3" align="center" color="#000"></a-text>
-      <a-text value="Skills" position="-0.7 2.1 -2.5" align="center" color="#000"></a-text>
-      <a-text value="Learning & Growth" position="0.7 2.1 -2.5" align="center" color="#000"></a-text>
+   <a-sphere id="hippocampus" class="clickable" radius="1.5" color="#32CD32" position="7 -5 -12" event-set__mouseenter="scale: 1.1 1.1 1.1" event-set__mouseleave="scale: 1 1 1" region-info></a-sphere>
 
       <!-- Info display -->
-      <a-text id="info-display" value="" position="0 0.5 -2" align="center" color="#000" width="2"></a-text>
-
+<a-text id="info-display" value="" position="0 0 -2" align="center" color="#FFF" width="2"></a-text>
+      
       <!-- Camera Rig -->
      <a-entity id="rig" position="0 0 0">
   <a-camera look-controls wasd-controls="acceleration: 65">

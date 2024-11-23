@@ -52,13 +52,11 @@
       </a-assets>
 
       <!-- Brain outline -->
-      <a-gltf-model src="#brain-model" position="0 1.5 -3" rotation="0 180 0" scale="4 4 4" model-opacity="0.6">
-        <a-animation attribute="rotation"
-                     dur="30000"
-                     to="0 360 0"
-                     repeat="indefinite"
-                     easing="linear"></a-animation>
-      </a-gltf-model>
+ <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
+  <a-gltf-model src="#brain-model" model-opacity="0.3">
+    <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+  </a-gltf-model>
+</a-entity>
 
       <!-- Cortex (Main Projects) -->
       <a-sphere id="cortex" radius="0.5" color="#4682B4" position="0 2 -3"
@@ -90,17 +88,11 @@
       <a-text id="info-display" value="" position="0 0.5 -2" align="center" color="#000" width="2"></a-text>
 
       <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 0">
-        <a-camera look-controls wasd-controls="acceleration: 65">
-          <a-cursor
-            raycaster="objects: .clickable"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-            event-set__mouseenter="color: springgreen"
-            event-set__mouseleave="color: black">
-          </a-cursor>
-        </a-camera>
-      </a-entity>
+     <a-entity id="rig" position="0 0 0">
+  <a-camera look-controls wasd-controls="acceleration: 65">
+    <a-cursor raycaster="objects: .clickable" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__mouseenter="color: springgreen" event-set__mouseleave="color: black"></a-cursor>
+  </a-camera>
+</a-entity>
     </a-scene>
   </body>
 </html>

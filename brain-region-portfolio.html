@@ -4,10 +4,6 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
-      <a-assets>
-  <a-asset-item id="Brain-model" src="assets/Brain_model.glb"></a-asset-item>
-</a-assets>
-      
       AFRAME.registerComponent('region-info', {
         init: function () {
           var el = this.el;
@@ -28,20 +24,22 @@
           });
         }
       });
-
     </script>
   </head>
   <body>
     <a-scene background="color: #FAFAFA">
-      <!-- Brain outline -->
-      <a-glb-model src="#brain-model" position="0 1.5 -3" scale="0.1 0.1 0.1" radius="2" color="#ADD8E6" opacity="0.3" position="0 1.5 -3"></a-gltb-model>
+      <a-assets>
+        <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+      </a-assets>
 
+      <!-- Brain outline -->
+      <a-gltf-model src="#brain-model" position="0 1.5 -3" scale="0.1 0.1 0.1">
         <a-animation attribute="rotation"
                      dur="30000"
                      to="0 360 0"
                      repeat="indefinite"
                      easing="linear"></a-animation>
-      </a-sphere>
+      </a-gltf-model>
 
       <!-- Cortex (Main Projects) -->
       <a-sphere id="cortex" radius="0.5" color="#4682B4" position="0 2 -3"
@@ -72,9 +70,9 @@
       <!-- Info display -->
       <a-text id="info-display" value="" position="0 0.5 -2" align="center" color="#000" width="2"></a-text>
 
-    <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
-        <a-entity camera look-controls wasd-controls="acceleration: 65">
+      <!-- Camera Rig -->
+      <a-entity id="rig" position="0 1.6 0">
+        <a-camera look-controls wasd-controls="acceleration: 65">
           <a-cursor
             raycaster="objects: .clickable"
             animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
@@ -82,7 +80,7 @@
             event-set__mouseenter="color: springgreen"
             event-set__mouseleave="color: black">
           </a-cursor>
-        </a-entity>
+        </a-camera>
       </a-entity>
     </a-scene>
   </body>

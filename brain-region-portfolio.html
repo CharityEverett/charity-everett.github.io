@@ -25,32 +25,6 @@
         }
       });
 
-      //Custom camera controls
-      AFRAME.registerComponent('custom-controls', {
-  init: function () {
-    this.moveUp = false;
-    this.moveDown = false;
-    
-    document.addEventListener('keydown', this.onKeyDown.bind(this));
-    document.addEventListener('keyup', this.onKeyUp.bind(this));
-  },
-  
-  onKeyDown: function (event) {
-    if (event.key === 'q' || event.key === 'Q') this.moveUp = true;
-    if (event.key === 'e' || event.key === 'E') this.moveDown = true;
-  },
-  
-  onKeyUp: function (event) {
-    if (event.key === 'q' || event.key === 'Q') this.moveUp = false;
-    if (event.key === 'e' || event.key === 'E') this.moveDown = false;
-  },
-  
-  tick: function (time, timeDelta) {
-    const verticalSpeed = 0.05;
-    if (this.moveUp) this.el.object3D.position.y += verticalSpeed;
-    if (this.moveDown) this.el.object3D.position.y -= verticalSpeed;
-  }
-});
     </script>
   </head>
   <body>
@@ -93,11 +67,17 @@
       <!-- Info display -->
       <a-text id="info-display" value="" position="0 0.5 -2" align="center" color="#000" width="2"></a-text>
 
-      <!-- Camera -->
-<a-entity id="rig" movement-controls="fly: true; speed: 0.3" position="0 1.6 0" custom-controls>
-  <a-entity camera look-controls="pointerLockEnabled: true"></a-entity>
-</a-entity>
-        <a-cursor></a-cursor>
+    <!-- Camera Rig -->
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-cursor
+            raycaster="objects: .clickable"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
+        </a-entity>
       </a-entity>
     </a-scene>
   </body>

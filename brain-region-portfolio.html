@@ -4,6 +4,10 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
+      <a-assets>
+  <a-asset-item id="Brain-model" src="assets/Brain_model.glb"></a-asset-item>
+</a-assets>
+      
       AFRAME.registerComponent('region-info', {
         init: function () {
           var el = this.el;
@@ -30,7 +34,8 @@
   <body>
     <a-scene background="color: #FAFAFA">
       <!-- Brain outline -->
-      <a-sphere id="brain-outline" radius="2" color="#ADD8E6" opacity="0.3" position="0 1.5 -3">
+      <a-glb-model src="#brain-model" position="0 1.5 -3" scale="0.1 0.1 0.1" radius="2" color="#ADD8E6" opacity="0.3" position="0 1.5 -3"></a-gltb-model>
+
         <a-animation attribute="rotation"
                      dur="30000"
                      to="0 360 0"

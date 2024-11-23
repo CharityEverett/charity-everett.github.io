@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
       AFRAME.registerComponent('region-info', {
@@ -110,6 +111,9 @@ neuralNetwork.setAttribute('neural-animation', '');
     <a-scene background="color: #f3b5b8 ">
         <a-assets>
         <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+        <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
       </a-assets>
 
       <!-- Brain outline -->
@@ -122,31 +126,46 @@ neuralNetwork.setAttribute('neural-animation', '');
  <a-entity id="brain-regions">
   <!-- Cortex  Go Back Fetch It-->
   <a-entity position="0 2.6 -5">
-    <a-sphere id="cortex" class="clickable" radius="0.5" color="#4682B4"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              region-info>
-    </a-sphere>
+    <a-plane id="cortex"
+       class="project clickable"
+          geometry="primitive: box; width: 2; height: 1.5"
+           material="shader: gif; src: #gif3"
+           event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="-5 1.5 0"
+          rotation="0 90 0"
+          open-url="url: https://gobackfetchitxr.com"
+          static-body>
+    </a-plane>
     <a-text value="Go Back Fetch It XR Storytelling" position="0 1.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
   <!-- Thalamus  Microservices Architecture-->
   <a-entity position="-2 1.6 -5">
-    <a-sphere id="thalamus" class="clickable" radius="0.3" color="#FF6347"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              region-info>
-    </a-sphere>
+    <a-plane class="project clickable"
+  geometry="primitive: box; width: 2; height: 4"
+  material="shader: gif; src: #gif2"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="5 1.5 0"
+  rotation="0 -90 0"
+  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
+  static-body>
+    </a-plane>
     <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
   <!-- Hippocampus Role Prompting in CI/CD -->
   <a-entity position="2 1.6 -5">
-    <a-sphere id="hippocampus" class="clickable" radius="0.3" color="#32CD32"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              region-info>
-    </a-sphere>
+    <a-plane id="hippocampus"  class="project clickable"
+  geometry="primitive: box; width: 2; height: 1.5"
+  material="shader: gif; src: #gif1"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="0 1.5 -5"
+  open-url="url: https://charityeverett.github.io/microservices-architecture/"
+  static-body>
+    </a-plane>
     <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 </a-entity>

@@ -5,27 +5,7 @@
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
-      AFRAME.registerComponent('region-info', {
-        init: function () {
-          var el = this.el;
-          el.addEventListener('click', function () {
-            var infoText = "";
-            switch(el.id) {
-              case 'cortex':
-                infoText = "Go Back Fetch It XR Storytelling;
-                break;
-              case 'thalamus':
-                infoText = "Introduction to Microservices Architecture";
-                break;
-              case 'hippocampus':
-                infoText = "Role Prompting in CI/CD Pipelines";
-                break;
-            }
-            document.querySelector('#info-display').setAttribute('value', infoText);
-          });
-        }
-      });
-
+     
       //Neural Animation
     AFRAME.registerComponent('neural-animation', {
   init: function() {

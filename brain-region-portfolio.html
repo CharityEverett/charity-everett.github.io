@@ -126,41 +126,41 @@ neuralNetwork.setAttribute('neural-animation', '');
  <a-entity id="brain-regions">
   <!-- Cortex  Go Back Fetch It-->
   <a-entity position="0 2.6 -5">
-    <a-plane id="cortex"
+    <a-entity id="cortex"
        class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5"
+          geometry="primitive: sphere; width: 2; height: 1.5"
            material="shader: gif; src: #gif3"
            event-set__mouseenter="scale: 1.1 1.1 1"
           event-set__mouseleave="scale: 1 1 1"
           open-url="url: https://gobackfetchitxr.com"
           static-body>
-    </a-plane>
+    </a-entity>
     <a-text value="Go Back Fetch It XR Storytelling" position="0 1.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
   <!-- Thalamus  Microservices Architecture-->
   <a-entity position="-2 1.6 -5">
-    <a-plane class="project clickable"
-  geometry="primitive: box; width: 2; height: 4"
+    <a-entity class="project clickable"
+  geometry="primitive: sphere; width: 2; height: 4"
   material="shader: gif; src: #gif2"
   event-set__mouseenter="scale: 1.1 1.1 1"
   event-set__mouseleave="scale: 1 1 1"
   open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
   static-body>
-    </a-plane>
+    </a-entity>
     <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
   <!-- Hippocampus Role Prompting in CI/CD -->
   <a-entity position="2 1.6 -5">
-    <a-plane id="hippocampus"  class="project clickable"
-  geometry="primitive: box; width: 2; height: 1.5"
+    <a-entity id="hippocampus"  class="project clickable"
+  geometry="primitive: sphere; width: 2; height: 1.5"
   material="shader: gif; src: #gif1"
   event-set__mouseenter="scale: 1.1 1.1 1"
   event-set__mouseleave="scale: 1 1 1"
   open-url="url: https://charityeverett.github.io/microservices-architecture/"
   static-body>
-    </a-plane>
+    </a-entity>
     <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 </a-entity>

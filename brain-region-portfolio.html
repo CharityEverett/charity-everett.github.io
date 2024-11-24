@@ -123,44 +123,64 @@ neuralNetwork.setAttribute('neural-animation', '');
   </a-gltf-model>
 </a-entity>
 
- <a-entity id="brain-regions">
-  <!-- Cortex  Go Back Fetch It-->
-  <a-entity position="0 2.6 -5">
-    <a-entity id="cortex"
-       class="project clickable"
-          geometry="primitive: sphere; width: 2; height: 1.5"
-           material="shader: gif; src: #gif3"
-           event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          open-url="url: https://gobackfetchitxr.com"
-          static-body>
-    </a-entity>
-    <a-text value="Go Back Fetch It XR Storytelling" position="0 1.6 0" align="center" color="#FFF"></a-text>
+<a-entity id="brain-regions">
+  <!-- Cortex: Go Back Fetch It -->
+  <a-entity position="0 1.6 -5">
+    <a-link href="https://gobackfetchitxr.com" 
+            title="Go Back Fetch It XR Storytelling" 
+            image="#gif3"
+            visualAspectEnabled="false"
+            backgroundColor="#4682B4"
+            borderColor="white"
+            highlighted="false"
+            scale="1 1 1"
+            event-set__mouseenter="scale: 1.1 1.1 1.1"
+            event-set__mouseleave="scale: 1 1 1"
+            static-body>
+      <a-entity geometry="primitive: sphere; radius: 0.5"
+                material="shader: gif; src: #gif3"
+                scale="0.9 0.9 0.9"></a-entity>
+    </a-link>
+    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
-  <!-- Thalamus  Microservices Architecture-->
+  <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-2 1.6 -5">
-    <a-entity class="project clickable"
-  geometry="primitive: sphere; width: 2; height: 4"
-  material="shader: gif; src: #gif2"
-  event-set__mouseenter="scale: 1.1 1.1 1"
-  event-set__mouseleave="scale: 1 1 1"
-  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
-  static-body>
-    </a-entity>
+    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
+            title="Introduction to Microservices Architecture" 
+            image="#gif2"
+            visualAspectEnabled="false"
+            backgroundColor="#FF6347"
+            borderColor="white"
+            highlighted="false"
+            scale="1 1 1"
+            event-set__mouseenter="scale: 1.1 1.1 1.1"
+            event-set__mouseleave="scale: 1 1 1"
+            static-body>
+      <a-entity geometry="primitive: sphere; radius: 0.5"
+                material="shader: gif; src: #gif2"
+                scale="0.9 0.9 0.9"></a-entity>
+    </a-link>
     <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
-  <!-- Hippocampus Role Prompting in CI/CD -->
+  <!-- Hippocampus: Role Prompting in CI/CD -->
   <a-entity position="2 1.6 -5">
-    <a-entity id="hippocampus"  class="project clickable"
-  geometry="primitive: sphere; width: 2; height: 1.5"
-  material="shader: gif; src: #gif1"
-  event-set__mouseenter="scale: 1.1 1.1 1"
-  event-set__mouseleave="scale: 1 1 1"
-  open-url="url: https://charityeverett.github.io/microservices-architecture/"
-  static-body>
-    </a-entity>
+    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
+            title="Role Prompting AI in CI/CD Automations" 
+            image="#gif1"
+            visualAspectEnabled="false"
+            backgroundColor="#32CD32"
+            borderColor="white"
+            highlighted="false"
+            scale="1 1 1"
+            event-set__mouseenter="scale: 1.1 1.1 1.1"
+            event-set__mouseleave="scale: 1 1 1"
+            static-body>
+      <a-entity geometry="primitive: sphere; radius: 0.5"
+                material="shader: gif; src: #gif1"
+                scale="0.9 0.9 0.9"></a-entity>
+    </a-link>
     <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 </a-entity>

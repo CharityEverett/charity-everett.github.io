@@ -105,22 +105,27 @@ neuralNetwork.setAttribute('neural-animation', '');
 
 <a-entity id="brain-regions">
   <!-- Cortex: Go Back Fetch It -->
-  <a-entity position="0 1.6 -5">
-    <a-link href="https://gobackfetchitxr.com" 
-            title="Go Back Fetch It XR Storytelling" 
-            image="#gif3"
-            visualAspectEnabled="true"
-            backgroundColor="#4682B4"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="1 2 1"
-            event-set__mouseenter="scale: 1.1 2 1.1"
-            event-set__mouseleave="scale: 1 2 1"
-            static-body
-            class="clickable">
-    </a-link>
-    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
-  </a-entity>
+<a-entity position="0 1.6 -5">
+  <a-link href="https://gobackfetchitxr.com" 
+          title="Go Back Fetch It XR Storytelling" 
+          image="#gif3"
+          visualAspectEnabled="true"
+          backgroundColor="#8884d8"
+          borderColor="#ffffff"
+          highlighted="false"
+          scale="0.5 0.3 0.5"
+          event-set__mouseenter="scale: 0.55 0.33 0.55"
+          event-set__mouseleave="scale: 0.5 0.3 0.5"
+          class="clickable">
+    <a-animation attribute="scale" 
+                 dur="1000" 
+                 direction="alternate"
+                 repeat="indefinite" 
+                 to="0.55 0.33 0.55">
+    </a-animation>
+    <a-entity particle-system="preset: dust; color: #ff0000; particleCount: 100"></a-entity>
+  </a-link>
+</a-entity>
 
   <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-4 1.6 -5">

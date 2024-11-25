@@ -4,6 +4,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
     <script>
      
       //Neural Animation
@@ -175,21 +176,16 @@ AFRAME.registerComponent('synaptic-portal', {
           title="Go Back Fetch It XR Storytelling" 
           image="#gif3"
           visualAspectEnabled="true"
-          backgroundColor="#8884d8"
-          borderColor="#ffffff"
+          backgroundColor="#4682B4"
+          borderColor="#f3b5b8"
           highlighted="false"
-          scale="0.5 0.3 0.5"
-          event-set__mouseenter="scale: 0.55 0.33 0.55"
-          event-set__mouseleave="scale: 0.5 0.3 0.5"
-          class="clickable">
-    <a-animation attribute="scale" 
-                 dur="1000" 
-                 direction="alternate"
-                 repeat="indefinite" 
-                 to="0.55 0.33 0.55">
-    </a-animation>
-    <a-entity particle-system="preset: dust; color: #ff0000; particleCount: 100"></a-entity>
+          scale="1 2 1"
+          event-set__mouseenter="scale: 1.1 2 1.1"
+          event-set__mouseleave="scale: 1 2 1"
+          static-body>
+    <a-entity particle-system="preset: dust; particleCount: 5000; color: #FFFFFF, #BBBBFF; size: 0.05,0.1; velocityValue: 0.1 0.05 0.1; opacity: 0.2"></a-entity>
   </a-link>
+  <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
 </a-entity>
 
   <!-- Thalamus: Microservices Architecture -->

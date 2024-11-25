@@ -157,6 +157,7 @@ AFRAME.registerComponent('synaptic-portal', {
     <a-scene background="color: #f3b5b8 ">
         <a-assets>
         <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+        <a-asset-item id="neuron-model" src="assets/neuron-model.glb"></a-asset-item>
         <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
         <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
         <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
@@ -244,20 +245,9 @@ AFRAME.registerComponent('synaptic-portal', {
 </a-entity>
 
       <!-- Neurons -->
-      <a-entity id="neuron">
-  <!-- Soma (cell body) -->
-  <a-sphere position="0 0 0" radius="0.5" color="#4682B4"></a-sphere>
-  
-  <!-- Axon -->
-  <a-cylinder position="0 -2 0" height="4" radius="0.1" color="#4682B4"></a-cylinder>
-  
-  <!-- Dendrites (simplified) -->
-  <a-entity position="0 0.5 0">
-    <a-cylinder height="1" radius="0.05" rotation="0 0 45" color="#4682B4"></a-cylinder>
-    <a-cylinder height="1" radius="0.05" rotation="0 0 -45" color="#4682B4"></a-cylinder>
-    <a-cylinder height="1" radius="0.05" rotation="45 0 0" color="#4682B4"></a-cylinder>
-    <a-cylinder height="1" radius="0.05" rotation="-45 0 0" color="#4682B4"></a-cylinder>
-  </a-entity>
+         <a-entity id="neuron-model" position="0 0 0" rotation="0 0 0">
+  <a-gltf-model src="#neuron-model">
+  </a-gltf-model>
 </a-entity>
 
       

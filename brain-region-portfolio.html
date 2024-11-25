@@ -84,7 +84,72 @@ neuralNetwork.setAttribute('neural-animation', '');
     setTimeout(() => this.animate(), pathways.length * delay + duration);
   }
 });
-   
+
+      AFRAME.registerComponent('neuron-structure', {
+  schema: {
+    type: { type: 'string', default: 'presynaptic' }
+  },
+  init: function() {
+    const el = this.el;
+    const type = this.data.type;
+    el.setAttribute('geometry', 'primitive: sphere; radius: 0.2');
+    el.setAttribute('material', `color: ${type === 'presynaptic' ? '#4682B4' : '#5A9BD5'}`);
+  }
+});
+
+AFRAME.registerComponent('synaptic-portal', {
+  schema: {
+    title: { type: 'string' },
+    url: { type: 'string' },
+    image: { type: 'string' }
+  },
+  init: function() {
+    const el = this.el;
+    const data = this.data;
+    el.setAttribute('link', `href: ${data.url}; title: ${data.title}; image: ${data.image}`);
+    el.setAttribute('geometry', 'primitive: plane; width: 0.5; height: 0.3');
+    el.setAttribute('material', 'shader: flat; transparent: true');
+  }
+});
+
+       AFRAME.registerComponent('create-synaptic-clefts', {
+    init: function() {
+      const template = document.querySelector('#synaptic-cleft-template');
+      const positions = [
+        {x: 0, y: 1.6, z: -5},
+        {x: -4, y: 1.6, z: -5},
+        {x: 4, y: 1.6, z: -5}
+      ];
+      
+      positions.forEach((pos, index) => {
+        const cleft = document.importNode(template.content, true);
+        const cleftEntity = cleft.querySelector('.synaptic-cleft');
+        cleftEntity.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
+        
+        const portalEntity = cleftEntity.querySelector('[synaptic-portal]');
+        portalEntity.setAttribute('synaptic-portal', {
+          title: ['Go Back Fetch It XR Storytelling', 'Introduction to Microservices Architecture', 'Role Prompting AI in CI/CD Automations'][index],
+          url: ['https://gobackfetchitxr.com', 'https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d', 'https://charityeverett.github.io/microservices-architecture/'][index],
+          image: ['#gif3', '#gif2', '#gif1'][index]
+        });
+        
+        this.el.appendChild(cleft);
+      });
+    }
+  });
+
+      AFRAME.registerComponent('visibility-control', {
+  init: function() {
+    this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.el.addEventListener('mouseenter', this.toggleVisibility);
+    this.el.addEventListener('mouseleave', this.toggleVisibility);
+  },
+  toggleVisibility: function(evt) {
+    const isVisible = evt.type === 'mouseenter';
+    this.el.setAttribute('visible', isVisible);
+    this.el.setAttribute('scale', isVisible ? '1.1 1.1 1.1' : '1 1 1');
+  }
+});
     </script>
   </head>
   <body>
@@ -180,6 +245,25 @@ neuralNetwork.setAttribute('neural-animation', '');
     <a-cylinder height="35" radius="0.05" color="pink"></a-cylinder>
   </a-entity>
 </a-entity>
+
+      <!-- Neurons -->
+      <a-entity id="neuron">
+  <!-- Soma (cell body) -->
+  <a-sphere position="0 0 0" radius="0.5" color="#4682B4"></a-sphere>
+  
+  <!-- Axon -->
+  <a-cylinder position="0 -2 0" height="4" radius="0.1" color="#4682B4"></a-cylinder>
+  
+  <!-- Dendrites (simplified) -->
+  <a-entity position="0 0.5 0">
+    <a-cylinder height="1" radius="0.05" rotation="0 0 45" color="#4682B4"></a-cylinder>
+    <a-cylinder height="1" radius="0.05" rotation="0 0 -45" color="#4682B4"></a-cylinder>
+    <a-cylinder height="1" radius="0.05" rotation="45 0 0" color="#4682B4"></a-cylinder>
+    <a-cylinder height="1" radius="0.05" rotation="-45 0 0" color="#4682B4"></a-cylinder>
+  </a-entity>
+</a-entity>
+
+      
       
       <!-- Info display -->
 <a-text id="info-display" value="" position="0 0 -2" align="center" color="#FFF" width="2"></a-text>

@@ -184,12 +184,13 @@ AFRAME.registerComponent('synaptic-portal', {
           event-set__mouseenter="scale: 1.1 2 1.1"
           event-set__mouseleave="scale: 1 2 1"
           static-body
-            material="shader: standard; opacity: 0.8; metalness: 0.2; roughness: 0.7">
+          class="clickable"
+          material="shader: standard; opacity: 0.8; metalness: 0.2; roughness: 0.7">
     <a-entity particle-system="preset: dust; particleCount: 5000; color: #FFFFFF, #BBBBFF; size: 0.05,0.1; velocityValue: 0.1 0.05 0.1; opacity: 0.2"></a-entity>
   </a-link>
   <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
 </a-entity>
-
+  
   <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-4 1.6 -5">
     <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 

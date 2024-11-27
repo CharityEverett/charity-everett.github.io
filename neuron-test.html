@@ -51,58 +51,59 @@
         },
         
         createDendrites: function() {
-          // Create upward-biased dendrites
-          for (let i = 0; i < 8; i++) {
-            const angle = (Math.PI * 2 * i) / 8;
-            const yBias = 0.4;
-            
-            const dendrite = document.createElement('a-entity');
-            const end = {
-              x: Math.cos(angle) * 0.8,
-              y: Math.sin(angle) * 0.8 + yBias,
-              z: 0
-            };
-            
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0, z: 0},
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.02
-            });
-            
-            this.createOrganizedBranch(end, 3, angle);
-            this.el.appendChild(dendrite);
-          }
-        },
+  // Create upward-biased dendrites from top portion
+  for (let i = 0; i < 6; i++) {
+    // Restrict angles to upper portion (between -60 and 60 degrees)
+    const angle = (Math.PI/3) * (i - 2.5);
+    const yBias = 0.6; // Stronger upward bias
+    
+    const dendrite = document.createElement('a-entity');
+    const end = {
+      x: Math.cos(angle) * 0.8,
+      y: Math.sin(angle) * 0.8 + yBias,
+      z: 0
+    };
+    
+    dendrite.setAttribute('line', {
+      start: {x: 0, y: 0.2, z: 0}, // Start from upper portion of soma
+      end: end,
+      color: '#ffdd88',
+      opacity: 0.9,
+      width: 0.02
+    });
+    
+    this.createOrganizedBranch(end, 3, angle);
+    this.el.appendChild(dendrite);
+  }
+},
 
-        createOrganizedBranch: function(start, depth, baseAngle) {
-          if (depth <= 0) return;
-          
-          const branchAngles = [-0.4, 0.4];
-          branchAngles.forEach(angleOffset => {
-            const newAngle = baseAngle + angleOffset;
-            const length = 0.4 / (depth + 0.5);
-            
-            const end = {
-              x: start.x + Math.cos(newAngle) * length,
-              y: start.y + Math.sin(newAngle) * length + 0.1,
-              z: start.z
-            };
-            
-            const branch = document.createElement('a-entity');
-            branch.setAttribute('line', {
-              start: start,
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.01 / depth
-            });
-            
-            this.el.appendChild(branch);
-            this.createOrganizedBranch(end, depth - 1, newAngle);
-          });
-        },
+createOrganizedBranch: function(start, depth, baseAngle) {
+  if (depth <= 0) return;
+  
+  const branchAngles = [-0.6, 0.6]; // Wider angle for more spread
+  branchAngles.forEach(angleOffset => {
+    const newAngle = baseAngle + angleOffset;
+    const length = 0.4 / (depth + 0.5);
+    
+    const end = {
+      x: start.x + Math.cos(newAngle) * length,
+      y: start.y + Math.sin(newAngle) * length + 0.2,
+      z: start.z
+    };
+    
+    const branch = document.createElement('a-entity');
+    branch.setAttribute('line', {
+      start: start,
+      end: end,
+      color: '#ffdd88',
+      opacity: 0.9,
+      width: 0.01 / depth
+    });
+    
+    this.el.appendChild(branch);
+    this.createOrganizedBranch(end, depth - 1, newAngle);
+  });
+}
 
         createAxon: function() {
           // Thin central axon line

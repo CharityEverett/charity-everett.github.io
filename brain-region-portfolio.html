@@ -156,8 +156,8 @@ AFRAME.registerComponent('synaptic-portal', {
   <body>
     <a-scene background="color: #f3b5b8 ">
         <a-assets>
-        <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
-        <a-asset-item id="neuron-model" src="assets/neuron-model.glb"></a-asset-item>
+        <a-asset-item id="brain-model" src="assets/Brain_model.gltf"></a-asset-item>
+        <a-asset-item id="neuron-model" src="assets/neuron-model.gltf"></a-asset-item>
         <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
         <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
         <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
@@ -165,15 +165,15 @@ AFRAME.registerComponent('synaptic-portal', {
 
       <!-- Brain outline -->
  <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
-  <a-glb-model src="#brain-model">
+  <a-gltf-model src="#brain-model">
     <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
-  </a-glb-model>
+  </a-gltf-model>
 </a-entity>
 
 <a-entity id="brain-regions">
   <!-- Cortex: Go Back Fetch It -->
   <a-entity position="0 1.6 -5">
-    <a-glb-model src="#neuron-model" scale="0.5 0.5 0.5"></a-glb-model>
+    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://gobackfetchitxr.com" 
             title="Go Back Fetch It XR Storytelling" 
             image="#gif3"
@@ -192,7 +192,7 @@ AFRAME.registerComponent('synaptic-portal', {
 
   <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-4 1.6 -5">
-    <a-glb-model src="#neuron-model" scale="0.5 0.5 0.5"></a-glb-model>
+    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
             title="Introduction to Microservices Architecture" 
             image="#gif2"
@@ -211,7 +211,7 @@ AFRAME.registerComponent('synaptic-portal', {
 
   <!-- Hippocampus: Role Prompting in CI/CD -->
   <a-entity position="4 1.6 -5">
-    <a-glb-model src="#neuron-model" scale="0.5 0.5 0.5"></a-glb-model>
+    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://charityeverett.github.io/microservices-architecture/" 
             title="Role Prompting AI in CI/CD Automations" 
             image="#gif1"

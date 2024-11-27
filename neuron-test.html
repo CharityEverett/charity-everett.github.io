@@ -3,91 +3,103 @@
   <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script>
-      AFRAME.registerComponent('multipolar-neuron', {
-        init: function() {
-          this.createSoma();
-          this.createDendrites();
-          this.createAxon();
-        },
+  AFRAME.registerComponent('multipolar-neuron', {
+    init: function() {
+      this.createSoma();
+      this.createDendrites();
+      this.createAxon();
+    },
+    
+    createSoma: function() {
+      const soma = document.createElement('a-sphere');
+      soma.setAttribute('radius', '0.4');
+      soma.setAttribute('color', '#88ccff');
+      soma.setAttribute('material', 'roughness: 0.8; metalness: 0.2');
+      soma.setAttribute('animation', 'property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true');
+      this.el.appendChild(soma);
+    },
+    
+    createDendrites: function() {
+      // Create branching dendrites
+      const dendriteBranches = [
+        { start: {x: 0.2, y: 0.3, z: 0}, angles: [30, 45, 60] },
+        { start: {x: -0.2, y: 0.3, z: 0}, angles: [-30, -45, -60] },
+        { start: {x: 0, y: 0.4, z: 0}, angles: [0, 15, -15] }
+      ];
+      
+      dendriteBranches.forEach(branch => {
+        this.createBranchingDendrite(branch.start, branch.angles);
+      });
+    },
+    
+    createBranchingDendrite: function(start, angles) {
+      angles.forEach(angle => {
+        const length = 0.5 + Math.random() * 0.3;
+        const endX = start.x + length * Math.sin(angle * Math.PI / 180);
+        const endY = start.y + length * Math.cos(angle * Math.PI / 180);
         
-        createSoma: function() {
-          const soma = document.createElement('a-sphere');
-          soma.setAttribute('radius', '0.4');
-          soma.setAttribute('color', '#88ccff');
-          soma.setAttribute('material', 'roughness: 0.8; metalness: 0.2');
-          soma.setAttribute('animation', 'property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true');
-          this.el.appendChild(soma);
-        },
+        const dendrite = document.createElement('a-entity');
+        dendrite.setAttribute('line', {
+          start: start,
+          end: {x: endX, y: endY, z: 0},
+          color: '#66aadd',
+          width: 0.02
+        });
+        this.el.appendChild(dendrite);
         
-        createDendrites: function() {
-          for (let i = 0; i < 30; i++) {
-            const dendrite = document.createElement('a-entity');
-            const end = {
-              x: (Math.random() - 0.5) * 2,
-              y: (Math.random() - 0.5) * 2,
-              z: (Math.random() - 0.5) * 2
-            };
-            // Avoid creating dendrites in the bottom quadrant
-            if (end.y < -0.3) continue;
-            
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0, z: 0},
-              end: end,
-              color: '#66aadd',
-              opacity: 0.75,
-              width: 0.01
-            });
-            
-            const synapse = document.createElement('a-sphere');
-            synapse.setAttribute('radius', '0.02');
-            synapse.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-            synapse.setAttribute('color', '#4488cc');
-            
-            this.el.appendChild(dendrite);
-            this.el.appendChild(synapse);
-          }
-        },
-        
-        createAxon: function() {
-          // Main axon trunk
-          const axon = document.createElement('a-cylinder');
-          axon.setAttribute('height', '2');
-          axon.setAttribute('radius', '0.05');
-          axon.setAttribute('position', '0 -1 0');
-          axon.setAttribute('rotation', '90 0 0');
-          axon.setAttribute('color', '#5599cc');
-          
-          // Axon terminals
-          for (let i = 0; i < 8; i++) {
-            const terminal = document.createElement('a-entity');
-            const pos = {
-              x: (Math.random() - 0.5) * 0.8,
-              y: -2 - Math.random() * 0.3,
-              z: (Math.random() - 0.5) * 0.8
-            };
-            
-            // Terminal branch
-            const branch = document.createElement('a-cylinder');
-            branch.setAttribute('height', '0.3');
-            branch.setAttribute('radius', '0.03');
-            branch.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
-            branch.setAttribute('color', '#5599cc');
-            
-            // Terminal button
-            const button = document.createElement('a-sphere');
-            button.setAttribute('radius', '0.06');
-            button.setAttribute('position', `${pos.x} ${pos.y - 0.2} ${pos.z}`);
-            button.setAttribute('color', '#3377aa');
-            button.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1500; loop: true');
-            
-            this.el.appendChild(branch);
-            this.el.appendChild(button);
-          }
-          
-          this.el.appendChild(axon);
+        // Create sub-branches
+        if (Math.random() > 0.5) {
+          this.createBranchingDendrite(
+            {x: endX, y: endY, z: 0},
+            [angle - 30 + Math.random() * 60]
+          );
         }
       });
-    </script>
+    },
+    
+    createAxon: function() {
+      // Main axon shaft
+      const axonSegments = 6;
+      const segmentHeight = 0.3;
+      let currentY = -0.5;
+      
+      for (let i = 0; i < axonSegments; i++) {
+        const segment = document.createElement('a-cylinder');
+        segment.setAttribute('height', segmentHeight);
+        segment.setAttribute('radius', '0.05');
+        segment.setAttribute('position', `0 ${currentY} 0`);
+        segment.setAttribute('color', '#5599cc');
+        this.el.appendChild(segment);
+        currentY -= segmentHeight;
+      }
+      
+      // Axon terminals - branching pattern
+      const terminalBranches = [
+        {x: -0.3, y: currentY - 0.3, z: 0},
+        {x: 0.3, y: currentY - 0.3, z: 0},
+        {x: 0, y: currentY - 0.4, z: 0}
+      ];
+      
+      terminalBranches.forEach(pos => {
+        const branch = document.createElement('a-entity');
+        branch.setAttribute('line', {
+          start: {x: 0, y: currentY, z: 0},
+          end: pos,
+          color: '#5599cc',
+          width: 0.02
+        });
+        
+        const terminal = document.createElement('a-sphere');
+        terminal.setAttribute('radius', '0.06');
+        terminal.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
+        terminal.setAttribute('color', '#3377aa');
+        
+        this.el.appendChild(branch);
+        this.el.appendChild(terminal);
+      });
+    }
+  });
+</script>
   </head>
   <body>
     <a-scene>

@@ -10,31 +10,45 @@
           this.createAxon();
         },
         
-        createHexagonalSoma: function() {
-          // Create hexagonal prism for soma
-          const soma = document.createElement('a-cylinder');
-          soma.setAttribute('segments-radial', '6');
-          soma.setAttribute('height', '0.3');
-          soma.setAttribute('radius', '0.4');
-          soma.setAttribute('color', '#ffdd88');
-          soma.setAttribute('material', {
-            roughness: 0.8,
-            metalness: 0.2,
-            opacity: 0.9
-          });
-          soma.setAttribute('rotation', '90 30 0');
-          
-          // Inner nucleus (hexagonal)
-          const nucleus = document.createElement('a-cylinder');
-          nucleus.setAttribute('segments-radial', '6');
-          nucleus.setAttribute('height', '0.2');
-          nucleus.setAttribute('radius', '0.2');
-          nucleus.setAttribute('color', '#ffcccc');
-          nucleus.setAttribute('rotation', '90 30 0');
-          
-          this.el.appendChild(soma);
-          this.el.appendChild(nucleus);
-        },
+       createHexagonalSoma: function() {
+  // Create hexagonal prism for soma
+  const soma = document.createElement('a-cylinder');
+  soma.setAttribute('segments-radial', '6');
+  soma.setAttribute('height', '0.3');
+  soma.setAttribute('radius', '0.4');
+  soma.setAttribute('color', '#ffdd88');
+  soma.setAttribute('material', {
+    roughness: 0.8,
+    metalness: 0.2,
+    opacity: 0.9
+  });
+  soma.setAttribute('rotation', '90 30 0');
+  soma.setAttribute('animation', {
+    property: 'scale',
+    dir: 'alternate',
+    dur: 2000,
+    loop: true,
+    to: '1.05 1.05 1.05'
+  });
+  
+  // Inner nucleus (hexagonal)
+  const nucleus = document.createElement('a-cylinder');
+  nucleus.setAttribute('segments-radial', '6');
+  nucleus.setAttribute('height', '0.2');
+  nucleus.setAttribute('radius', '0.2');
+  nucleus.setAttribute('color', '#ffcccc');
+  nucleus.setAttribute('rotation', '90 30 0');
+  nucleus.setAttribute('animation', {
+    property: 'scale',
+    dir: 'alternate',
+    dur: 2000,
+    loop: true,
+    to: '1.05 1.05 1.05'
+  });
+  
+  this.el.appendChild(soma);
+  this.el.appendChild(nucleus);
+},
         
         createDendrites: function() {
           for (let i = 0; i < 12; i++) {

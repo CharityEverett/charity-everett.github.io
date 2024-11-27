@@ -49,32 +49,7 @@
   this.el.appendChild(soma);
   this.el.appendChild(nucleus);
 },
-        
-        createDendrites: function() {
-          for (let i = 0; i < 12; i++) {
-            const angle = (Math.PI * 2 * i) / 12;
-            const length = 0.8 + Math.random() * 0.4;
-            
-            const dendrite = document.createElement('a-entity');
-            const end = {
-              x: Math.cos(angle) * length,
-              y: Math.sin(angle) * length,
-              z: (Math.random() - 0.5) * 0.3
-            };
-            
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0, z: 0},
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.02
-            });
-            
-            this.createDendriteBranch(end, 2);
-            this.el.appendChild(dendrite);
-          }
-        },
-        
+              
        createDendrites: function() {
   // Create fewer, more distinct dendrites
   for (let i = 0; i < 6; i++) {

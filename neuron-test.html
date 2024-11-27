@@ -5,13 +5,16 @@
     <script>
       AFRAME.registerComponent('multipolar-neuron', {
         init: function() {
-          this.createSoma();
+          this.createHexagonalSoma();
           this.createDendrites();
           this.createAxon();
         },
         
-        createSoma: function() {
-          const soma = document.createElement('a-sphere');
+        createHexagonalSoma: function() {
+          // Create hexagonal prism for soma
+          const soma = document.createElement('a-cylinder');
+          soma.setAttribute('segments-radial', '6');
+          soma.setAttribute('height', '0.3');
           soma.setAttribute('radius', '0.4');
           soma.setAttribute('color', '#ffdd88');
           soma.setAttribute('material', {
@@ -19,28 +22,30 @@
             metalness: 0.2,
             opacity: 0.9
           });
+          soma.setAttribute('rotation', '90 30 0');
           
-          // Inner nucleus (slightly pink)
-          const nucleus = document.createElement('a-sphere');
+          // Inner nucleus (hexagonal)
+          const nucleus = document.createElement('a-cylinder');
+          nucleus.setAttribute('segments-radial', '6');
+          nucleus.setAttribute('height', '0.2');
           nucleus.setAttribute('radius', '0.2');
-          nucleus.setAttribute('position', '0 0 0');
           nucleus.setAttribute('color', '#ffcccc');
+          nucleus.setAttribute('rotation', '90 30 0');
           
           this.el.appendChild(soma);
           this.el.appendChild(nucleus);
         },
         
         createDendrites: function() {
-          // Create multiple dendrite branches
-          for (let i = 0; i < 20; i++) {
-            const angle = (Math.PI * 2 * i) / 20;
-            const length = 0.5 + Math.random() * 0.5;
+          for (let i = 0; i < 12; i++) {
+            const angle = (Math.PI * 2 * i) / 12;
+            const length = 0.8 + Math.random() * 0.4;
             
             const dendrite = document.createElement('a-entity');
             const end = {
               x: Math.cos(angle) * length,
               y: Math.sin(angle) * length,
-              z: (Math.random() - 0.5) * 0.5
+              z: (Math.random() - 0.5) * 0.3
             };
             
             dendrite.setAttribute('line', {
@@ -51,16 +56,8 @@
               width: 0.02
             });
             
-            // Add branching
             this.createDendriteBranch(end, 2);
-            
-            const terminal = document.createElement('a-sphere');
-            terminal.setAttribute('radius', '0.02');
-            terminal.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-            terminal.setAttribute('color', '#ffdd88');
-            
             this.el.appendChild(dendrite);
-            this.el.appendChild(terminal);
           }
         },
         
@@ -86,32 +83,28 @@
               width: 0.01
             });
             
-            const terminal = document.createElement('a-sphere');
-            terminal.setAttribute('radius', '0.02');
-            terminal.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-            terminal.setAttribute('color', '#ffdd88');
-            
             this.el.appendChild(branch);
-            this.el.appendChild(terminal);
-            
             this.createDendriteBranch(end, depth - 1);
           }
         },
         
         createAxon: function() {
-          // Main axon
-          const axonSegments = 6;
-          const segmentHeight = 0.3;
+          // Main axon segments
+          const segments = 6;
           let currentY = -0.6;
           
-          for (let i = 0; i < axonSegments; i++) {
+          for (let i = 0; i < segments; i++) {
             const segment = document.createElement('a-cylinder');
-            segment.setAttribute('height', segmentHeight);
+            segment.setAttribute('height', '0.3');
             segment.setAttribute('radius', '0.05');
             segment.setAttribute('position', `0 ${currentY} 0`);
             segment.setAttribute('color', '#ffdd88');
+            segment.setAttribute('material', {
+              roughness: 0.8,
+              metalness: 0.2
+            });
             this.el.appendChild(segment);
-            currentY -= segmentHeight;
+            currentY -= 0.3;
           }
           
           // Axon terminals

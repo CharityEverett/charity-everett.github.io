@@ -171,7 +171,7 @@ AFRAME.registerComponent('synaptic-portal', {
 </a-entity>
 
 <a-entity id="brain-regions">
-  <!-- Neuron 1: Go Back Fetch It -->
+  <!-- Cortex: Go Back Fetch It -->
   <a-entity position="0 1.6 -5">
     <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://gobackfetchitxr.com" 
@@ -187,9 +187,10 @@ AFRAME.registerComponent('synaptic-portal', {
             event-set__mouseleave="scale: 0.2 0.2 0.2"
             class="clickable">
     </a-link>
+    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
-  <!-- Neuron 2: Microservices Architecture -->
+  <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-4 1.6 -5">
     <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
@@ -205,9 +206,10 @@ AFRAME.registerComponent('synaptic-portal', {
             event-set__mouseleave="scale: 0.2 0.2 0.2"
             class="clickable">
     </a-link>
+    <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
-  <!-- Neuron 3: Role Prompting in CI/CD -->
+  <!-- Hippocampus: Role Prompting in CI/CD -->
   <a-entity position="4 1.6 -5">
     <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
     <a-link href="https://charityeverett.github.io/microservices-architecture/" 
@@ -223,6 +225,7 @@ AFRAME.registerComponent('synaptic-portal', {
             event-set__mouseleave="scale: 0.2 0.2 0.2"
             class="clickable">
     </a-link>
+    <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
   </a-entity>
 </a-entity>
 

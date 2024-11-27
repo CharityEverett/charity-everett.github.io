@@ -1,268 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
-    <script>
-     
-      //Neural Animation
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+  <script>
+    // Neural Animation Component
     AFRAME.registerComponent('neural-animation', {
-  init: function() {
-    this.animate();
-  },
-  animate: function() {
-    const pathways = this.el.querySelectorAll('.pathway');
-    const duration = 2000;
-    const delay = 500;
-
-    pathways.forEach((pathway, index) => {
-      const sphere = pathway.querySelector('a-sphere');
-      const cylinder = pathway.querySelector('a-cylinder');
-
-      setTimeout(() => {
-        sphere.setAttribute('animation', {
-          property: 'opacity',
-          from: 0.2,
-          to: 1,
-          dur: duration,
-          easing: 'easeInOutQuad'
+      init: function() {
+        this.animate();
+      },
+      animate: function() {
+        const pathways = this.el.querySelectorAll('.pathway');
+        const duration = 2000;
+        const delay = 500;
+        pathways.forEach((pathway, index) => {
+          const sphere = pathway.querySelector('a-sphere');
+          const cylinder = pathway.querySelector('a-cylinder');
+          setTimeout(() => {
+            sphere.setAttribute('animation', {
+              property: 'opacity',
+              from: 0.2,
+              to: 1,
+              dur: duration,
+              easing: 'easeInOutQuad'
+            });
+            cylinder.setAttribute('animation', {
+              property: 'opacity',
+              from: 0.2,
+              to: 1,
+              dur: duration,
+              easing: 'easeInOutQuad'
+            });
+            setTimeout(() => {
+              sphere.setAttribute('opacity', 0.2);
+              cylinder.setAttribute('opacity', 0.2);
+            }, duration);
+          }, index * delay);
         });
-        cylinder.setAttribute('animation', {
-          property: 'opacity',
-          from: 0.2,
-          to: 1,
-          dur: duration,
-          easing: 'easeInOutQuad'
-        });
-
-        setTimeout(() => {
-          sphere.setAttribute('opacity', 0.2);
-          cylinder.setAttribute('opacity', 0.2);
-        }, duration);
-      }, index * delay);
+        setTimeout(() => this.animate(), pathways.length * delay + duration);
+      }
     });
-const pathwayData = [
-  {'position': [3.968412883120479, 4.687934910363383, -14.146222815524384], 'radius': 0.08873971275799374, 'color': '#2fa5bb'},
-  {'position': [1.7188294871195957, 3.552048691687869, -10.899898019542828], 'radius': 0.08085800484262204, 'color': '#4d98c2'},
-  {'position': [-2.926061105900768, 2.40848718350552, -10.437715257190657], 'radius': 0.05300754141071641, 'color': '#7dcea2'},
-  {'position': [4.048664833309267, -2.9339763217240753, -12.763769009547618], 'radius': 0.050654003579604916, 'color': '#251a81'},
-  {'position': [0.9813815674515638, 1.8834446922952246, -10.248611530207143], 'radius': 0.07876555791176768, 'color': '#ec8b82'},
-  {'position': [1.4917182166405842, -0.3900624097343268, -11.836563026612437], 'radius': 0.05704596434259754, 'color': '#60208e'},
-  {'position': [-2.623392023051916, -0.83923800878277, -13.364110239296092], 'radius': 0.05360441439388834, 'color': '#3d4f59'},
-  {'position': [-1.8793230868759245, 2.3846781850780543, -11.101454850494061], 'radius': 0.07278054113138183, 'color': '#565d69'},
-  {'position': [2.3024692901915955, 3.108358801547471, -14.839310254103138], 'radius': 0.0933801675251219, 'color': '#ed88c7'},
-  {'position': [-0.6665008042029648, -3.602419686142712, -14.567388878103932], 'radius': 0.09267609418633538, 'color': '#0924b9'}
-];
+  </script>
+</head>
+<body>
+  <a-scene background="color: #f3b5b8">
+    <a-assets>
+      <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+      <a-asset-item id="neuron-model" src="assets/neuron-model.glb"></a-asset-item>
+      <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+      <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+      <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
+    </a-assets>
 
-const neuralNetwork = document.querySelector('#neural-network');
+    <!-- Brain outline -->
+    <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
+      <a-gltf-model src="#brain-model">
+        <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-gltf-model>
+    </a-entity>
 
-pathwayData.forEach(pathway => {
-  const pathwayEntity = document.createElement('a-entity');
-  pathwayEntity.classList.add('pathway');
-  
-  const sphere = document.createElement('a-sphere');
-  sphere.setAttribute('radius', pathway.radius);
-  sphere.setAttribute('color', pathway.color);
-  sphere.setAttribute('opacity', 0.2);
-  
-  const cylinder = document.createElement('a-cylinder');
-  cylinder.setAttribute('height', 10);
-  cylinder.setAttribute('radius', pathway.radius / 2);
-  cylinder.setAttribute('color', pathway.color);
-  cylinder.setAttribute('opacity', 0.2);
-  
-  pathwayEntity.setAttribute('position', pathway.position.join(' '));
-  pathwayEntity.appendChild(sphere);
-  pathwayEntity.appendChild(cylinder);
-  
-  neuralNetwork.appendChild(pathwayEntity);
-});
+    <a-entity id="brain-regions">
+      <!-- Cortex: Go Back Fetch It -->
+      <a-entity position="0 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-link href="https://gobackfetchitxr.com" 
+                title="Go Back Fetch It XR Storytelling" 
+                image="#gif3"
+                visualAspectEnabled="true"
+                backgroundColor="#4682B4"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="0.2 0.2 0.2"
+                position="0 0 0"
+                event-set__mouseenter="scale: 0.22 0.22 0.22"
+                event-set__mouseleave="scale: 0.2 0.2 0.2"
+                class="clickable">
+        </a-link>
+        <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
+      </a-entity>
 
-neuralNetwork.setAttribute('neural-animation', '');
-    
-    setTimeout(() => this.animate(), pathways.length * delay + duration);
-  }
-});
+      <!-- Thalamus: Microservices Architecture -->
+      <a-entity position="-4 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
+                title="Introduction to Microservices Architecture" 
+                image="#gif2"
+                visualAspectEnabled="true"
+                backgroundColor="#4682B4"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="0.2 0.2 0.2"
+                position="0 0 0"
+                event-set__mouseenter="scale: 0.22 0.22 0.22"
+                event-set__mouseleave="scale: 0.2 0.2 0.2"
+                class="clickable">
+        </a-link>
+        <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
+      </a-entity>
 
-      AFRAME.registerComponent('neuron-structure', {
-  schema: {
-    type: { type: 'string', default: 'presynaptic' }
-  },
-  init: function() {
-    const el = this.el;
-    const type = this.data.type;
-    el.setAttribute('geometry', 'primitive: sphere; radius: 0.2');
-    el.setAttribute('material', `color: ${type === 'presynaptic' ? '#4682B4' : '#5A9BD5'}`);
-  }
-});
+      <!-- Hippocampus: Role Prompting in CI/CD -->
+      <a-entity position="4 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-link href="https://charityeverett.github.io/microservices-architecture/" 
+                title="Role Prompting AI in CI/CD Automations" 
+                image="#gif1"
+                visualAspectEnabled="true"
+                backgroundColor="#32CD32"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="0.2 0.2 0.2"
+                position="0 0 0"
+                event-set__mouseenter="scale: 0.22 0.22 0.22"
+                event-set__mouseleave="scale: 0.2 0.2 0.2"
+                class="clickable">
+        </a-link>
+        <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
+      </a-entity>
+    </a-entity>
 
-AFRAME.registerComponent('synaptic-portal', {
-  schema: {
-    title: { type: 'string' },
-    url: { type: 'string' },
-    image: { type: 'string' }
-  },
-  init: function() {
-    const el = this.el;
-    const data = this.data;
-    el.setAttribute('link', `href: ${data.url}; title: ${data.title}; image: ${data.image}`);
-    el.setAttribute('geometry', 'primitive: plane; width: 0.5; height: 0.3');
-    el.setAttribute('material', 'shader: flat; transparent: true');
-  }
-});
+    <!-- Neural Network -->
+    <a-entity id="neural-network" neural-animation></a-entity>
 
-       AFRAME.registerComponent('create-synaptic-clefts', {
-    init: function() {
-      const template = document.querySelector('#synaptic-cleft-template');
-      const positions = [
-        {x: 0, y: 1.6, z: -5},
-        {x: -4, y: 1.6, z: -5},
-        {x: 4, y: 1.6, z: -5}
-      ];
-      
-      positions.forEach((pos, index) => {
-        const cleft = document.importNode(template.content, true);
-        const cleftEntity = cleft.querySelector('.synaptic-cleft');
-        cleftEntity.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
-        
-        const portalEntity = cleftEntity.querySelector('[synaptic-portal]');
-        portalEntity.setAttribute('synaptic-portal', {
-          title: ['Go Back Fetch It XR Storytelling', 'Introduction to Microservices Architecture', 'Role Prompting AI in CI/CD Automations'][index],
-          url: ['https://gobackfetchitxr.com', 'https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d', 'https://charityeverett.github.io/microservices-architecture/'][index],
-          image: ['#gif3', '#gif2', '#gif1'][index]
-        });
-        
-        this.el.appendChild(cleft);
-      });
-    }
-  });
-
-      AFRAME.registerComponent('visibility-control', {
-  init: function() {
-    this.toggleVisibility = this.toggleVisibility.bind(this);
-    this.el.addEventListener('mouseenter', this.toggleVisibility);
-    this.el.addEventListener('mouseleave', this.toggleVisibility);
-  },
-  toggleVisibility: function(evt) {
-    const isVisible = evt.type === 'mouseenter';
-    this.el.setAttribute('visible', isVisible);
-    this.el.setAttribute('scale', isVisible ? '1.1 1.1 1.1' : '1 1 1');
-  }
-});
-    </script>
-  </head>
-  <body>
-    <a-scene background="color: #f3b5b8 ">
-        <a-assets>
-        <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
-        <a-asset-item id="neuron-model" src="assets/neuron-model.glb"></a-asset-item>
-        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-        <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
-      </a-assets>
-
-      <!-- Brain outline -->
- <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
-  <a-gltf-model src="#brain-model">
-    <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
-  </a-gltf-model>
-</a-entity>
-
-<a-entity id="brain-regions">
-  <!-- Cortex: Go Back Fetch It -->
-  <a-entity position="0 1.6 -5">
-    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
-    <a-link href="https://gobackfetchitxr.com" 
-            title="Go Back Fetch It XR Storytelling" 
-            image="#gif3"
-            visualAspectEnabled="true"
-            backgroundColor="#4682B4"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
-  </a-entity>
-
-  <!-- Thalamus: Microservices Architecture -->
-  <a-entity position="-4 1.6 -5">
-    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
-    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
-            title="Introduction to Microservices Architecture" 
-            image="#gif2"
-            visualAspectEnabled="true"
-            backgroundColor="#4682B4"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
-  </a-entity>
-
-  <!-- Hippocampus: Role Prompting in CI/CD -->
-  <a-entity position="4 1.6 -5">
-    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
-    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
-            title="Role Prompting AI in CI/CD Automations" 
-            image="#gif1"
-            visualAspectEnabled="true"
-            backgroundColor="#32CD32"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
-  </a-entity>
-</a-entity>
-
-      
-      <!-- Neural Network -->
-<a-entity id="neural-network"></a-entity>
-      <a-entity class="pathway" position="0 0 -15" scale="0.5 0.5 0.5">
-    <a-sphere radius="0.1" color="skyblue"></a-sphere>
-    <a-cylinder height="30" radius="0.05" color="skyblue"></a-cylinder>
-  </a-entity>
-  <a-entity class="pathway" position="10 5 -10" rotation="0 -30 20" scale="0.5 0.5 0.5">
-    <a-sphere radius="0.1" color="lightgreen"></a-sphere>
-    <a-cylinder height="25" radius="0.05" color="lightgreen"></a-cylinder>
-  </a-entity>
-  <a-entity class="pathway" position="-10 -5 -10" rotation="0 30 -20" scale="0.5 0.5 0.5">
-    <a-sphere radius="0.1" color="pink"></a-sphere>
-    <a-cylinder height="35" radius="0.05" color="pink"></a-cylinder>
-  </a-entity>
-</a-entity>
-
-      <!-- Neurons -->
-         <a-entity id="neuron-model" position="0 0 0" rotation="0 0 0">
-  <a-gltf-model src="#neuron-model">
-  </a-gltf-model>
-</a-entity>
-
-      
-      
-      <!-- Info display -->
-<a-text id="info-display" value="" position="0 0 -2" align="center" color="#FFF" width="2"></a-text>
-      
-      <!-- Camera Rig -->
-     <a-entity id="rig" position="0 0 0">
-  <a-camera look-controls wasd-controls="acceleration: 65">
-    <a-cursor raycaster="objects: .clickable" animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150" animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500" event-set__mouseenter="color: springgreen" event-set__mouseleave="color: black"></a-cursor>
-  </a-camera>
-</a-entity>
-    </a-scene>
-  </body>
+    <!-- Camera Rig -->
+    <a-entity id="rig" position="0 0 0">
+      <a-camera look-controls wasd-controls="acceleration: 65">
+        <a-cursor raycaster="objects: .clickable"
+                  animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                  animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                  event-set__mouseenter="color: springgreen"
+                  event-set__mouseleave="color: black">
+        </a-cursor>
+      </a-camera>
+    </a-entity>
+  </a-scene>
+</body>
 </html>

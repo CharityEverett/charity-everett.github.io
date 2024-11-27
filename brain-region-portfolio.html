@@ -120,6 +120,52 @@
       </a-entity>
     </a-entity>
 
+    <!-- Neurons -->
+    <a-entity id="neuron" position="0 1.6 -5">
+  <!-- Cell body (soma) -->
+  <a-sphere radius="0.5" color="#4682B4"></a-sphere>
+
+  <!-- Axon -->
+  <a-cylinder position="0 -1.5 0" height="2" radius="0.05" color="#4682B4"></a-cylinder>
+
+  <!-- Axon terminal -->
+  <a-sphere position="0 -2.5 0" radius="0.1" color="#4682B4"></a-sphere>
+
+  <!-- Dendrites -->
+  <a-entity position="0 0.5 0">
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="30 0 0" color="#4682B4"></a-cone>
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="-30 60 0" color="#4682B4"></a-cone>
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="0 -60 30" color="#4682B4"></a-cone>
+  </a-entity>
+
+  <!-- Synaptic cleft (portal) -->
+  <a-link position="0 0 0.6" 
+          href="https://example.com" 
+          title="Neuron Info" 
+          image="#gif1"
+          visualAspectEnabled="true"
+          backgroundColor="#4682B4"
+          borderColor="#f3b5b8"
+          highlighted="false"
+          scale="0.2 0.2 0.2"
+          event-set__mouseenter="scale: 0.22 0.22 0.22"
+          event-set__mouseleave="scale: 0.2 0.2 0.2"
+          class="clickable">
+  </a-link>
+</a-entity>
+
+    <a-entity id="neuron1" position="0 1.6 -5">
+  <!-- Neuron 1 components -->
+</a-entity>
+
+<a-entity id="neuron2" position="-4 1.6 -5">
+  <!-- Neuron 2 components -->
+</a-entity>
+
+<a-entity id="neuron3" position="4 1.6 -5">
+  <!-- Neuron 3 components -->
+</a-entity>
+    
     <!-- Neural Network -->
     <a-entity id="neural-network" neural-animation></a-entity>
 

@@ -10,106 +10,138 @@
           this.createAxon();
         },
         
-       createHexagonalSoma: function() {
-  // Create hexagonal prism for soma
-  const soma = document.createElement('a-cylinder');
-  soma.setAttribute('segments-radial', '6');
-  soma.setAttribute('height', '0.3');
-  soma.setAttribute('radius', '0.4');
-  soma.setAttribute('color', '#ffdd88');
-  soma.setAttribute('material', {
-    roughness: 0.8,
-    metalness: 0.2,
-    opacity: 0.9
-  });
-  soma.setAttribute('rotation', '90 30 0');
-  soma.setAttribute('animation', {
-    property: 'scale',
-    dir: 'alternate',
-    dur: 2000,
-    loop: true,
-    to: '1.05 1.05 1.05'
-  });
-  
-  // Inner nucleus (hexagonal)
-  const nucleus = document.createElement('a-cylinder');
-  nucleus.setAttribute('segments-radial', '6');
-  nucleus.setAttribute('height', '0.2');
-  nucleus.setAttribute('radius', '0.2');
-  nucleus.setAttribute('color', '#ffcccc');
-  nucleus.setAttribute('rotation', '90 30 0');
-  nucleus.setAttribute('animation', {
-    property: 'scale',
-    dir: 'alternate',
-    dur: 2000,
-    loop: true,
-    to: '1.05 1.05 1.05'
-  });
-  
-  this.el.appendChild(soma);
-  this.el.appendChild(nucleus);
-},
-              
-       createDendrites: function() {
-  // Create fewer, more distinct dendrites
-  for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI * 2 * i) / 6;
-    // Make dendrites extend more upward
-    const yBias = 0.3; // Bias for upward growth
-    
-    const dendrite = document.createElement('a-entity');
-    const end = {
-      x: Math.cos(angle) * 0.6,
-      y: Math.sin(angle) * 0.6 + yBias,
-      z: 0
-    };
-    
-    dendrite.setAttribute('line', {
-      start: {x: 0, y: 0, z: 0},
-      end: end,
-      color: '#ffdd88',
-      opacity: 0.9,
-      width: 0.03
-    });
-    
-    // Create more organized branching
-    this.createOrganizedBranch(end, 2, angle);
-    this.el.appendChild(dendrite);
-  }
-},
-
-createOrganizedBranch: function(start, depth, baseAngle) {
-  if (depth <= 0) return;
-  
-  // Create two branches with controlled angles
-  const branchAngles = [-0.5, 0.5];
-  branchAngles.forEach(angleOffset => {
-    const newAngle = baseAngle + angleOffset;
-    const length = 0.4 / (depth + 0.5); // Shorter branches as we go deeper
-    
-    const end = {
-      x: start.x + Math.cos(newAngle) * length,
-      y: start.y + Math.sin(newAngle) * length,
-      z: start.z
-    };
-    
-    const branch = document.createElement('a-entity');
-    branch.setAttribute('line', {
-      start: start,
-      end: end,
-      color: '#ffdd88',
-      opacity: 0.9,
-      width: 0.02 / depth // Thinner branches as we go deeper
-    });
-    
-    this.el.appendChild(branch);
-    this.createOrganizedBranch(end, depth - 1, newAngle);
-  });
-}
+        createHexagonalSoma: function() {
+          // Create hexagonal prism for soma
+          const soma = document.createElement('a-cylinder');
+          soma.setAttribute('segments-radial', '6');
+          soma.setAttribute('height', '0.3');
+          soma.setAttribute('radius', '0.4');
+          soma.setAttribute('color', '#ffdd88');
+          soma.setAttribute('material', {
+            roughness: 0.8,
+            metalness: 0.2,
+            opacity: 0.9
+          });
+          soma.setAttribute('rotation', '90 30 0');
+          soma.setAttribute('animation', {
+            property: 'scale',
+            dir: 'alternate',
+            dur: 2000,
+            loop: true,
+            to: '1.05 1.05 1.05'
+          });
+          
+          // Inner nucleus (hexagonal)
+          const nucleus = document.createElement('a-cylinder');
+          nucleus.setAttribute('segments-radial', '6');
+          nucleus.setAttribute('height', '0.2');
+          nucleus.setAttribute('radius', '0.2');
+          nucleus.setAttribute('color', '#ffcccc');
+          nucleus.setAttribute('rotation', '90 30 0');
+          nucleus.setAttribute('animation', {
+            property: 'scale',
+            dir: 'alternate',
+            dur: 2000,
+            loop: true,
+            to: '1.05 1.05 1.05'
+          });
+          
+          this.el.appendChild(soma);
+          this.el.appendChild(nucleus);
+        },
+        
+        createDendrites: function() {
+          // Create upward-biased dendrites
+          for (let i = 0; i < 8; i++) {
+            const angle = (Math.PI * 2 * i) / 8;
+            const yBias = 0.4; // Stronger upward bias
             
-            const terminal = document.createElement('a-cylinder');
-            terminal.setAttribute('height', '0.15');
-            terminal.setAttribute('radius', '0.04');
+            const dendrite = document.createElement('a-entity');
+            const end = {
+              x: Math.cos(angle) * 0.8,
+              y: Math.sin(angle) * 0.8 + yBias,
+              z: 0
+            };
+            
+            dendrite.setAttribute('line', {
+              start: {x: 0, y: 0, z: 0},
+              end: end,
+              color: '#ffdd88',
+              opacity: 0.9,
+              width: 0.03
+            });
+            
+            this.createOrganizedBranch(end, 3, angle);
+            this.el.appendChild(dendrite);
+          }
+        },
+
+        createOrganizedBranch: function(start, depth, baseAngle) {
+          if (depth <= 0) return;
+          
+          const branchAngles = [-0.4, 0.4];
+          branchAngles.forEach(angleOffset => {
+            const newAngle = baseAngle + angleOffset;
+            const length = 0.4 / (depth + 0.5);
+            
+            const end = {
+              x: start.x + Math.cos(newAngle) * length,
+              y: start.y + Math.sin(newAngle) * length + 0.1,
+              z: start.z
+            };
+            
+            const branch = document.createElement('a-entity');
+            branch.setAttribute('line', {
+              start: start,
+              end: end,
+              color: '#ffdd88',
+              opacity: 0.9,
+              width: 0.02 / depth
+            });
+            
+            this.el.appendChild(branch);
+            this.createOrganizedBranch(end, depth - 1, newAngle);
+          });
+        },
+
+        createAxon: function() {
+          // Main axon
+          const axonLength = 2;
+          const segments = 8;
+          const segmentHeight = axonLength / segments;
+          let currentY = -0.4;
+          
+          // Create segmented axon
+          for (let i = 0; i < segments; i++) {
+            const segment = document.createElement('a-cylinder');
+            segment.setAttribute('height', segmentHeight);
+            segment.setAttribute('radius', '0.06');
+            segment.setAttribute('position', `0 ${currentY} 0`);
+            segment.setAttribute('color', '#ffdd88');
+            this.el.appendChild(segment);
+            currentY -= segmentHeight;
+          }
+          
+          // Create branching terminals
+          const terminalPositions = [
+            {x: -0.4, y: currentY - 0.2, z: 0},
+            {x: 0.4, y: currentY - 0.2, z: 0},
+            {x: -0.2, y: currentY - 0.4, z: 0},
+            {x: 0.2, y: currentY - 0.4, z: 0},
+            {x: 0, y: currentY - 0.3, z: 0}
+          ];
+          
+          terminalPositions.forEach(pos => {
+            const branch = document.createElement('a-entity');
+            branch.setAttribute('line', {
+              start: {x: 0, y: currentY, z: 0},
+              end: pos,
+              color: '#ffdd88',
+              width: 0.03
+            });
+            
+            const terminal = document.createElement('a-sphere');
+            terminal.setAttribute('radius', '0.05');
             terminal.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
             terminal.setAttribute('color', '#ffdd88');
             
@@ -122,7 +154,7 @@ createOrganizedBranch: function(start, depth, baseAngle) {
   </head>
   <body>
     <a-scene>
-      <a-entity id="neuron" multipolar-neuron position="0 0.5 -3" scale="1.5 1.5 1.5"></a-entity>
+      <a-entity id="neuron" multipolar-neuron position="0 1.5 -3" scale="1.5 1.5 1.5"></a-entity>
       
       <a-camera position="0 0 0"></a-camera>
       

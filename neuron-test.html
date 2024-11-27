@@ -3,79 +3,76 @@
   <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script>
-      AFRAME.registerComponent('neuron', {
+      AFRAME.registerComponent('bipolar-neuron', {
         init: function() {
           this.createSoma();
-          this.createDendrites();
+          this.createDendrite();
           this.createAxon();
         },
         
         createSoma: function() {
           const soma = document.createElement('a-sphere');
-          soma.setAttribute('radius', '0.5');
+          soma.setAttribute('radius', '0.3');
           soma.setAttribute('color', '#88ccff');
           soma.setAttribute('material', 'roughness: 0.8; metalness: 0.2');
           soma.setAttribute('animation', 'property: scale; to: 1.05 1.05 1.05; dir: alternate; dur: 2000; loop: true');
           this.el.appendChild(soma);
         },
         
-        createDendrites: function() {
-          for (let i = 0; i < 50; i++) {
-            const dendrite = document.createElement('a-entity');
+        createDendrite: function() {
+          const dendrite = document.createElement('a-entity');
+          dendrite.setAttribute('line', {
+            start: {x: 0, y: 0, z: 0},
+            end: {x: 0, y: 1.5, z: 0},
+            color: '#66aadd',
+            opacity: 0.9,
+            width: 0.02
+          });
+          
+          // Add dendritic branches
+          for (let i = 0; i < 10; i++) {
+            const branch = document.createElement('a-entity');
             const end = {
-              x: (Math.random() - 0.5) * 3,
-              y: (Math.random() - 0.5) * 3,
-              z: (Math.random() - 0.5) * 3
+              x: (Math.random() - 0.5) * 0.5,
+              y: 1 + Math.random() * 0.5,
+              z: (Math.random() - 0.5) * 0.5
             };
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0, z: 0},
+            branch.setAttribute('line', {
+              start: {x: 0, y: 1, z: 0},
               end: end,
               color: '#66aadd',
-              opacity: 0.75
+              opacity: 0.75,
+              width: 0.01
             });
-            
-            // Add synapses at the end of dendrites
-            const synapse = document.createElement('a-sphere');
-            synapse.setAttribute('radius', '0.03');
-            synapse.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-            synapse.setAttribute('color', '#4488cc');
-            synapse.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1000; loop: true');
-            
-            this.el.appendChild(dendrite);
-            this.el.appendChild(synapse);
+            dendrite.appendChild(branch);
           }
+          
+          this.el.appendChild(dendrite);
         },
         
         createAxon: function() {
           const axon = document.createElement('a-entity');
-          const path = [
-            {x: 0, y: 0, z: 0},
-            {x: -0.5, y: -0.5, z: 0.5},
-            {x: -1, y: -1, z: 1},
-            {x: -1.5, y: -1.5, z: 1.5},
-            {x: -2, y: -2, z: 2}
-          ];
-          
           axon.setAttribute('line', {
-            path: path.map(p => [p.x, p.y, p.z].join(',')).join(','),
+            start: {x: 0, y: 0, z: 0},
+            end: {x: 0, y: -1.5, z: 0},
             color: '#5599cc',
             opacity: 0.9,
             width: 0.02
           });
           
-          // Add terminal buttons
+          // Add axon terminals
           for (let i = 0; i < 5; i++) {
-            const button = document.createElement('a-sphere');
+            const terminal = document.createElement('a-sphere');
             const pos = {
-              x: -2 - Math.random() * 0.5,
-              y: -2 - Math.random() * 0.5,
-              z: 2 + Math.random() * 0.5
+              x: (Math.random() - 0.5) * 0.3,
+              y: -1.5 - Math.random() * 0.2,
+              z: (Math.random() - 0.5) * 0.3
             };
-            button.setAttribute('radius', '0.05');
-            button.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
-            button.setAttribute('color', '#3377aa');
-            button.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1500; loop: true');
-            this.el.appendChild(button);
+            terminal.setAttribute('radius', '0.03');
+            terminal.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
+            terminal.setAttribute('color', '#3377aa');
+            terminal.setAttribute('animation', 'property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1500; loop: true');
+            axon.appendChild(terminal);
           }
           
           this.el.appendChild(axon);
@@ -85,7 +82,7 @@
   </head>
   <body>
     <a-scene>
-      <a-entity id="neuron" neuron position="0 0 -3" scale="2 2 2"></a-entity>
+      <a-entity id="bipolar-neuron" bipolar-neuron position="0 0 -3" scale="1.5 1.5 1.5"></a-entity>
       
       <a-camera position="0 0 0"></a-camera>
       

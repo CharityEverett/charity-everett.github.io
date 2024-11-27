@@ -51,8 +51,9 @@
         },
         
         createDendrites: function() {
-          // Create dendrites clustered at top with z-axis rotation
+          // Create dendrites clustered at top
           for (let i = 0; i < 6; i++) {
+            // Restrict angles to upper portion
             const angle = (Math.PI/3) * (i - 2.5);
             const yBias = 0.6;
             
@@ -60,7 +61,7 @@
             const end = {
               x: Math.cos(angle) * 0.8,
               y: Math.sin(angle) * 0.8 + yBias,
-              z: Math.sin(angle) * 0.3 // Added z-axis variation
+              z: 0
             };
             
             dendrite.setAttribute('line', {
@@ -87,7 +88,7 @@
             const end = {
               x: start.x + Math.cos(newAngle) * length,
               y: start.y + Math.sin(newAngle) * length + 0.2,
-              z: start.z + Math.sin(newAngle) * 0.1 // Added z-axis variation
+              z: start.z
             };
             
             const branch = document.createElement('a-entity');
@@ -105,55 +106,85 @@
         },
 
         createAxon: function() {
-          // [Previous axon line and segments code remains the same until terminals]
+          // Thin central axon line
+          const axonLine = document.createElement('a-entity');
+          axonLine.setAttribute('line', {
+            start: {x: 0, y: -0.4, z: 0},
+            end: {x: 0, y: -2.4, z: 0},
+            color: '#ffdd88',
+            opacity: 0.9,
+            width: 0.01
+          });
+          this.el.appendChild(axonLine);
           
-          // Create four main branches
-          const mainBranches = [
-            {x: -0.3, y: currentY - 0.3, z: 0.2},
-            {x: 0.3, y: currentY - 0.3, z: 0.2},
-            {x: -0.3, y: currentY - 0.3, z: -0.2},
-            {x: 0.3, y: currentY - 0.3, z: -0.2}
+          // Segmented cylinders
+          const segments = 8;
+          let currentY = -0.4;
+          const spacing = 0.25;
+          
+          for (let i = 0; i < segments; i++) {
+            const segment = document.createElement('a-cylinder');
+            segment.setAttribute('height', '0.2');
+            segment.setAttribute('radius', '0.08');
+            segment.setAttribute('position', `0 ${currentY} 0`);
+            segment.setAttribute('color', '#ffdd88');
+            segment.setAttribute('material', {
+              opacity: 0.9,
+              transparent: true
+            });
+            this.el.appendChild(segment);
+            currentY -= spacing;
+          }
+          
+          // Create branching pattern for terminals
+          const branchStart = {x: 0, y: currentY, z: 0};
+          
+          // First level branches
+          const firstLevelBranches = [
+            {x: -0.3, y: currentY - 0.3, z: 0},
+            {x: 0.3, y: currentY - 0.3, z: 0}
           ];
           
-          mainBranches.forEach(pos => {
+          firstLevelBranches.forEach(pos => {
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
-              start: {x: 0, y: currentY, z: 0},
+              start: branchStart,
               end: pos,
               color: '#ffdd88',
               width: 0.02
             });
             this.el.appendChild(branch);
             
-            // Create two terminals for each main branch
-            const terminals = [
+            // Second level branches
+            const angle = Math.atan2(pos.y - branchStart.y, pos.x - branchStart.x);
+            const secondLevelBranches = [
               {
-                x: pos.x + (pos.x > 0 ? 0.2 : -0.2),
-                y: pos.y - 0.2,
-                z: pos.z + 0.1
+                x: pos.x + Math.cos(angle - 0.5) * 0.3,
+                y: pos.y - 0.3,
+                z: 0
               },
               {
-                x: pos.x + (pos.x > 0 ? 0.2 : -0.2),
-                y: pos.y - 0.2,
-                z: pos.z - 0.1
+                x: pos.x + Math.cos(angle + 0.5) * 0.3,
+                y: pos.y - 0.3,
+                z: 0
               }
             ];
             
-            terminals.forEach(termPos => {
-              const terminalBranch = document.createElement('a-entity');
-              terminalBranch.setAttribute('line', {
+            secondLevelBranches.forEach(endPos => {
+              const subBranch = document.createElement('a-entity');
+              subBranch.setAttribute('line', {
                 start: pos,
-                end: termPos,
+                end: endPos,
                 color: '#ffdd88',
                 width: 0.015
               });
               
               const terminal = document.createElement('a-sphere');
               terminal.setAttribute('radius', '0.04');
-              terminal.setAttribute('position', `${termPos.x} ${termPos.y} ${termPos.z}`);
+              terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
               terminal.setAttribute('color', '#ffdd88');
               
-              this.el.appendChild(terminalBranch);
+              this.el.appendChild(subBranch);
               this.el.appendChild(terminal);
             });
           });

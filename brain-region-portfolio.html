@@ -240,62 +240,44 @@
       </a-gltf-model>
     </a-entity>
 
-  <a-entity id="brain-regions">
+ <a-entity id="brain-regions">
   <!-- Cortex: Go Back Fetch It -->
   <a-entity position="0 1.6 -5">
-    <a-entity multipolar-neuron scale="0.5 0.5 0.5"></a-entity>
-    <a-link href="https://gobackfetchitxr.com" 
-            title="Go Back Fetch It XR Storytelling" 
-            image="#gif3"
-            visualAspectEnabled="true"
-            backgroundColor="#4682B4"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0.6"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
+    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
+              material="shader: flat; src: #gif3; transparent: true"
+              scale="1 1 1"
+              class="clickable"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              link="href: https://gobackfetchitxr.com; title: Go Back Fetch It XR Storytelling">
+    </a-entity>
+    <a-text value="Go Back Fetch It XR Storytelling" position="0 -0.5 0" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
   </a-entity>
 
   <!-- Thalamus: Microservices Architecture -->
   <a-entity position="-4 1.6 -5">
-    <a-entity multipolar-neuron scale="0.5 0.5 0.5"></a-entity>
-    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
-            title="Introduction to Microservices Architecture" 
-            image="#gif2"
-            visualAspectEnabled="true"
-            backgroundColor="#4682B4"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0.6"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
+    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
+              material="shader: flat; src: #gif2; transparent: true"
+              scale="1 1 1"
+              class="clickable"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              link="href: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d; title: Introduction to Microservices Architecture">
+    </a-entity>
+    <a-text value="Introduction to Microservices Architecture" position="0 -0.5 0" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
   </a-entity>
 
   <!-- Hippocampus: Role Prompting in CI/CD -->
   <a-entity position="4 1.6 -5">
-    <a-entity multipolar-neuron scale="0.5 0.5 0.5"></a-entity>
-    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
-            title="Role Prompting AI in CI/CD Automations" 
-            image="#gif1"
-            visualAspectEnabled="true"
-            backgroundColor="#32CD32"
-            borderColor="#f3b5b8"
-            highlighted="false"
-            scale="0.2 0.2 0.2"
-            position="0 0 0.6"
-            event-set__mouseenter="scale: 0.22 0.22 0.22"
-            event-set__mouseleave="scale: 0.2 0.2 0.2"
-            class="clickable">
-    </a-link>
-    <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
+    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
+              material="shader: flat; src: #gif1; transparent: true"
+              scale="1 1 1"
+              class="clickable"
+              event-set__mouseenter="scale: 1.1 1.1 1.1"
+              event-set__mouseleave="scale: 1 1 1"
+              link="href: https://charityeverett.github.io/microservices-architecture/; title: Role Prompting AI in CI/CD Automations">
+    </a-entity>
+    <a-text value="Role Prompting AI in CI/CD Automations" position="0 -0.5 0" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
   </a-entity>
 </a-entity>
     

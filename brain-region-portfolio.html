@@ -61,109 +61,78 @@
       </a-gltf-model>
     </a-entity>
 
-    <a-entity id="brain-regions">
-      <!-- Cortex: Go Back Fetch It -->
-      <a-entity position="0 1.6 -5">
-        <a-gltf-model src="#neuron-model" scale="1 1 1"></a-gltf-model>
-        <a-link href="https://gobackfetchitxr.com" 
-                title="Go Back Fetch It XR Storytelling" 
-                image="#gif3"
-                visualAspectEnabled="true"
-                backgroundColor="#4682B4"
-                borderColor="#f3b5b8"
-                highlighted="false"
-                scale="1 2 1"
-                position="0 0 0"
-                event-set__mouseenter="scale: 1 2 1"
-                event-set__mouseleave="scale: 1 2 1"
-                class="clickable">
-        </a-link>
-        <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
-      </a-entity>
+   <a-entity id="brain-regions">
+  <!-- Cortex: Go Back Fetch It -->
+  <a-entity position="0 1.6 -5">
+    <!-- Cell body (soma) -->
+    <a-sphere radius="0.5" color="#4682B4"></a-sphere>
 
-      <!-- Thalamus: Microservices Architecture -->
-      <a-entity position="-4 1.6 -5">
-        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
-        <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
-                title="Introduction to Microservices Architecture" 
-                image="#gif2"
-                visualAspectEnabled="true"
-                backgroundColor="#4682B4"
-                borderColor="#f3b5b8"
-                highlighted="false"
-                scale="1 2 1"
-                position="0 0 0"
-                event-set__mouseenter="scale: 1 2 1"
-                event-set__mouseleave="scale: 1 2 1"
-                class="clickable">
-        </a-link>
-        <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
-      </a-entity>
+    <!-- Axon -->
+    <a-cylinder position="0 -1.5 0" height="2" radius="0.05" color="#4682B4"></a-cylinder>
 
-      <!-- Hippocampus: Role Prompting in CI/CD -->
-      <a-entity position="4 1.6 -5">
-        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
-        <a-link href="https://charityeverett.github.io/microservices-architecture/" 
-                title="Role Prompting AI in CI/CD Automations" 
-                image="#gif1"
-                visualAspectEnabled="true"
-                backgroundColor="#32CD32"
-                borderColor="#f3b5b8"
-                highlighted="false"
-                scale="1 2 1"
-                position="0 0 0"
-                event-set__mouseenter="scale: 1 2 1"
-                event-set__mouseleave="scale: 1 2 1"
-                class="clickable">
-        </a-link>
-        <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
-      </a-entity>
+    <!-- Axon terminal -->
+    <a-sphere position="0 -2.5 0" radius="0.1" color="#4682B4"></a-sphere>
+
+    <!-- Dendrites -->
+    <a-entity position="0 0.5 0">
+      <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="30 0 0" color="#4682B4"></a-cone>
+      <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="-30 60 0" color="#4682B4"></a-cone>
+      <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="0 -60 30" color="#4682B4"></a-cone>
     </a-entity>
 
-    <!-- Neurons -->
-    <a-entity id="neuron" position="0 1.6 -5">
-  <!-- Cell body (soma) -->
-  <a-sphere radius="0.5" color="#4682B4"></a-sphere>
-
-  <!-- Axon -->
-  <a-cylinder position="0 -1.5 0" height="2" radius="0.05" color="#4682B4"></a-cylinder>
-
-  <!-- Axon terminal -->
-  <a-sphere position="0 -2.5 0" radius="0.1" color="#4682B4"></a-sphere>
-
-  <!-- Dendrites -->
-  <a-entity position="0 0.5 0">
-    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="30 0 0" color="#4682B4"></a-cone>
-    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="-30 60 0" color="#4682B4"></a-cone>
-    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="0 -60 30" color="#4682B4"></a-cone>
+    <a-link href="https://gobackfetchitxr.com" 
+            title="Go Back Fetch It XR Storytelling" 
+            image="#gif3"
+            visualAspectEnabled="true"
+            backgroundColor="#4682B4"
+            borderColor="#f3b5b8"
+            highlighted="false"
+            scale="1 2 1"
+            position="0 0 0.6"
+            event-set__mouseenter="scale: 1 2 1"
+            event-set__mouseleave="scale: 1 2 1"
+            class="clickable">
+    </a-link>
+    <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
   </a-entity>
 
-  <!-- Synaptic cleft (portal) -->
-  <a-link position="0 0 0.6" 
-          href="https://example.com" 
-          title="Neuron Info" 
-          image="#gif1"
-          visualAspectEnabled="true"
-          backgroundColor="#4682B4"
-          borderColor="#f3b5b8"
-          highlighted="false"
-          scale="0.2 0.2 0.2"
-          event-set__mouseenter="scale: 0.22 0.22 0.22"
-          event-set__mouseleave="scale: 0.2 0.2 0.2"
-          class="clickable">
-  </a-link>
-</a-entity>
+  <!-- Thalamus: Microservices Architecture -->
+  <a-entity position="-4 1.6 -5">
+    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
+            title="Introduction to Microservices Architecture" 
+            image="#gif2"
+            visualAspectEnabled="true"
+            backgroundColor="#4682B4"
+            borderColor="#f3b5b8"
+            highlighted="false"
+            scale="1 2 1"
+            position="0 0 0"
+            event-set__mouseenter="scale: 1 2 1"
+            event-set__mouseleave="scale: 1 2 1"
+            class="clickable">
+    </a-link>
+    <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
+  </a-entity>
 
-    <a-entity id="neuron1" position="0 1.6 -5">
-  <!-- Neuron 1 components -->
-</a-entity>
-
-<a-entity id="neuron2" position="-4 1.6 -5">
-  <!-- Neuron 2 components -->
-</a-entity>
-
-<a-entity id="neuron3" position="4 1.6 -5">
-  <!-- Neuron 3 components -->
+  <!-- Hippocampus: Role Prompting in CI/CD -->
+  <a-entity position="4 1.6 -5">
+    <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
+            title="Role Prompting AI in CI/CD Automations" 
+            image="#gif1"
+            visualAspectEnabled="true"
+            backgroundColor="#32CD32"
+            borderColor="#f3b5b8"
+            highlighted="false"
+            scale="1 2 1"
+            position="0 0 0"
+            event-set__mouseenter="scale: 1 2 1"
+            event-set__mouseleave="scale: 1 2 1"
+            class="clickable">
+    </a-link>
+    <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
+  </a-entity>
 </a-entity>
     
     <!-- Neural Network -->

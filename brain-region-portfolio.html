@@ -1,174 +1,185 @@
-<!-- ---
-layout: default
-title: A-Frame Portfolio
-permalink: /index.html
---- -->
-
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Charity Everett WebXR Production Portfolio</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
-    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script>
-      AFRAME.registerComponent("change-scene", {
-        schema: {
-          sceneUrl: { type: "string", default: "" }
-        },
-        init: function () {
-          var el = this.el;
-          var data = this.data;
-          
-          el.addEventListener("click", function () {
-            if (data.sceneUrl) {
-              window.location.href = data.sceneUrl;
-            }
-          });
-
-          el.addEventListener("collide", function (e) {
-            if (data.sceneUrl) {
-              window.location.href = data.sceneUrl;
-            }
-          });
-        }
-      });
-
-      AFRAME.registerComponent('open-url', {
-  schema: {
-    url: {type: 'string'}
-  },
-  
-  init: function () {
-    var data = this.data;
-    var el = this.el;
-    
-    el.addEventListener('click', function () {
-      window.open(data.url, '_blank');
+<head>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+  <script>
+    // Neural Animation Component
+    AFRAME.registerComponent('neural-animation', {
+      init: function() {
+        this.animate();
+      },
+      animate: function() {
+        const pathways = this.el.querySelectorAll('.pathway');
+        const duration = 2000;
+        const delay = 500;
+        pathways.forEach((pathway, index) => {
+          const sphere = pathway.querySelector('a-sphere');
+          const cylinder = pathway.querySelector('a-cylinder');
+          setTimeout(() => {
+            sphere.setAttribute('animation', {
+              property: 'opacity',
+              from: 0.2,
+              to: 1,
+              dur: duration,
+              easing: 'easeInOutQuad'
+            });
+            cylinder.setAttribute('animation', {
+              property: 'opacity',
+              from: 0.2,
+              to: 1,
+              dur: duration,
+              easing: 'easeInOutQuad'
+            });
+            setTimeout(() => {
+              sphere.setAttribute('opacity', 0.2);
+              cylinder.setAttribute('opacity', 0.2);
+            }, duration);
+          }, index * delay);
+        });
+        setTimeout(() => this.animate(), pathways.length * delay + duration);
+      }
     });
-  }
-});
-    </script>
-  </head>
-  <body>
-    <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
-      <a-assets>
-        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-        <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
-        <img id="clickroleprompt" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
-        <img id="clickmicroservice" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
-        <img id="clicknextarticle" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
-        <img id="floor" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
-        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Skybox?v=1728248616891" /> 
-      </a-assets>
+  </script>
+</head>
+<body>
+  <a-scene background="color: #f3b5b8">
+    <a-assets>
+      <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+      <a-asset-item id="neuron-model" src="assets/Neuron_model.glb"></a-asset-item>
+      <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+      <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+      <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
+    </a-assets>
 
-      <!-- Environment -->
-      <a-sky src="#sky"></a-sky>
-      <a-plane src="#floor" rotation="-90 0 0" width="30" height="30"></a-plane>
+    <!-- Brain outline -->
+    <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
+      <a-gltf-model src="#brain-model">
+        <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-gltf-model>
+    </a-entity>
 
-      <!-- Ambient Light -->
-      <a-light type="ambient" color="#BBB"></a-light>
-      <!-- Directional Light -->
-      <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
-
-      <!-- Camera Rig -->
-      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
-        <a-entity camera look-controls wasd-controls="acceleration: 65">
-          <a-cursor
-            raycaster="objects: .clickable"
-            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-            event-set__mouseenter="color: springgreen"
-            event-set__mouseleave="color: black">
-          </a-cursor>
-        </a-entity>
+    <a-entity id="brain-regions">
+      <!-- Cortex: Go Back Fetch It -->
+      <a-entity position="0 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="1 1 1"></a-gltf-model>
+        <a-link href="https://gobackfetchitxr.com" 
+                title="Go Back Fetch It XR Storytelling" 
+                image="#gif3"
+                visualAspectEnabled="true"
+                backgroundColor="#4682B4"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="1 2 1"
+                position="0 0 0"
+                event-set__mouseenter="scale: 1 2 1"
+                event-set__mouseleave="scale: 1 2 1"
+                class="clickable">
+        </a-link>
+        <a-text value="Go Back Fetch It XR Storytelling" position="0 1 0" align="center" color="#FFF"></a-text>
       </a-entity>
 
-      <!-- Gallery Items -->
-      <a-entity id="gallery">
-      <!-- Role Prompt -->
-<a-entity
-  id="ClickRolePrompt"
-  class="project clickable"
-  geometry="primitive: box; width: 2; height: 4"
-  material="shader: gif; src: #gif2"
-  event-set__mouseenter="scale: 1.1 1.1 1"
-  event-set__mouseleave="scale: 1 1 1"
-  position="5 1.5 0"
-  rotation="0 -90 0"
-  scale="0.5 0.3 0.5"
-  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
-  static-body>
-</a-entity>
-
-<a-entity
-  class="hover-box clickable"
-  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-  material="src: #clickroleprompt"
-  position="5 4 0"
-  rotation="0 -90 0"
-  animation="property: position; to: 5 4.2 0; dir: alternate; dur: 1000; loop: true"
-  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
-  static-body>
-</a-entity>
-        
-<!-- Microservices Architecture -->
-<a-entity
-  class="project clickable"
-  geometry="primitive: box; width: 2; height: 1.5"
-  material="shader: gif; src: #gif1"
-  event-set__mouseenter="scale: 1.1 1.1 1"
-  event-set__mouseleave="scale: 1 1 1"
-  position="0 1.5 -5"
-  scale="0.5 0.3 0.5"
-  open-url="url: https://charityeverett.github.io/microservices-architecture/"
-  static-body>
-</a-entity>
-<a-entity
-  class="hover-box clickable"
-  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-  material="src: #clickmicroservice"
-  position="0 4 -5"
-  animation="property: position; to: 0 4.2 -5; dir: alternate; dur: 1000; loop: true"
-  open-url="url: https://charityeverett.github.io/microservices-architecture/"
-  static-body>
-</a-entity>
-
-        <!-- Go Back Fetch It -->
-        <a-entity
-          class="project clickable"
-          geometry="primitive: box; width: 2; height: 1.5"
-           material="shader: gif; src: #gif3"
-           event-set__mouseenter="scale: 1.1 1.1 1"
-          event-set__mouseleave="scale: 1 1 1"
-          position="-5 1.5 0"
-          rotation="0 90 0"
-          scale="0.5 0.3 0.5"
-          open-url="url: https://gobackfetchitxr.com"
-          static-body>
-        </a-entity>
-        <a-entity
-          class="hover-box clickable"
-          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
-          material="src: #clicknextarticle"
-          position="-5 4 0"
-          rotation="0 90 0"
-          animation="property: position; to: -5 4.2 0; dir: alternate; dur: 1000; loop: true"
-          open-url="url: https://gobackfetchitxr.com"          
-          static-body>
-        </a-entity>
-        <a-text
-          value="Go Back Fetch It"
-          align="center"G
-          position="-5 0 0"
-          rotation="0 90 0"
-          width="2">
-        </a-text>
+      <!-- Thalamus: Microservices Architecture -->
+      <a-entity position="-4 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" 
+                title="Introduction to Microservices Architecture" 
+                image="#gif2"
+                visualAspectEnabled="true"
+                backgroundColor="#4682B4"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="1 2 1"
+                position="0 0 0"
+                event-set__mouseenter="scale: 1 2 1"
+                event-set__mouseleave="scale: 1 2 1"
+                class="clickable">
+        </a-link>
+        <a-text value="Introduction to Microservices Architecture" position="-0.6 -0.6 0" align="center" color="#FFF"></a-text>
       </a-entity>
-    </a-scene>
-  </body>
+
+      <!-- Hippocampus: Role Prompting in CI/CD -->
+      <a-entity position="4 1.6 -5">
+        <a-gltf-model src="#neuron-model" scale="0.5 0.5 0.5"></a-gltf-model>
+        <a-link href="https://charityeverett.github.io/microservices-architecture/" 
+                title="Role Prompting AI in CI/CD Automations" 
+                image="#gif1"
+                visualAspectEnabled="true"
+                backgroundColor="#32CD32"
+                borderColor="#f3b5b8"
+                highlighted="false"
+                scale="1 2 1"
+                position="0 0 0"
+                event-set__mouseenter="scale: 1 2 1"
+                event-set__mouseleave="scale: 1 2 1"
+                class="clickable">
+        </a-link>
+        <a-text value="Role Prompting AI in CI/CD Automations" position="0.6 -0.6 0" align="center" color="#FFF"></a-text>
+      </a-entity>
+    </a-entity>
+
+    <!-- Neurons -->
+    <a-entity id="neuron" position="0 1.6 -5">
+  <!-- Cell body (soma) -->
+  <a-sphere radius="0.5" color="#4682B4"></a-sphere>
+
+  <!-- Axon -->
+  <a-cylinder position="0 -1.5 0" height="2" radius="0.05" color="#4682B4"></a-cylinder>
+
+  <!-- Axon terminal -->
+  <a-sphere position="0 -2.5 0" radius="0.1" color="#4682B4"></a-sphere>
+
+  <!-- Dendrites -->
+  <a-entity position="0 0.5 0">
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="30 0 0" color="#4682B4"></a-cone>
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="-30 60 0" color="#4682B4"></a-cone>
+    <a-cone height="1" radius-bottom="0.2" radius-top="0.05" rotation="0 -60 30" color="#4682B4"></a-cone>
+  </a-entity>
+
+  <!-- Synaptic cleft (portal) -->
+  <a-link position="0 0 0.6" 
+          href="https://example.com" 
+          title="Neuron Info" 
+          image="#gif1"
+          visualAspectEnabled="true"
+          backgroundColor="#4682B4"
+          borderColor="#f3b5b8"
+          highlighted="false"
+          scale="0.2 0.2 0.2"
+          event-set__mouseenter="scale: 0.22 0.22 0.22"
+          event-set__mouseleave="scale: 0.2 0.2 0.2"
+          class="clickable">
+  </a-link>
+</a-entity>
+
+    <a-entity id="neuron1" position="0 1.6 -5">
+  <!-- Neuron 1 components -->
+</a-entity>
+
+<a-entity id="neuron2" position="-4 1.6 -5">
+  <!-- Neuron 2 components -->
+</a-entity>
+
+<a-entity id="neuron3" position="4 1.6 -5">
+  <!-- Neuron 3 components -->
+</a-entity>
+    
+    <!-- Neural Network -->
+    <a-entity id="neural-network" neural-animation></a-entity>
+
+    <!-- Camera Rig -->
+    <a-entity id="rig" position="0 0 0">
+      <a-camera look-controls wasd-controls="acceleration: 65">
+        <a-cursor raycaster="objects: .clickable"
+                  animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                  animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                  event-set__mouseenter="color: springgreen"
+                  event-set__mouseleave="color: black">
+        </a-cursor>
+      </a-camera>
+    </a-entity>
+  </a-scene>
+</body>
 </html>

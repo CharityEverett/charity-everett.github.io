@@ -1,294 +1,174 @@
+<!-- ---
+layout: default
+title: A-Frame Portfolio
+permalink: /index.html
+--- -->
+
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
-  <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
-  <script>
-    AFRAME.registerComponent('neural-animation', {
-      init: function() {
-        this.animate();
-      },
-      animate: function() {
-        const pathways = this.el.querySelectorAll('.pathway');
-        const duration = 2000;
-        const delay = 500;
-        pathways.forEach((pathway, index) => {
-          const sphere = pathway.querySelector('a-sphere');
-          const cylinder = pathway.querySelector('a-cylinder');
-          setTimeout(() => {
-            sphere.setAttribute('animation', {
-              property: 'opacity',
-              from: 0.2,
-              to: 1,
-              dur: duration,
-              easing: 'easeInOutQuad'
-            });
-            cylinder.setAttribute('animation', {
-              property: 'opacity',
-              from: 0.2,
-              to: 1,
-              dur: duration,
-              easing: 'easeInOutQuad'
-            });
-            setTimeout(() => {
-              sphere.setAttribute('opacity', 0.2);
-              cylinder.setAttribute('opacity', 0.2);
-            }, duration);
-          }, index * delay);
-        });
-        setTimeout(() => this.animate(), pathways.length * delay + duration);
-      }
-    });
-
-    AFRAME.registerComponent('multipolar-neuron', {
-      init: function() {
-        this.createHexagonalSoma();
-        this.createDendrites();
-        this.createAxon();
-      },
-      createHexagonalSoma: function() {
-        const soma = document.createElement('a-cylinder');
-        soma.setAttribute('segments-radial', '6');
-        soma.setAttribute('height', '0.3');
-        soma.setAttribute('radius', '0.4');
-        soma.setAttribute('color', '#ffdd88');
-        soma.setAttribute('material', {
-          roughness: 0.8,
-          metalness: 0.2,
-          opacity: 0.9
-        });
-        soma.setAttribute('rotation', '90 30 0');
-        soma.setAttribute('animation', {
-          property: 'scale',
-          dir: 'alternate',
-          dur: 2000,
-          loop: true,
-          to: '1.05 1.05 1.05'
-        });
-        
-        const nucleus = document.createElement('a-cylinder');
-        nucleus.setAttribute('segments-radial', '6');
-        nucleus.setAttribute('height', '0.2');
-        nucleus.setAttribute('radius', '0.2');
-        nucleus.setAttribute('color', '#ffcccc');
-        nucleus.setAttribute('rotation', '90 30 0');
-        nucleus.setAttribute('animation', {
-          property: 'scale',
-          dir: 'alternate',
-          dur: 2000,
-          loop: true,
-          to: '1.05 1.05 1.05'
-        });
-        
-        this.el.appendChild(soma);
-        this.el.appendChild(nucleus);
-      },
-      createDendrites: function() {
-        for (let i = 0; i < 6; i++) {
-          const angle = (Math.PI/3) * (i - 2.5);
-          const yBias = 0.6;
+  <head>
+    <meta charset="utf-8" />
+    <title>Charity Everett WebXR Production Portfolio</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script>
+      AFRAME.registerComponent("change-scene", {
+        schema: {
+          sceneUrl: { type: "string", default: "" }
+        },
+        init: function () {
+          var el = this.el;
+          var data = this.data;
           
-          const dendrite = document.createElement('a-entity');
-          const end = {
-            x: Math.cos(angle) * 0.8,
-            y: Math.sin(angle) * 0.8 + yBias,
-            z: 0
-          };
-          
-          dendrite.setAttribute('line', {
-            start: {x: 0, y: 0.2, z: 0},
-            end: end,
-            color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.02
-          });
-          
-          this.createOrganizedBranch(end, 3, angle);
-          this.el.appendChild(dendrite);
-        }
-      },
-      createOrganizedBranch: function(start, depth, baseAngle) {
-        if (depth <= 0) return;
-        
-        const branchAngles = [-0.6, 0.6];
-        branchAngles.forEach(angleOffset => {
-          const newAngle = baseAngle + angleOffset;
-          const length = 0.4 / (depth + 0.5);
-          
-          const end = {
-            x: start.x + Math.cos(newAngle) * length,
-            y: start.y + Math.sin(newAngle) * length + 0.2,
-            z: start.z
-          };
-          
-          const branch = document.createElement('a-entity');
-          branch.setAttribute('line', {
-            start: start,
-            end: end,
-            color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.01 / depth
-          });
-          
-          this.el.appendChild(branch);
-          this.createOrganizedBranch(end, depth - 1, newAngle);
-        });
-      },
-      createAxon: function() {
-        const axonLine = document.createElement('a-entity');
-        axonLine.setAttribute('line', {
-          start: {x: 0, y: -0.4, z: 0},
-          end: {x: 0, y: -2.4, z: 0},
-          color: '#ffdd88',
-          opacity: 0.9,
-          width: 0.01
-        });
-        this.el.appendChild(axonLine);
-        
-        const segments = 8;
-        let currentY = -0.4;
-        const spacing = 0.25;
-        
-        for (let i = 0; i < segments; i++) {
-          const segment = document.createElement('a-cylinder');
-          segment.setAttribute('height', '0.2');
-          segment.setAttribute('radius', '0.08');
-          segment.setAttribute('position', `0 ${currentY} 0`);
-          segment.setAttribute('color', '#ffdd88');
-          segment.setAttribute('material', {
-            opacity: 0.9,
-            transparent: true
-          });
-          this.el.appendChild(segment);
-          currentY -= spacing;
-        }
-        
-        const branchStart = {x: 0, y: currentY, z: 0};
-        
-        const firstLevelBranches = [
-          {x: -0.3, y: currentY - 0.3, z: 0},
-          {x: 0.3, y: currentY - 0.3, z: 0}
-        ];
-        
-        firstLevelBranches.forEach(pos => {
-          const branch = document.createElement('a-entity');
-          branch.setAttribute('line', {
-            start: branchStart,
-            end: pos,
-            color: '#ffdd88',
-            width: 0.02
-          });
-          this.el.appendChild(branch);
-          
-          const angle = Math.atan2(pos.y - branchStart.y, pos.x - branchStart.x);
-          const secondLevelBranches = [
-            {
-              x: pos.x + Math.cos(angle - 0.5) * 0.3,
-              y: pos.y - 0.3,
-              z: 0
-            },
-            {
-              x: pos.x + Math.cos(angle + 0.5) * 0.3,
-              y: pos.y - 0.3,
-              z: 0
+          el.addEventListener("click", function () {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
             }
-          ];
-          
-          secondLevelBranches.forEach(endPos => {
-            const subBranch = document.createElement('a-entity');
-            subBranch.setAttribute('line', {
-              start: pos,
-              end: endPos,
-              color: '#ffdd88',
-              width: 0.015
-            });
-            
-            const terminal = document.createElement('a-sphere');
-            terminal.setAttribute('radius', '0.04');
-            terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
-            terminal.setAttribute('color', '#ffdd88');
-            
-            this.el.appendChild(subBranch);
-            this.el.appendChild(terminal);
           });
-        });
-      }
-    });
-  </script>
-</head>
-<body>
-  <a-scene background="color: #f3b5b8">
-    <a-assets>
-      <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
-      <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-      <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-      <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
-    </a-assets>
 
-    <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
-      <a-gltf-model src="#brain-model">
-        <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
-      </a-gltf-model>
-    </a-entity>
+          el.addEventListener("collide", function (e) {
+            if (data.sceneUrl) {
+              window.location.href = data.sceneUrl;
+            }
+          });
+        }
+      });
 
-  <a-entity id="brain-regions">
-  <!-- Cortex: Go Back Fetch It -->
-  <a-entity position="0 1.6 -5">
-    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
-              material="shader: flat; src: #gif3; transparent: true"
-              position="0 0 0.6"
-              scale="1 1 1"
-              class="clickable"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              link="href: https://gobackfetchitxr.com; title: Go Back Fetch It XR Storytelling">
-    </a-entity>
-    <a-text value="Go Back Fetch It XR Storytelling" position="0 -0.5 0.6" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
-  </a-entity>
-
-  <!-- Thalamus: Microservices Architecture -->
-  <a-entity position="-4 1.6 -5">
-    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
-              material="shader: flat; src: #gif2; transparent: true"
-              position="0 0 0.6"
-              scale="1 1 1"
-              class="clickable"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              link="href: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d; title: Introduction to Microservices Architecture">
-    </a-entity>
-    <a-text value="Introduction to Microservices Architecture" position="0 -0.5 0.6" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
-  </a-entity>
-
-  <!-- Hippocampus: Role Prompting in CI/CD -->
-  <a-entity position="4 1.6 -5">
-    <a-entity geometry="primitive: cylinder; radius: 0.3; height: 0.01; segmentsRadial: 6"
-              material="shader: flat; src: #gif1; transparent: true"
-              position="0 0 0.6"
-              scale="1 1 1"
-              class="clickable"
-              event-set__mouseenter="scale: 1.1 1.1 1.1"
-              event-set__mouseleave="scale: 1 1 1"
-              link="href: https://charityeverett.github.io/microservices-architecture/; title: Role Prompting AI in CI/CD Automations">
-    </a-entity>
-    <a-text value="Role Prompting AI in CI/CD Automations" position="0 -0.5 0.6" align="center" color="#FFF" scale="0.5 0.5 0.5"></a-text>
-  </a-entity>
-</a-entity>
+      AFRAME.registerComponent('open-url', {
+  schema: {
+    url: {type: 'string'}
+  },
+  
+  init: function () {
+    var data = this.data;
+    var el = this.el;
     
-    <a-entity id="neural-network" neural-animation></a-entity>
+    el.addEventListener('click', function () {
+      window.open(data.url, '_blank');
+    });
+  }
+});
+    </script>
+  </head>
+  <body>
+    <a-scene embedded physics="debug: true" style="height: 100vh; width: 100vw">
+      <a-assets>
+        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+        <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
+        <img id="clickroleprompt" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
+        <img id="clickmicroservice" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
+        <img id="clicknextarticle" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/up.png?v=1732221473295" />
+        <img id="floor" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Floor?v=1728248710705" />
+        <img id="sky" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Skybox?v=1728248616891" /> 
+      </a-assets>
 
-    <a-entity id="rig" position="0 0 0">
-      <a-camera look-controls wasd-controls="acceleration: 65">
-        <a-cursor raycaster="objects: .clickable"
-                  animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-                  animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-                  event-set__mouseenter="color: springgreen"
-                  event-set__mouseleave="color: black">
-        </a-cursor>
-      </a-camera>
-    </a-entity>
-  </a-scene>
-</body>
+      <!-- Environment -->
+      <a-sky src="#sky"></a-sky>
+      <a-plane src="#floor" rotation="-90 0 0" width="30" height="30"></a-plane>
+
+      <!-- Ambient Light -->
+      <a-light type="ambient" color="#BBB"></a-light>
+      <!-- Directional Light -->
+      <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
+
+      <!-- Camera Rig -->
+      <a-entity id="rig" position="0 1.6 0" rotation="0 0 0">
+        <a-entity camera look-controls wasd-controls="acceleration: 65">
+          <a-cursor
+            raycaster="objects: .clickable"
+            animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+            animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+            event-set__mouseenter="color: springgreen"
+            event-set__mouseleave="color: black">
+          </a-cursor>
+        </a-entity>
+      </a-entity>
+
+      <!-- Gallery Items -->
+      <a-entity id="gallery">
+      <!-- Role Prompt -->
+<a-entity
+  id="ClickRolePrompt"
+  class="project clickable"
+  geometry="primitive: box; width: 2; height: 4"
+  material="shader: gif; src: #gif2"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="5 1.5 0"
+  rotation="0 -90 0"
+  scale="0.5 0.3 0.5"
+  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
+  static-body>
+</a-entity>
+
+<a-entity
+  class="hover-box clickable"
+  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+  material="src: #clickroleprompt"
+  position="5 4 0"
+  rotation="0 -90 0"
+  animation="property: position; to: 5 4.2 0; dir: alternate; dur: 1000; loop: true"
+  open-url="url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"
+  static-body>
+</a-entity>
+        
+<!-- Microservices Architecture -->
+<a-entity
+  class="project clickable"
+  geometry="primitive: box; width: 2; height: 1.5"
+  material="shader: gif; src: #gif1"
+  event-set__mouseenter="scale: 1.1 1.1 1"
+  event-set__mouseleave="scale: 1 1 1"
+  position="0 1.5 -5"
+  scale="0.5 0.3 0.5"
+  open-url="url: https://charityeverett.github.io/microservices-architecture/"
+  static-body>
+</a-entity>
+<a-entity
+  class="hover-box clickable"
+  geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+  material="src: #clickmicroservice"
+  position="0 4 -5"
+  animation="property: position; to: 0 4.2 -5; dir: alternate; dur: 1000; loop: true"
+  open-url="url: https://charityeverett.github.io/microservices-architecture/"
+  static-body>
+</a-entity>
+
+        <!-- Go Back Fetch It -->
+        <a-entity
+          class="project clickable"
+          geometry="primitive: box; width: 2; height: 1.5"
+           material="shader: gif; src: #gif3"
+           event-set__mouseenter="scale: 1.1 1.1 1"
+          event-set__mouseleave="scale: 1 1 1"
+          position="-5 1.5 0"
+          rotation="0 90 0"
+          scale="0.5 0.3 0.5"
+          open-url="url: https://gobackfetchitxr.com"
+          static-body>
+        </a-entity>
+        <a-entity
+          class="hover-box clickable"
+          geometry="primitive: box; width: 2; height: 1.5; depth: 0.1"
+          material="src: #clicknextarticle"
+          position="-5 4 0"
+          rotation="0 90 0"
+          animation="property: position; to: -5 4.2 0; dir: alternate; dur: 1000; loop: true"
+          open-url="url: https://gobackfetchitxr.com"          
+          static-body>
+        </a-entity>
+        <a-text
+          value="Go Back Fetch It"
+          align="center"G
+          position="-5 0 0"
+          rotation="0 90 0"
+          width="2">
+        </a-text>
+      </a-entity>
+    </a-scene>
+  </body>
 </html>

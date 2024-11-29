@@ -87,58 +87,42 @@
           this.el.appendChild(portalParent);
         },
         
-        createDendrites: function() {
-          for (let i = 0; i < 12; i++) {
-            const angle = (Math.PI/3) * (i - 2.5);
-            const yBias = 0.6;
-            
-            const dendrite = document.createElement('a-entity');
-            const end = {
-              x: Math.cos(angle) * 0.8,
-              y: Math.sin(angle) * 0.8 + yBias,
-              z: Math.sin(angle) * 0.3
-            };
-            
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0.2, z: 0},
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.015
-            });
-            
-            this.createOrganizedBranch(end, 3, angle);
-            this.el.appendChild(dendrite);
-          }
-        },
-
-        createOrganizedBranch: function(start, depth, baseAngle) {
-          if (depth <= 0) return;
-          
-          const branchAngles = [-0.6, 0.6];
-          branchAngles.forEach(angleOffset => {
-            const newAngle = baseAngle + angleOffset;
-            const length = 0.4 / (depth + 0.5);
-            
-            const end = {
-              x: start.x + Math.cos(newAngle) * length,
-              y: start.y + Math.sin(newAngle) * length + 0.2,
-              z: start.z + Math.sin(newAngle) * 0.1
-            };
-            
-            const branch = document.createElement('a-entity');
-            branch.setAttribute('line', {
-              start: start,
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.01 / depth
-            });
-            
-            this.el.appendChild(branch);
-            this.createOrganizedBranch(end, depth - 1, newAngle);
-          });
-        },
+    createDendrites: function() {
+  // Create dendrites from 5 faces of the hexagon
+  const faceAngles = [60, 120, 180, 240, 300]; // Angles for 5 faces, excluding portal face
+  
+  faceAngles.forEach(faceAngle => {
+    // Create 3-4 dendrites per face
+    for (let i = 0; i < 3 + Math.floor(Math.random()); i++) {
+      const angle = (faceAngle + (Math.random() - 0.5) * 30) * Math.PI / 180;
+      const length = 0.8 + Math.random() * 0.4;
+      
+      const dendrite = document.createElement('a-entity');
+      const start = {
+        x: Math.cos(angle) * 0.4, // Start from soma surface
+        y: Math.sin(angle) * 0.4,
+        z: 0
+      };
+      
+      const end = {
+        x: Math.cos(angle) * length,
+        y: Math.sin(angle) * length,
+        z: (Math.random() - 0.5) * 0.3
+      };
+      
+      dendrite.setAttribute('line', {
+        start: start,
+        end: end,
+        color: '#ffdd88',
+        opacity: 0.9,
+        width: 0.015
+      });
+      
+      this.createOrganizedBranch(end, 2, angle);
+      this.el.appendChild(dendrite);
+    }
+  });
+}
 
         createAxon: function() {
           const axonLine = document.createElement('a-entity');

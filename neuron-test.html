@@ -31,13 +31,6 @@
             opacity: 0.9
           });
           soma.setAttribute('rotation', '90 30 0');
-          soma.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000,
-            loop: true,
-            to: '1.05 1.05 1.05'
-          });
           
           // Inner nucleus (hexagonal)
           const nucleus = document.createElement('a-cylinder');
@@ -46,13 +39,6 @@
           nucleus.setAttribute('radius', '0.2');
           nucleus.setAttribute('color', '#ffcccc');
           nucleus.setAttribute('rotation', '90 30 0');
-          nucleus.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000,
-            loop: true,
-            to: '1.05 1.05 1.05'
-          });
 
           // Portal
           const portal = document.createElement('a-cylinder');
@@ -69,14 +55,6 @@
             rotation: 45
           });
           portal.setAttribute('rotation', '90 30 0');
-          portal.setAttribute('animation', {
-            property: 'material.emissiveIntensity',
-            dir: 'alternate',
-            dur: 1000,
-            loop: true,
-            from: 0.3,
-            to: 0.7
-          });
           portal.setAttribute('class', 'clickable');
           portal.setAttribute('cursor-listener', '');
           
@@ -86,60 +64,53 @@
         },
         
         createDendrites: function() {
-          // Define the 5 vertex points of the hexagon (excluding portal side)
-          const vertexPoints = [
-            { angle: 60, offset: 0.4 },
-            { angle: 120, offset: 0.4 },
-            { angle: 180, offset: 0.4 },
-            { angle: 240, offset: 0.4 },
-            { angle: 300, offset: 0.4 }
+          // Define vertex points of hexagon
+          const vertices = [
+            { x: 0.35, y: 0.2 },
+            { x: 0.35, y: -0.2 },
+            { x: 0, y: -0.4 },
+            { x: -0.35, y: -0.2 },
+            { x: -0.35, y: 0.2 }
           ];
           
-          vertexPoints.forEach(point => {
-            // Create 2-3 dendrites per vertex
+          vertices.forEach(vertex => {
+            // Create 2-3 main branches per vertex
             for (let i = 0; i < 2 + Math.floor(Math.random()); i++) {
-              const angle = (point.angle + (Math.random() - 0.5) * 15) * Math.PI / 180;
-              const length = 0.8 + Math.random() * 0.4;
-              
-              const dendrite = document.createElement('a-entity');
-              const start = {
-                x: Math.cos(angle) * point.offset,
-                y: Math.sin(angle) * point.offset,
-                z: 0
-              };
+              const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.5;
+              const length = 0.6 + Math.random() * 0.3;
               
               const end = {
-                x: Math.cos(angle) * length,
-                y: Math.sin(angle) * length,
+                x: vertex.x + Math.cos(angle) * length,
+                y: vertex.y + Math.sin(angle) * length,
                 z: (Math.random() - 0.5) * 0.2
               };
               
+              const dendrite = document.createElement('a-entity');
               dendrite.setAttribute('line', {
-                start: start,
+                start: vertex,
                 end: end,
                 color: '#ffdd88',
                 opacity: 0.9,
                 width: 0.015
               });
               
-              this.createOrganizedBranch(end, 2, angle);
+              this.createBranches(end, 2, angle);
               this.el.appendChild(dendrite);
             }
           });
         },
 
-        createOrganizedBranch: function(start, depth, baseAngle) {
+        createBranches: function(start, depth, baseAngle) {
           if (depth <= 0) return;
           
-          const branchAngles = [-0.6, 0.6];
-          branchAngles.forEach(angleOffset => {
+          [-0.7, 0.7].forEach(angleOffset => {
             const newAngle = baseAngle + angleOffset;
-            const length = 0.4 / (depth + 0.5);
+            const length = 0.3 / depth;
             
             const end = {
               x: start.x + Math.cos(newAngle) * length,
-              y: start.y + Math.sin(newAngle) * length + 0.2,
-              z: start.z + Math.sin(newAngle) * 0.1
+              y: start.y + Math.sin(newAngle) * length,
+              z: start.z + (Math.random() - 0.5) * 0.1
             };
             
             const branch = document.createElement('a-entity');
@@ -152,21 +123,12 @@
             });
             
             this.el.appendChild(branch);
-            this.createOrganizedBranch(end, depth - 1, newAngle);
+            this.createBranches(end, depth - 1, newAngle);
           });
         },
 
         createAxon: function() {
-          const axonLine = document.createElement('a-entity');
-          axonLine.setAttribute('line', {
-            start: {x: 0, y: -0.4, z: 0},
-            end: {x: 0, y: -2.4, z: 0},
-            color: '#ffdd88',
-            opacity: 1.0,
-            width: 0.04
-          });
-          this.el.appendChild(axonLine);
-          
+          // Main axon segments
           const segments = 8;
           let currentY = -0.4;
           const spacing = 0.25;
@@ -177,54 +139,50 @@
             segment.setAttribute('radius', '0.08');
             segment.setAttribute('position', `0 ${currentY} 0`);
             segment.setAttribute('color', '#ffdd88');
-            segment.setAttribute('material', {
-              opacity: 1.0,
-              transparent: true,
-              metalness: 0.2,
-              roughness: 0.8
-            });
             this.el.appendChild(segment);
             currentY -= spacing;
           }
           
+          // Terminal branches
           const terminalY = currentY;
           const mainBranches = [
-            {x: -0.4, y: terminalY - 0.2, z: 0},
-            {x: 0.4, y: terminalY - 0.2, z: 0}
+            {x: -0.4, y: terminalY - 0.2},
+            {x: 0.4, y: terminalY - 0.2}
           ];
           
           mainBranches.forEach(pos => {
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
               start: {x: 0, y: terminalY, z: 0},
-              end: pos,
+              end: {x: pos.x, y: pos.y, z: 0},
               color: '#ffdd88',
               width: 0.03
             });
-            this.el.appendChild(branch);
             
-            const subBranches = [
-              {x: pos.x - 0.2, y: pos.y - 0.3, z: 0},
-              {x: pos.x + 0.2, y: pos.y - 0.3, z: 0}
+            const terminals = [
+              {x: pos.x - 0.2, y: pos.y - 0.2},
+              {x: pos.x + 0.2, y: pos.y - 0.2}
             ];
             
-            subBranches.forEach(endPos => {
-              const subBranch = document.createElement('a-entity');
-              subBranch.setAttribute('line', {
+            terminals.forEach(endPos => {
+              const terminal = document.createElement('a-entity');
+              terminal.setAttribute('line', {
                 start: pos,
                 end: endPos,
                 color: '#ffdd88',
                 width: 0.02
               });
               
-              const terminal = document.createElement('a-sphere');
-              terminal.setAttribute('radius', '0.05');
-              terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
-              terminal.setAttribute('color', '#ffdd88');
+              const button = document.createElement('a-sphere');
+              button.setAttribute('radius', '0.05');
+              button.setAttribute('position', `${endPos.x} ${endPos.y} 0`);
+              button.setAttribute('color', '#ffdd88');
               
-              this.el.appendChild(subBranch);
               this.el.appendChild(terminal);
+              this.el.appendChild(button);
             });
+            
+            this.el.appendChild(branch);
           });
         }
       });

@@ -63,42 +63,43 @@
           this.el.appendChild(portal);
         },
         
-        createDendrites: function() {
-          // Define vertex points of hexagon
-          const vertices = [
-            { x: 0.35, y: 0.2 },
-            { x: 0.35, y: -0.2 },
-            { x: 0, y: -0.4 },
-            { x: -0.35, y: -0.2 },
-            { x: -0.35, y: 0.2 }
-          ];
-          
-          vertices.forEach(vertex => {
-            // Create 2-3 main branches per vertex
-            for (let i = 0; i < 2 + Math.floor(Math.random()); i++) {
-              const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.5;
-              const length = 0.6 + Math.random() * 0.3;
-              
-              const end = {
-                x: vertex.x + Math.cos(angle) * length,
-                y: vertex.y + Math.sin(angle) * length,
-                z: (Math.random() - 0.5) * 0.2
-              };
-              
-              const dendrite = document.createElement('a-entity');
-              dendrite.setAttribute('line', {
-                start: vertex,
-                end: end,
-                color: '#ffdd88',
-                opacity: 0.9,
-                width: 0.015
-              });
-              
-              this.createBranches(end, 2, angle);
-              this.el.appendChild(dendrite);
-            }
-          });
-        },
+       createDendrites: function() {
+  // Define vertex points of hexagon - adjusted to move dendrites from axon corner to top
+  const vertices = [
+    { x: 0.35, y: 0.2 },     // Upper right
+    { x: 0, y: 0.4 },        // Top center
+    { x: -0.35, y: 0.2 },    // Upper left
+    { x: -0.35, y: -0.2 },   // Lower left
+    { x: 0.35, y: -0.2 }     // Lower right
+  ];
+  
+  vertices.forEach(vertex => {
+    // Create 2-3 main branches per vertex, with more emphasis on top vertices
+    const branchCount = (vertex.y > 0) ? 3 : 2; // More branches on upper vertices
+    for (let i = 0; i < branchCount; i++) {
+      const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
+      const length = 0.6 + Math.random() * 0.3;
+      
+      const end = {
+        x: vertex.x + Math.cos(angle) * length,
+        y: vertex.y + Math.sin(angle) * length,
+        z: (Math.random() - 0.5) * 0.2
+      };
+      
+      const dendrite = document.createElement('a-entity');
+      dendrite.setAttribute('line', {
+        start: vertex,
+        end: end,
+        color: '#ffdd88',
+        opacity: 0.9,
+        width: 0.015
+      });
+      
+      this.createBranches(end, 2, angle);
+      this.el.appendChild(dendrite);
+    }
+  });
+},
 
         createBranches: function(start, depth, baseAngle) {
           if (depth <= 0) return;

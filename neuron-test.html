@@ -19,25 +19,30 @@
         },
         
         createHexagonalSoma: function() {
-          // Create hexagonal prism for soma
-          const soma = document.createElement('a-cylinder');
-          soma.setAttribute('segments-radial', '6');
-          soma.setAttribute('height', '0.3');
-          soma.setAttribute('radius', '0.4');
-          soma.setAttribute('color', '#ffdd88');
-          soma.setAttribute('material', {
-            roughness: 0.8,
-            metalness: 0.2,
-            opacity: 0.9
-          });
-          soma.setAttribute('rotation', '90 30 0');
-          soma.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000,
-            loop: true,
-            to: '1.05 1.05 1.05'
-          });
+        // Portal on front face
+const portal = document.createElement('a-cylinder');
+portal.setAttribute('segments-radial', '6');
+portal.setAttribute('height', '0.01');
+portal.setAttribute('radius', '0.5625'); // Scaled to match soma face
+portal.setAttribute('position', '0 0 0.45'); // Positioned directly in front
+portal.setAttribute('material', {
+  src: '#gif1',
+  opacity: 0.9,
+  transparent: true,
+  emissive: '#aaddff',
+  emissiveIntensity: 0.5
+});
+portal.setAttribute('rotation', '90 0 0'); // Flat against front face
+portal.setAttribute('animation', {
+  property: 'material.emissiveIntensity',
+  dir: 'alternate',
+  dur: 1000,
+  loop: true,
+  from: 0.3,
+  to: 0.7
+});
+portal.setAttribute('class', 'clickable');
+portal.setAttribute('cursor-listener', '');
           
           // Inner nucleus (hexagonal)
           const nucleus = document.createElement('a-cylinder');

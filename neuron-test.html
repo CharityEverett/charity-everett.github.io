@@ -58,8 +58,8 @@
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');
           portal.setAttribute('height', '0.01');
-          portal.setAttribute('radius', '0.25');
-          portal.setAttribute('position', '0.6 0 0');
+          portal.setAttribute('radius', '0.375');
+          portal.setAttribute('position', '0.41 0 0');
           portal.setAttribute('material', {
             src: '#gif1',
             opacity: 0.9,
@@ -85,7 +85,8 @@
         },
         
         createDendrites: function() {
-          for (let i = 0; i < 8; i++) {
+          // Create dendrites clustered at top
+          for (let i = 0; i < 12; i++) {
             const angle = (Math.PI/3) * (i - 2.5);
             const yBias = 0.6;
             

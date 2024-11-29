@@ -129,64 +129,76 @@
         },
 
         createAxon: function() {
-          // Main axon segments
-          const segments = 8;
-          let currentY = -0.4;
-          const spacing = 0.25;
-          
-          for (let i = 0; i < segments; i++) {
-            const segment = document.createElement('a-cylinder');
-            segment.setAttribute('height', '0.2');
-            segment.setAttribute('radius', '0.08');
-            segment.setAttribute('position', `0 ${currentY} 0`);
-            segment.setAttribute('color', '#ffdd88');
-            this.el.appendChild(segment);
-            currentY -= spacing;
-          }
-          
-          // Terminal branches
-          const terminalY = currentY;
-          const mainBranches = [
-            {x: -0.4, y: terminalY - 0.2},
-            {x: 0.4, y: terminalY - 0.2}
-          ];
-          
-          mainBranches.forEach(pos => {
-            const branch = document.createElement('a-entity');
-            branch.setAttribute('line', {
-              start: {x: 0, y: terminalY, z: 0},
-              end: {x: pos.x, y: pos.y, z: 0},
-              color: '#ffdd88',
-              width: 0.03
-            });
-            
-            const terminals = [
-              {x: pos.x - 0.2, y: pos.y - 0.2},
-              {x: pos.x + 0.2, y: pos.y - 0.2}
-            ];
-            
-            terminals.forEach(endPos => {
-              const terminal = document.createElement('a-entity');
-              terminal.setAttribute('line', {
-                start: pos,
-                end: endPos,
-                color: '#ffdd88',
-                width: 0.02
-              });
-              
-              const button = document.createElement('a-sphere');
-              button.setAttribute('radius', '0.05');
-              button.setAttribute('position', `${endPos.x} ${endPos.y} 0`);
-              button.setAttribute('color', '#ffdd88');
-              
-              this.el.appendChild(terminal);
-              this.el.appendChild(button);
-            });
-            
-            this.el.appendChild(branch);
-          });
-        }
+  // Main axon segments
+  const segments = 8;
+  let currentY = -0.4;
+  const spacing = 0.25;
+  
+  // Create central axon line
+  const axonLine = document.createElement('a-entity');
+  axonLine.setAttribute('line', {
+    start: {x: 0, y: -0.4, z: 0},
+    end: {x: 0, y: -2.4, z: 0},
+    color: '#ffdd88',
+    opacity: 1.0,
+    width: 0.04
+  });
+  this.el.appendChild(axonLine);
+  
+  // Create segmented cylinders
+  for (let i = 0; i < segments; i++) {
+    const segment = document.createElement('a-cylinder');
+    segment.setAttribute('height', '0.2');
+    segment.setAttribute('radius', '0.08');
+    segment.setAttribute('position', `0 ${currentY} 0`);
+    segment.setAttribute('color', '#ffdd88');
+    this.el.appendChild(segment);
+    currentY -= spacing;
+  }
+  
+  // Terminal branches at bottom
+  const terminalY = currentY + spacing; // Adjust to connect to last segment
+  const mainBranches = [
+    {x: -0.3, y: terminalY - 0.2, z: 0},
+    {x: 0.3, y: terminalY - 0.2, z: 0}
+  ];
+  
+  mainBranches.forEach(pos => {
+    // Create main branch
+    const branch = document.createElement('a-entity');
+    branch.setAttribute('line', {
+      start: {x: 0, y: terminalY, z: 0},
+      end: pos,
+      color: '#ffdd88',
+      width: 0.03
+    });
+    this.el.appendChild(branch);
+    
+    // Create terminal buttons
+    const terminals = [
+      {x: pos.x - 0.2, y: pos.y - 0.2, z: 0},
+      {x: pos.x + 0.2, y: pos.y - 0.2, z: 0}
+    ];
+    
+    terminals.forEach(endPos => {
+      const terminal = document.createElement('a-entity');
+      terminal.setAttribute('line', {
+        start: pos,
+        end: endPos,
+        color: '#ffdd88',
+        width: 0.02
       });
+      
+      const button = document.createElement('a-sphere');
+      button.setAttribute('radius', '0.05');
+      button.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
+      button.setAttribute('color', '#ffdd88');
+      
+      this.el.appendChild(terminal);
+      this.el.appendChild(button);
+    });
+  });
+
     </script>
   </head>
   <body>

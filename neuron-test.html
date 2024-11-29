@@ -73,14 +73,16 @@
           ];
           
           vertices.forEach(vertex => {
+            // Create 2-3 dendrites per vertex
             const branchCount = (vertex.y > 0) ? 3 : 2;
             for (let i = 0; i < branchCount; i++) {
               const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
               const length = 0.6 + Math.random() * 0.3;
               
+              // Add curve control point for natural bending
               const controlPoint = {
                 x: vertex.x + Math.cos(angle) * length * 0.5,
-                y: vertex.y + Math.sin(angle) * length * 0.5,
+                y: vertex.y + Math.sin(angle) * length * 0.5 + 0.2,
                 z: (Math.random() - 0.5) * 0.1
               };
               
@@ -109,8 +111,8 @@
           if (depth <= 0) return;
           
           [-0.7, 0.7].forEach(angleOffset => {
-            const newAngle = baseAngle + angleOffset;
-            const length = 0.3 / depth;
+            const newAngle = baseAngle + angleOffset + (Math.random() - 0.5) * 0.2;
+            const length = (0.3 / depth) * (0.8 + Math.random() * 0.4);
             
             const end = {
               x: start.x + Math.cos(newAngle) * length,
@@ -136,14 +138,14 @@
           const axonLine = document.createElement('a-entity');
           axonLine.setAttribute('line', {
             start: {x: 0, y: -0.4, z: 0},
-            end: {x: 0, y: -2.0, z: 0},
+            end: {x: 0, y: -2.4, z: 0},
             color: '#ffdd88',
             opacity: 1.0,
             width: 0.04
           });
           this.el.appendChild(axonLine);
           
-          const segments = 6;
+          const segments = 8;
           let currentY = -0.4;
           const spacing = 0.25;
           
@@ -165,20 +167,21 @@
             const length = 0.4 + Math.random() * 0.2;
             
             const endPoint = {
-              x: Math.cos(radians) * length * 0.8,
+              x: Math.cos(radians) * length,
               y: terminalY - 0.3,
-              z: Math.sin(radians) * length * 0.5 + 0.15
+              z: Math.sin(radians) * length
             };
             
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
-              start: {x: 0, y: terminalY, z: 0.1},
+              start: {x: 0, y: terminalY, z: 0},
               end: endPoint,
               color: '#ffdd88',
               width: 0.02
             });
             this.el.appendChild(branch);
             
+            // Create sub-branches
             const subBranchCount = 2;
             for(let i = 0; i < subBranchCount; i++) {
               const subAngle = radians + (Math.random() - 0.5) * 0.5;
@@ -187,7 +190,7 @@
               const subEnd = {
                 x: endPoint.x + Math.cos(subAngle) * subLength,
                 y: endPoint.y - 0.2,
-                z: endPoint.z + 0.1
+                z: endPoint.z + Math.sin(subAngle) * subLength
               };
               
               const subBranch = document.createElement('a-entity');

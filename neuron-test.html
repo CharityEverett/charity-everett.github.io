@@ -54,16 +54,28 @@
             to: '1.05 1.05 1.05'
           });
 
-          // Portal
+          // Portal with connector rim
+          const portalRim = document.createElement('a-cylinder');
+          portalRim.setAttribute('segments-radial', '6');
+          portalRim.setAttribute('height', '0.02');
+          portalRim.setAttribute('radius', '0.385');
+          portalRim.setAttribute('position', {
+            x: Math.cos(30 * Math.PI/180) * 0.39,
+            y: 0,
+            z: Math.sin(30 * Math.PI/180) * 0.39
+          });
+          portalRim.setAttribute('color', '#ffdd88');
+          portalRim.setAttribute('rotation', '90 30 0');
+
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');
           portal.setAttribute('height', '0.01');
           portal.setAttribute('radius', '0.375');
-portal.setAttribute('position', {
-  x: 0.346, // Math.cos(30 * Math.PI/180) * 0.4
-  y: 0,
-  z: 0.2    // Math.sin(30 * Math.PI/180) * 0.4
-});
+          portal.setAttribute('position', {
+            x: Math.cos(30 * Math.PI/180) * 0.4,
+            y: 0,
+            z: Math.sin(30 * Math.PI/180) * 0.4
+          });
           portal.setAttribute('material', {
             src: '#gif1',
             opacity: 0.9,
@@ -85,6 +97,7 @@ portal.setAttribute('position', {
           
           this.el.appendChild(soma);
           this.el.appendChild(nucleus);
+          this.el.appendChild(portalRim);
           this.el.appendChild(portal);
         },
         

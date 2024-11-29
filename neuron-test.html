@@ -162,46 +162,54 @@
           
           // Terminal branches
           const terminalY = currentY + spacing;
-          const mainBranches = [
-            {x: -0.3, y: terminalY - 0.2, z: 0},
-            {x: 0.3, y: terminalY - 0.2, z: 0}
-          ];
-          
-          mainBranches.forEach(pos => {
-            const branch = document.createElement('a-entity');
-            branch.setAttribute('line', {
-              start: {x: 0, y: terminalY, z: 0},
-              end: pos,
-              color: '#ffdd88',
-              width: 0.03
-            });
-            this.el.appendChild(branch);
-            
-            const terminals = [
-              {x: pos.x - 0.2, y: pos.y - 0.2, z: 0},
-              {x: pos.x + 0.2, y: pos.y - 0.2, z: 0}
-            ];
-            
-            terminals.forEach(endPos => {
-              const terminal = document.createElement('a-entity');
-              terminal.setAttribute('line', {
-                start: pos,
-                end: endPos,
-                color: '#ffdd88',
-                width: 0.02
-              });
-              
-              const button = document.createElement('a-sphere');
-              button.setAttribute('radius', '0.05');
-              button.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
-              button.setAttribute('color', '#ffdd88');
-              
-              this.el.appendChild(terminal);
-              this.el.appendChild(button);
-            });
-          });
-        }
+  const mainBranches = [
+    {x: -0.25, y: terminalY - 0.15, z: 0.1},
+    {x: 0.25, y: terminalY - 0.15, z: -0.1}
+  ];
+  
+  mainBranches.forEach(pos => {
+    // Main branch
+    const branch = document.createElement('a-entity');
+    branch.setAttribute('line', {
+      start: {x: 0, y: terminalY, z: 0},
+      end: pos,
+      color: '#ffdd88',
+      width: 0.03
+    });
+    this.el.appendChild(branch);
+    
+    // Create sub-branches with natural angles
+    const subBranches = [
+      {
+        x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+        y: pos.y - 0.15,
+        z: pos.z + 0.05
+      },
+      {
+        x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+        y: pos.y - 0.15,
+        z: pos.z - 0.05
+      }
+    ];
+    
+    subBranches.forEach(endPos => {
+      const subBranch = document.createElement('a-entity');
+      subBranch.setAttribute('line', {
+        start: pos,
+        end: endPos,
+        color: '#ffdd88',
+        width: 0.02
       });
+      
+      const terminal = document.createElement('a-sphere');
+      terminal.setAttribute('radius', '0.04');
+      terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
+      terminal.setAttribute('color', '#ffdd88');
+      
+      this.el.appendChild(subBranch);
+      this.el.appendChild(terminal);
+    });
+  });
     </script>
   </head>
   <body>

@@ -3,6 +3,14 @@
   <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script>
+      AFRAME.registerComponent('cursor-listener', {
+        init: function() {
+          this.el.addEventListener('click', function() {
+            window.location.href = 'https://www.gobackfetchitxr.com';
+          });
+        }
+      });
+
       AFRAME.registerComponent('multipolar-neuron', {
         init: function() {
           this.createHexagonalSoma();
@@ -45,15 +53,38 @@
             loop: true,
             to: '1.05 1.05 1.05'
           });
+
+          // Portal overlay
+          const portal = document.createElement('a-cylinder');
+          portal.setAttribute('segments-radial', '6');
+          portal.setAttribute('height', '0.01');
+          portal.setAttribute('radius', '0.45');
+          portal.setAttribute('color', '#aaddff');
+          portal.setAttribute('material', {
+            opacity: 0.5,
+            transparent: true,
+            emissive: '#aaddff',
+            emissiveIntensity: 0.5
+          });
+          portal.setAttribute('rotation', '90 30 0');
+          portal.setAttribute('animation', {
+            property: 'material.emissiveIntensity',
+            dir: 'alternate',
+            dur: 1000,
+            loop: true,
+            from: 0.3,
+            to: 0.7
+          });
+          portal.setAttribute('class', 'clickable');
+          portal.setAttribute('cursor-listener', '');
           
           this.el.appendChild(soma);
           this.el.appendChild(nucleus);
+          this.el.appendChild(portal);
         },
         
         createDendrites: function() {
-          // Create dendrites clustered at top
-          for (let i = 0; i < 6; i++) {
-            // Restrict angles to upper portion
+          for (let i = 0; i < 8; i++) {
             const angle = (Math.PI/3) * (i - 2.5);
             const yBias = 0.6;
             
@@ -61,7 +92,7 @@
             const end = {
               x: Math.cos(angle) * 0.8,
               y: Math.sin(angle) * 0.8 + yBias,
-              z: 0
+              z: Math.sin(angle) * 0.3
             };
             
             dendrite.setAttribute('line', {
@@ -88,7 +119,7 @@
             const end = {
               x: start.x + Math.cos(newAngle) * length,
               y: start.y + Math.sin(newAngle) * length + 0.2,
-              z: start.z
+              z: start.z + Math.sin(newAngle) * 0.1
             };
             
             const branch = document.createElement('a-entity');
@@ -106,18 +137,16 @@
         },
 
         createAxon: function() {
-          // Thin central axon line
           const axonLine = document.createElement('a-entity');
           axonLine.setAttribute('line', {
             start: {x: 0, y: -0.4, z: 0},
             end: {x: 0, y: -2.4, z: 0},
             color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.01
+            opacity: 1.0,
+            width: 0.04
           });
           this.el.appendChild(axonLine);
           
-          // Segmented cylinders
           const segments = 8;
           let currentY = -0.4;
           const spacing = 0.25;
@@ -129,58 +158,47 @@
             segment.setAttribute('position', `0 ${currentY} 0`);
             segment.setAttribute('color', '#ffdd88');
             segment.setAttribute('material', {
-              opacity: 0.9,
-              transparent: true
+              opacity: 1.0,
+              transparent: true,
+              metalness: 0.2,
+              roughness: 0.8
             });
             this.el.appendChild(segment);
             currentY -= spacing;
           }
           
-          // Create branching pattern for terminals
-          const branchStart = {x: 0, y: currentY, z: 0};
-          
-          // First level branches
-          const firstLevelBranches = [
-            {x: -0.3, y: currentY - 0.3, z: 0},
-            {x: 0.3, y: currentY - 0.3, z: 0}
+          const terminalY = currentY;
+          const mainBranches = [
+            {x: -0.4, y: terminalY - 0.2, z: 0},
+            {x: 0.4, y: terminalY - 0.2, z: 0}
           ];
           
-          firstLevelBranches.forEach(pos => {
+          mainBranches.forEach(pos => {
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
-              start: branchStart,
+              start: {x: 0, y: terminalY, z: 0},
               end: pos,
               color: '#ffdd88',
-              width: 0.02
+              width: 0.03
             });
             this.el.appendChild(branch);
             
-            // Second level branches
-            const angle = Math.atan2(pos.y - branchStart.y, pos.x - branchStart.x);
-            const secondLevelBranches = [
-              {
-                x: pos.x + Math.cos(angle - 0.5) * 0.3,
-                y: pos.y - 0.3,
-                z: 0
-              },
-              {
-                x: pos.x + Math.cos(angle + 0.5) * 0.3,
-                y: pos.y - 0.3,
-                z: 0
-              }
+            const subBranches = [
+              {x: pos.x - 0.2, y: pos.y - 0.3, z: 0},
+              {x: pos.x + 0.2, y: pos.y - 0.3, z: 0}
             ];
             
-            secondLevelBranches.forEach(endPos => {
+            subBranches.forEach(endPos => {
               const subBranch = document.createElement('a-entity');
               subBranch.setAttribute('line', {
                 start: pos,
                 end: endPos,
                 color: '#ffdd88',
-                width: 0.015
+                width: 0.02
               });
               
               const terminal = document.createElement('a-sphere');
-              terminal.setAttribute('radius', '0.04');
+              terminal.setAttribute('radius', '0.05');
               terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
               terminal.setAttribute('color', '#ffdd88');
               
@@ -196,7 +214,9 @@
     <a-scene>
       <a-entity id="neuron" multipolar-neuron position="0 1.5 -3" scale="1.5 1.5 1.5"></a-entity>
       
-      <a-camera position="0 0 0"></a-camera>
+      <a-camera position="0 0 0">
+        <a-cursor raycaster="objects: .clickable"></a-cursor>
+      </a-camera>
       
       <a-sky color="#001133"></a-sky>
       <a-light type="ambient" intensity="0.5"></a-light>

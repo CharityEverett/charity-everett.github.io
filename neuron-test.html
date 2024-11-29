@@ -54,14 +54,15 @@
             to: '1.05 1.05 1.05'
           });
 
-          // Portal overlay
+          // Portal
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');
           portal.setAttribute('height', '0.01');
-          portal.setAttribute('radius', '0.45');
-          portal.setAttribute('color', '#aaddff');
+          portal.setAttribute('radius', '0.25');
+          portal.setAttribute('position', '0.6 0 0');
           portal.setAttribute('material', {
-            opacity: 0.5,
+            src: '#gif1',
+            opacity: 0.9,
             transparent: true,
             emissive: '#aaddff',
             emissiveIntensity: 0.5
@@ -100,7 +101,7 @@
               end: end,
               color: '#ffdd88',
               opacity: 0.9,
-              width: 0.02
+              width: 0.015
             });
             
             this.createOrganizedBranch(end, 3, angle);
@@ -212,6 +213,12 @@
   </head>
   <body>
     <a-scene>
+      <a-assets>
+        <img id="gif1" 
+             crossorigin="anonymous" 
+             src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+      </a-assets>
+      
       <a-entity id="neuron" multipolar-neuron position="0 1.5 -3" scale="1.5 1.5 1.5"></a-entity>
       
       <a-camera position="0 0 0">

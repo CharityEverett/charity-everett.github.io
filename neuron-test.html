@@ -19,30 +19,25 @@
         },
         
         createHexagonalSoma: function() {
-        // Portal on front face
-const portal = document.createElement('a-cylinder');
-portal.setAttribute('segments-radial', '6');
-portal.setAttribute('height', '0.01');
-portal.setAttribute('radius', '0.5625'); // Scaled to match soma face
-portal.setAttribute('position', '0 0 0.45'); // Positioned directly in front
-portal.setAttribute('material', {
-  src: '#gif1',
-  opacity: 0.9,
-  transparent: true,
-  emissive: '#aaddff',
-  emissiveIntensity: 0.5
-});
-portal.setAttribute('rotation', '90 0 0'); // Flat against front face
-portal.setAttribute('animation', {
-  property: 'material.emissiveIntensity',
-  dir: 'alternate',
-  dur: 1000,
-  loop: true,
-  from: 0.3,
-  to: 0.7
-});
-portal.setAttribute('class', 'clickable');
-portal.setAttribute('cursor-listener', '');
+          // Create hexagonal prism for soma
+          const soma = document.createElement('a-cylinder');
+          soma.setAttribute('segments-radial', '6');
+          soma.setAttribute('height', '0.3');
+          soma.setAttribute('radius', '0.4');
+          soma.setAttribute('color', '#ffdd88');
+          soma.setAttribute('material', {
+            roughness: 0.8,
+            metalness: 0.2,
+            opacity: 0.9
+          });
+          soma.setAttribute('rotation', '90 30 0');
+          soma.setAttribute('animation', {
+            property: 'scale',
+            dir: 'alternate',
+            dur: 2000,
+            loop: true,
+            to: '1.05 1.05 1.05'
+          });
           
           // Inner nucleus (hexagonal)
           const nucleus = document.createElement('a-cylinder');
@@ -71,7 +66,7 @@ portal.setAttribute('cursor-listener', '');
             transparent: true,
             emissive: '#aaddff',
             emissiveIntensity: 0.5,
-            rotation: 45 
+            rotation: 45
           });
           portal.setAttribute('rotation', '90 30 0');
           portal.setAttribute('animation', {
@@ -91,24 +86,32 @@ portal.setAttribute('cursor-listener', '');
         },
         
         createDendrites: function() {
-          const faceAngles = [60, 120, 180, 240, 300];
+          // Define the 5 vertex points of the hexagon (excluding portal side)
+          const vertexPoints = [
+            { angle: 60, offset: 0.4 },
+            { angle: 120, offset: 0.4 },
+            { angle: 180, offset: 0.4 },
+            { angle: 240, offset: 0.4 },
+            { angle: 300, offset: 0.4 }
+          ];
           
-          faceAngles.forEach(faceAngle => {
-            for (let i = 0; i < 3 + Math.floor(Math.random()); i++) {
-              const angle = (faceAngle + (Math.random() - 0.5) * 30) * Math.PI / 180;
+          vertexPoints.forEach(point => {
+            // Create 2-3 dendrites per vertex
+            for (let i = 0; i < 2 + Math.floor(Math.random()); i++) {
+              const angle = (point.angle + (Math.random() - 0.5) * 15) * Math.PI / 180;
               const length = 0.8 + Math.random() * 0.4;
               
               const dendrite = document.createElement('a-entity');
               const start = {
-                x: Math.cos(angle) * 0.4,
-                y: Math.sin(angle) * 0.4,
+                x: Math.cos(angle) * point.offset,
+                y: Math.sin(angle) * point.offset,
                 z: 0
               };
               
               const end = {
                 x: Math.cos(angle) * length,
                 y: Math.sin(angle) * length,
-                z: (Math.random() - 0.5) * 0.3
+                z: (Math.random() - 0.5) * 0.2
               };
               
               dendrite.setAttribute('line', {

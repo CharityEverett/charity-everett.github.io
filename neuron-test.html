@@ -64,7 +64,6 @@
         },
         
         createDendrites: function() {
-          // Define vertex points of hexagon - adjusted for top emphasis
           const vertices = [
             { x: 0.35, y: 0.2 },     // Upper right
             { x: 0, y: 0.4 },        // Top center
@@ -128,7 +127,6 @@
         },
 
         createAxon: function() {
-          // Main axon line
           const axonLine = document.createElement('a-entity');
           axonLine.setAttribute('line', {
             start: {x: 0, y: -0.4, z: 0},
@@ -139,7 +137,6 @@
           });
           this.el.appendChild(axonLine);
           
-          // Segmented cylinders
           const segments = 8;
           let currentY = -0.4;
           const spacing = 0.25;
@@ -150,66 +147,59 @@
             segment.setAttribute('radius', '0.08');
             segment.setAttribute('position', `0 ${currentY} 0`);
             segment.setAttribute('color', '#ffdd88');
-            segment.setAttribute('material', {
-              opacity: 1.0,
-              transparent: true,
-              metalness: 0.2,
-              roughness: 0.8
-            });
             this.el.appendChild(segment);
             currentY -= spacing;
           }
           
-          // Terminal branches
           const terminalY = currentY + spacing;
-  const mainBranches = [
-    {x: -0.25, y: terminalY - 0.15, z: 0.1},
-    {x: 0.25, y: terminalY - 0.15, z: -0.1}
-  ];
-  
-  mainBranches.forEach(pos => {
-    // Main branch
-    const branch = document.createElement('a-entity');
-    branch.setAttribute('line', {
-      start: {x: 0, y: terminalY, z: 0},
-      end: pos,
-      color: '#ffdd88',
-      width: 0.03
-    });
-    this.el.appendChild(branch);
-    
-    // Create sub-branches with natural angles
-    const subBranches = [
-      {
-        x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
-        y: pos.y - 0.15,
-        z: pos.z + 0.05
-      },
-      {
-        x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
-        y: pos.y - 0.15,
-        z: pos.z - 0.05
-      }
-    ];
-    
-    subBranches.forEach(endPos => {
-      const subBranch = document.createElement('a-entity');
-      subBranch.setAttribute('line', {
-        start: pos,
-        end: endPos,
-        color: '#ffdd88',
-        width: 0.02
+          const mainBranches = [
+            {x: -0.25, y: terminalY - 0.15, z: 0.1},
+            {x: 0.25, y: terminalY - 0.15, z: -0.1}
+          ];
+          
+          mainBranches.forEach(pos => {
+            const branch = document.createElement('a-entity');
+            branch.setAttribute('line', {
+              start: {x: 0, y: terminalY, z: 0},
+              end: pos,
+              color: '#ffdd88',
+              width: 0.03
+            });
+            this.el.appendChild(branch);
+            
+            const subBranches = [
+              {
+                x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+                y: pos.y - 0.15,
+                z: pos.z + 0.05
+              },
+              {
+                x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+                y: pos.y - 0.15,
+                z: pos.z - 0.05
+              }
+            ];
+            
+            subBranches.forEach(endPos => {
+              const subBranch = document.createElement('a-entity');
+              subBranch.setAttribute('line', {
+                start: pos,
+                end: endPos,
+                color: '#ffdd88',
+                width: 0.02
+              });
+              
+              const terminal = document.createElement('a-sphere');
+              terminal.setAttribute('radius', '0.04');
+              terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
+              terminal.setAttribute('color', '#ffdd88');
+              
+              this.el.appendChild(subBranch);
+              this.el.appendChild(terminal);
+            });
+          });
+        }
       });
-      
-      const terminal = document.createElement('a-sphere');
-      terminal.setAttribute('radius', '0.04');
-      terminal.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
-      terminal.setAttribute('color', '#ffdd88');
-      
-      this.el.appendChild(subBranch);
-      this.el.appendChild(terminal);
-    });
-  });
     </script>
   </head>
   <body>

@@ -59,17 +59,20 @@
           portalParent.setAttribute('rotation', '90 30 0');
           portalParent.setAttribute('position', '0.4 0 0');
 
-          const portal = document.createElement('a-cylinder');
-          portal.setAttribute('segments-radial', '6');
-          portal.setAttribute('height', '0.01');
-          portal.setAttribute('radius', '0.375');
-          portal.setAttribute('material', {
-            src: '#gif1',
-            opacity: 0.9,
-            transparent: true,
-            emissive: '#aaddff',
-            emissiveIntensity: 0.5
-          });
+         // Portal positioning
+const portal = document.createElement('a-cylinder');
+portal.setAttribute('segments-radial', '6');
+portal.setAttribute('height', '0.01');
+portal.setAttribute('radius', '0.375');
+portal.setAttribute('position', '0.118 -0.021 0.255'); // Updated precise coordinates
+portal.setAttribute('material', {
+  src: '#gif1',
+  opacity: 0.9,
+  transparent: true,
+  emissive: '#aaddff',
+  emissiveIntensity: 0.5
+});
+portal.setAttribute('rotation', '90 30 0');
           portal.setAttribute('animation', {
             property: 'material.emissiveIntensity',
             dir: 'alternate',

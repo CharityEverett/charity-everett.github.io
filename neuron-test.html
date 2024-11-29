@@ -54,25 +54,20 @@
             to: '1.05 1.05 1.05'
           });
 
-          // Portal parent for proper positioning
-          const portalParent = document.createElement('a-entity');
-          portalParent.setAttribute('rotation', '90 30 0');
-          portalParent.setAttribute('position', '0.4 0 0');
-
-         // Portal positioning
-const portal = document.createElement('a-cylinder');
-portal.setAttribute('segments-radial', '6');
-portal.setAttribute('height', '0.01');
-portal.setAttribute('radius', '0.375');
-portal.setAttribute('position', '0.118 -0.021 0.255'); // Updated precise coordinates
-portal.setAttribute('material', {
-  src: '#gif1',
-  opacity: 0.9,
-  transparent: true,
-  emissive: '#aaddff',
-  emissiveIntensity: 0.5
-});
-portal.setAttribute('rotation', '90 30 0');
+          // Portal
+          const portal = document.createElement('a-cylinder');
+          portal.setAttribute('segments-radial', '6');
+          portal.setAttribute('height', '0.01');
+          portal.setAttribute('radius', '0.375');
+          portal.setAttribute('position', '0.118 -0.021 0.255');
+          portal.setAttribute('material', {
+            src: '#gif1',
+            opacity: 0.9,
+            transparent: true,
+            emissive: '#aaddff',
+            emissiveIntensity: 0.5
+          });
+          portal.setAttribute('rotation', '90 30 0');
           portal.setAttribute('animation', {
             property: 'material.emissiveIntensity',
             dir: 'alternate',
@@ -84,35 +79,44 @@ portal.setAttribute('rotation', '90 30 0');
           portal.setAttribute('class', 'clickable');
           portal.setAttribute('cursor-listener', '');
           
-          portalParent.appendChild(portal);
           this.el.appendChild(soma);
           this.el.appendChild(nucleus);
-          this.el.appendChild(portalParent);
+          this.el.appendChild(portal);
         },
         
         createDendrites: function() {
-          for (let i = 0; i < 12; i++) {
-            const angle = (Math.PI/3) * (i - 2.5);
-            const yBias = 0.6;
-            
-            const dendrite = document.createElement('a-entity');
-            const end = {
-              x: Math.cos(angle) * 0.8,
-              y: Math.sin(angle) * 0.8 + yBias,
-              z: Math.sin(angle) * 0.3
-            };
-            
-            dendrite.setAttribute('line', {
-              start: {x: 0, y: 0.2, z: 0},
-              end: end,
-              color: '#ffdd88',
-              opacity: 0.9,
-              width: 0.015
-            });
-            
-            this.createOrganizedBranch(end, 3, angle);
-            this.el.appendChild(dendrite);
-          }
+          const faceAngles = [60, 120, 180, 240, 300];
+          
+          faceAngles.forEach(faceAngle => {
+            for (let i = 0; i < 3 + Math.floor(Math.random()); i++) {
+              const angle = (faceAngle + (Math.random() - 0.5) * 30) * Math.PI / 180;
+              const length = 0.8 + Math.random() * 0.4;
+              
+              const dendrite = document.createElement('a-entity');
+              const start = {
+                x: Math.cos(angle) * 0.4,
+                y: Math.sin(angle) * 0.4,
+                z: 0
+              };
+              
+              const end = {
+                x: Math.cos(angle) * length,
+                y: Math.sin(angle) * length,
+                z: (Math.random() - 0.5) * 0.3
+              };
+              
+              dendrite.setAttribute('line', {
+                start: start,
+                end: end,
+                color: '#ffdd88',
+                opacity: 0.9,
+                width: 0.015
+              });
+              
+              this.createOrganizedBranch(end, 2, angle);
+              this.el.appendChild(dendrite);
+            }
+          });
         },
 
         createOrganizedBranch: function(start, depth, baseAngle) {

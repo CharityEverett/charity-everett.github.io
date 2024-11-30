@@ -14,7 +14,7 @@
         }
       });
 
-      AFRAME.registerComponent('multipolar-neuron', {
+     AFRAME.registerComponent('multipolar-neuron', {
   schema: {
     gifId: {type: 'string'},
     url: {type: 'string'}
@@ -25,45 +25,45 @@
     this.createAxon();
   },
     
-    createHexagonalSoma: function() {
-      const soma = document.createElement('a-cylinder');
-      soma.setAttribute('segments-radial', '6');
-      soma.setAttribute('height', '0.3');
-      soma.setAttribute('radius', '0.4');
-      soma.setAttribute('color', '#ffdd88');
-      soma.setAttribute('material', {
-        roughness: 0.8,
-        metalness: 0.2,
-        opacity: 0.9
-      });
-      soma.setAttribute('rotation', '90 0 0');
-      
-      soma.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.1 1.1 1.1',
-        from: '1 1 1'
-      });
-      
-      const nucleus = document.createElement('a-cylinder');
-      nucleus.setAttribute('segments-radial', '6');
-      nucleus.setAttribute('height', '0.2');
-      nucleus.setAttribute('radius', '0.2');
-      nucleus.setAttribute('color', '#ffcccc');
-      nucleus.setAttribute('rotation', '90 30 0');
-      
-      nucleus.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.05 1.05 1.05',
-        from: '1 1 1'
-      });
+  createHexagonalSoma: function() {
+    const soma = document.createElement('a-cylinder');
+    soma.setAttribute('segments-radial', '6');
+    soma.setAttribute('height', '0.3');
+    soma.setAttribute('radius', '0.4');
+    soma.setAttribute('color', '#ffdd88');
+    soma.setAttribute('material', {
+      roughness: 0.8,
+      metalness: 0.2,
+      opacity: 0.9
+    });
+    soma.setAttribute('rotation', '90 30 0');  // Updated rotation to match hexagonal face
+    
+    soma.setAttribute('animation', {
+      property: 'scale',
+      dir: 'alternate',
+      dur: 1000,
+      easing: 'easeInOutSine',
+      loop: true,
+      to: '1.1 1.1 1.1',
+      from: '1 1 1'
+    });
+    
+    const nucleus = document.createElement('a-cylinder');
+    nucleus.setAttribute('segments-radial', '6');
+    nucleus.setAttribute('height', '0.2');
+    nucleus.setAttribute('radius', '0.2');
+    nucleus.setAttribute('color', '#ffcccc');
+    nucleus.setAttribute('rotation', '90 30 0');  // Updated to match soma rotation
+    
+    nucleus.setAttribute('animation', {
+      property: 'scale',
+      dir: 'alternate',
+      dur: 1000,
+      easing: 'easeInOutSine',
+      loop: true,
+      to: '1.05 1.05 1.05',
+      from: '1 1 1'
+    });
 
     const portal = document.createElement('a-cylinder');
     portal.setAttribute('segments-radial', '6');
@@ -75,10 +75,9 @@
       opacity: 0.9,
       transparent: true,
       emissive: '#aaddff',
-      emissiveIntensity: 0.5,
-      rotation: 45
+      emissiveIntensity: 0.5
     });
-    portal.setAttribute('rotation', '0 0 90');
+    portal.setAttribute('rotation', '90 30 0');  // Updated to match soma rotation
     portal.setAttribute('class', 'clickable');
     portal.setAttribute('cursor-listener', '');
 
@@ -91,77 +90,6 @@
     this.el.appendChild(nucleus);
     this.el.appendChild(portal);
   },
-    
-    createDendrites: function() {
-      const vertices = [
-        { x: 0.35, y: 0.2 },
-        { x: 0, y: 0.4 },
-        { x: -0.35, y: 0.2 },
-        { x: -0.35, y: -0.2 },
-        { x: 0.35, y: -0.2 }
-      ];
-      
-      vertices.forEach(vertex => {
-        const branchCount = (vertex.y > 0) ? 3 : 2;
-        for (let i = 0; i < branchCount; i++) {
-          const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
-          const length = 0.6 + Math.random() * 0.3;
-          
-          const end = {
-            x: vertex.x + Math.cos(angle) * length,
-            y: vertex.y + Math.sin(angle) * length,
-            z: (Math.random() - 0.5) * 0.2
-          };
-          
-          const dendrite = document.createElement('a-entity');
-          dendrite.setAttribute('line', {
-            start: vertex,
-            end: end,
-            color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.015
-          });
-
-          dendrite.setAttribute('animation__stretch', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000 + Math.random() * 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.1 1.1 1.1'
-          });
-
-          dendrite.setAttribute('animation__glow', {
-            property: 'line.opacity',
-            dir: 'alternate',
-            dur: 1500,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: 0.6,
-            to: 1.0
-          });
-
-          const tip = document.createElement('a-sphere');
-          tip.setAttribute('radius', '0.01');
-          tip.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-          tip.setAttribute('color', '#ffdd88');
-          tip.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.3 1.3 1.3'
-          });
-          
-          this.createBranches(end, 2, angle);
-          this.el.appendChild(dendrite);
-          this.el.appendChild(tip);
-        }
-      });
-    },
 
     createBranches: function(start, depth, baseAngle) {
       if (depth <= 0) return;

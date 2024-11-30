@@ -8,9 +8,9 @@ Journey through a virtual brain where each region is a portal to Charity's diver
 
 ## Featured Projects
 
-- [Go Back Fetch It](https://gobackfetchitxr.com): An immersive data retrieval experience
-- [Role Prompting in CICD Automation with AI](https://dev.to/charitylovesxr/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d): Exploring the DevOps-AI intersection
-- [Scene on Microservices Architecture](https://charityeverett.github.io/microservices-architecture/): Visualizing complex software structures
+- [Go Back Fetch It](https://gobackfetchitxr.com): An award winning WebXR data storytelling experience
+- [Role Prompting in CICD Automation with AI](https://dev.to/charitylovesxr/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d): Exploring the DevOps-AI intersection with Data Storytelling
+- [Scene on Microservices Architecture](https://charityeverett.github.io/microservices-architecture/): Visualizing complex software structures in an immersive world
 
 ## Cutting-Edge Technology
 

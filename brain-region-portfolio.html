@@ -354,59 +354,6 @@
         
     </a-entity>
 
-        <!-- Minimal Particle System for Neural Activity -->
-<a-entity position="0 0 0"
-          particle-system="preset: dust; 
-                         particleCount: 100; 
-                         color: #ffdd88; 
-                         size: 0.02;
-                         maxAge: 2;
-                         velocityValue: 0.1 0.1 0.1;
-                         accelerationValue: 0 0 0;
-                         opacity: 0.5;
-                         blending: additive">
-</a-entity>
-
-<!-- Optimized Fog -->
-<a-scene fog="type: linear; 
-             color: #001133; 
-             near: 1; 
-             far: 15">
-
-<!-- Single Pulsing Light -->
-<a-entity position="0 2 -4">
-    <a-light type="point" 
-             color="#ffdd88" 
-             intensity="0.2"
-             distance="5">
-        <a-animation attribute="intensity"
-                     from="0.2"
-                     to="0.4"
-                     dur="4000"
-                     direction="alternate"
-                     repeat="indefinite"
-                     easing="easeInOutSine">
-        </a-animation>
-    </a-light>
-</a-entity>
-
-<!-- Static Background Elements (Limited Number) -->
-<a-entity position="-4 2 -7">
-    <a-sphere radius="0.15" 
-              color="#ffdd88" 
-              opacity="0.3" 
-              segments-width="8" 
-              segments-height="8">
-    </a-sphere>
-</a-entity>
-<a-entity position="4 3 -8">
-    <a-sphere radius="0.15" 
-              color="#ffdd88" 
-              opacity="0.3" 
-              segments-width="8" 
-              segments-height="8">
-    </a-sphere>
-</a-entity>
     <!-- Thalamus: Microservices Architecture -->
     <a-entity position="-4 1.6 -5">
         <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>

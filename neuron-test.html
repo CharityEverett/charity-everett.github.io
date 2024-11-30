@@ -118,6 +118,17 @@
                 width: 0.015
               });
               
+              // Add dendrite animation
+              dendrite.setAttribute('animation', {
+                property: 'line.opacity',
+                dir: 'alternate',
+                dur: 2000 + Math.random() * 1000,
+                easing: 'easeInOutSine',
+                loop: true,
+                from: 0.7,
+                to: 1.0
+              });
+              
               this.createBranches(end, 2, angle);
               this.el.appendChild(dendrite);
             }
@@ -175,6 +186,21 @@
             currentY -= spacing;
           }
 
+          // Add propagating signal animation
+          const signal = document.createElement('a-sphere');
+          signal.setAttribute('radius', '0.04');
+          signal.setAttribute('color', '#ffffff');
+          signal.setAttribute('opacity', '0.6');
+          signal.setAttribute('animation', {
+            property: 'position',
+            dur: 1500,
+            easing: 'linear',
+            loop: true,
+            from: '0 -0.4 0',
+            to: '0 -1.2 0'
+          });
+          this.el.appendChild(signal);
+
           const terminalY = currentY + spacing;
           const mainBranches = [
             {angle: -45, length: 0.7},
@@ -218,6 +244,18 @@
               bouton.setAttribute('radius', '0.02');
               bouton.setAttribute('position', `${subEndX} ${subEndY} 0`);
               bouton.setAttribute('color', '#ffdd88');
+              
+              // Add terminal bouton animation
+              bouton.setAttribute('animation', {
+                property: 'scale',
+                dir: 'alternate',
+                dur: 1000,
+                easing: 'easeInOutSine',
+                loop: true,
+                from: '1 1 1',
+                to: '1.2 1.2 1.2'
+              });
+              
               this.el.appendChild(bouton);
             });
           });

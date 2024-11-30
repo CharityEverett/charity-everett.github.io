@@ -875,7 +875,22 @@
           <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
         </a-gltf-model>
       </a-entity>
+<a-entity id="brain-regions">
+    <!-- Center neuron -->
+    <a-entity position="0 1.6 -5">
+        <a-entity multipolar-neuron="gifId: #gif3" scale="2.5 2.5 2.5"></a-entity>
+    </a-entity>
 
+    <!-- Left neuron -->
+    <a-entity position="-4 1.6 -5">
+        <a-entity multipolar-neuron="gifId: #gif2" scale="2.5 2.5 2.5"></a-entity>
+    </a-entity>
+
+    <!-- Right neuron -->
+    <a-entity position="4 1.6 -5">
+        <a-entity multipolar-neuron="gifId: #gif1" scale="2.5 2.5 2.5"></a-entity>
+    </a-entity>
+</a-entity>
    
 <!-- Neural Network -->
 <a-entity id="neural-network" neural-animation></a-entity>

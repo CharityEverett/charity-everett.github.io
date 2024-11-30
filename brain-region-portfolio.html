@@ -181,21 +181,21 @@
           });
         },
 
-      createAxon: function() {
+     createAxon: function() {
   const axonLine = document.createElement('a-entity');
   axonLine.setAttribute('line', {
     start: {x: 0, y: -0.4, z: 0},
-    end: {x: 0, y: -1.2, z: 0},
+    end: {x: 0, y: -2.0, z: 0},  // Extended from -1.2 to -2.0
     color: '#ffdd88',
     opacity: 1.0,
     width: 0.04
   });
   this.el.appendChild(axonLine);
 
-  const segments = 6;  // Increased number of segments
+  const segments = 6;  // Increased from 4 to 6
   let currentY = -0.4;
-  const spacing = 0.3;  // Increased spacing between segments
-  const height = 0.15;  // Reduced height of each segment
+  const spacing = 0.3;  // Adjusted spacing
+  const height = 0.15;  // Maintained height for gaps
 
   for (let i = 0; i < segments; i++) {
     const segment = document.createElement('a-cylinder');
@@ -207,7 +207,7 @@
     currentY -= spacing;
   }
 
-  // Adjust signal animation to match new spacing
+  // Adjust signal animation to match full length
   const signal = document.createElement('a-sphere');
   signal.setAttribute('radius', '0.04');
   signal.setAttribute('color', '#ffffff');
@@ -218,7 +218,7 @@
     easing: 'linear',
     loop: true,
     from: '0 -0.4 0',
-    to: '0 -1.2 0'
+    to: '0 -2.0 0'  // Extended to match axon line end
   });
   this.el.appendChild(signal);
 

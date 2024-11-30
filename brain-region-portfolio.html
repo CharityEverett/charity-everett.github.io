@@ -257,17 +257,33 @@
     </a-gltf-model>
   </a-entity>
         
-        <!-- Camera Rig -->
-        <a-entity id="rig" position="0 0 0">
-            <a-camera look-controls wasd-controls="acceleration: 65">
-                <a-cursor raycaster="objects: .clickable"
-                          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-                          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-                          event-set__mouseenter="color: springgreen"
-                          event-set__mouseleave="color: black">
-                </a-cursor>
-            </a-camera>
-        </a-entity>
-    </a-scene>
+       <!-- Camera Rig -->
+<a-entity id="rig" position="0 0 20">
+    <a-camera look-controls="enabled: false" wasd-controls="enabled: false">
+        <a-cursor raycaster="objects: .clickable"
+                  animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+                  animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+                  event-set__mouseenter="color: springgreen"
+                  event-set__mouseleave="color: black">
+        </a-cursor>
+    </a-camera>
+    <a-animation
+        attribute="position"
+        dur="5000"
+        from="0 0 20"
+        to="0 0 0"
+        easing="easeInOutQuad"
+        begin="startAnimation">
+    </a-animation>
+</a-entity>
+
+<!-- Animation Trigger -->
+<a-entity onload="document.querySelector('#rig').emit('startAnimation');
+                 setTimeout(() => {
+                     document.querySelector('[look-controls]').setAttribute('look-controls', 'enabled: true');
+                     document.querySelector('[wasd-controls]').setAttribute('wasd-controls', 'enabled: true; acceleration: 65');
+                 }, 5000);">
+</a-entity>
+</a-scene>
 </body>
 </html>

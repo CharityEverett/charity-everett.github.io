@@ -181,7 +181,7 @@
           });
         },
 
-        createAxon: function() {
+      createAxon: function() {
   const axonLine = document.createElement('a-entity');
   axonLine.setAttribute('line', {
     start: {x: 0, y: -0.4, z: 0},
@@ -192,31 +192,35 @@
   });
   this.el.appendChild(axonLine);
 
-  const segments = 6;  // Increased from 4 to 6
+  const segments = 6;  // Increased number of segments
   let currentY = -0.4;
-  const spacing = 0.25;
+  const spacing = 0.3;  // Increased spacing between segments
+  const height = 0.15;  // Reduced height of each segment
+
   for (let i = 0; i < segments; i++) {
     const segment = document.createElement('a-cylinder');
-    segment.setAttribute('height', '0.3');  // Increased height from 0.2 to 0.3
+    segment.setAttribute('height', height);
     segment.setAttribute('radius', '0.08');
     segment.setAttribute('position', `0 ${currentY} 0`);
     segment.setAttribute('color', '#ffdd88');
     this.el.appendChild(segment);
     currentY -= spacing;
   }
-          const signal = document.createElement('a-sphere');
-          signal.setAttribute('radius', '0.04');
-          signal.setAttribute('color', '#ffffff');
-          signal.setAttribute('opacity', '0.6');
-          signal.setAttribute('animation', {
-            property: 'position',
-            dur: 1500,
-            easing: 'linear',
-            loop: true,
-            from: '0 -0.4 0',
-            to: '0 -1.2 0'
-          });
-          this.el.appendChild(signal);
+
+  // Adjust signal animation to match new spacing
+  const signal = document.createElement('a-sphere');
+  signal.setAttribute('radius', '0.04');
+  signal.setAttribute('color', '#ffffff');
+  signal.setAttribute('opacity', '0.6');
+  signal.setAttribute('animation', {
+    property: 'position',
+    dur: 1500,
+    easing: 'linear',
+    loop: true,
+    from: '0 -0.4 0',
+    to: '0 -1.2 0'
+  });
+  this.el.appendChild(signal);
 
           const terminalY = currentY + spacing;
           const mainBranches = [

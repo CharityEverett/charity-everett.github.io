@@ -19,7 +19,6 @@
         },
         
         createHexagonalSoma: function() {
-          // Create hexagonal prism for soma
           const soma = document.createElement('a-cylinder');
           soma.setAttribute('segments-radial', '6');
           soma.setAttribute('height', '0.3');
@@ -32,7 +31,6 @@
           });
           soma.setAttribute('rotation', '90 30 0');
           
-          // Inner nucleus (hexagonal)
           const nucleus = document.createElement('a-cylinder');
           nucleus.setAttribute('segments-radial', '6');
           nucleus.setAttribute('height', '0.2');
@@ -40,7 +38,6 @@
           nucleus.setAttribute('color', '#ffcccc');
           nucleus.setAttribute('rotation', '90 30 0');
 
-          // Portal
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');
           portal.setAttribute('height', '0.01');
@@ -65,11 +62,11 @@
         
         createDendrites: function() {
           const vertices = [
-            { x: 0.35, y: 0.2 },     // Upper right
-            { x: 0, y: 0.4 },        // Top center
-            { x: -0.35, y: 0.2 },    // Upper left
-            { x: -0.35, y: -0.2 },   // Lower left
-            { x: 0.35, y: -0.2 }     // Lower right
+            { x: 0.35, y: 0.2 },
+            { x: 0, y: 0.4 },
+            { x: -0.35, y: 0.2 },
+            { x: -0.35, y: -0.2 },
+            { x: 0.35, y: -0.2 }
           ];
           
           vertices.forEach(vertex => {
@@ -77,6 +74,12 @@
             for (let i = 0; i < branchCount; i++) {
               const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
               const length = 0.6 + Math.random() * 0.3;
+              
+              const controlPoint = {
+                x: vertex.x + Math.cos(angle) * length * 0.5,
+                y: vertex.y + Math.sin(angle) * length * 0.5 + 0.2,
+                z: (Math.random() - 0.5) * 0.1
+              };
               
               const end = {
                 x: vertex.x + Math.cos(angle) * length,
@@ -103,8 +106,8 @@
           if (depth <= 0) return;
           
           [-0.7, 0.7].forEach(angleOffset => {
-            const newAngle = baseAngle + angleOffset;
-            const length = 0.3 / depth;
+            const newAngle = baseAngle + angleOffset + (Math.random() - 0.5) * 0.2;
+            const length = (0.3 / depth) * (0.8 + Math.random() * 0.4);
             
             const end = {
               x: start.x + Math.cos(newAngle) * length,
@@ -136,11 +139,10 @@
             width: 0.04
           });
           this.el.appendChild(axonLine);
-          
+
           const segments = 6;
           let currentY = -0.4;
           const spacing = 0.25;
-          
           for (let i = 0; i < segments; i++) {
             const segment = document.createElement('a-cylinder');
             segment.setAttribute('height', '0.2');
@@ -150,35 +152,54 @@
             this.el.appendChild(segment);
             currentY -= spacing;
           }
-          
+
           const terminalY = currentY + spacing;
-          
-          // Split branches into left and right sides
-          const leftBranches = [
-            {x: -0.3, y: terminalY - 0.2, z: 0.1},
-            {x: -0.2, y: terminalY - 0.3, z: -0.1}
+          const mainBranches = [
+            {angle: -45, length: 0.5},
+            {angle: 45, length: 0.5}
           ];
-          
-          const rightBranches = [
-            {x: 0.3, y: terminalY - 0.2, z: 0.1},
-            {x: 0.2, y: terminalY - 0.3, z: -0.1}
-          ];
-          
-          [...leftBranches, ...rightBranches].forEach(pos => {
-            const branch = document.createElement('a-entity');
-            branch.setAttribute('line', {
+
+          mainBranches.forEach(branch => {
+            const radians = branch.angle * Math.PI / 180;
+            const endX = Math.sin(radians) * branch.length;
+            const endY = terminalY - Math.cos(radians) * branch.length;
+            
+            const mainBranch = document.createElement('a-entity');
+            mainBranch.setAttribute('line', {
               start: {x: 0, y: terminalY, z: 0},
-              end: pos,
+              end: {x: endX, y: endY, z: 0},
               color: '#ffdd88',
               width: 0.03
             });
-            this.el.appendChild(branch);
-            
-            const terminal = document.createElement('a-sphere');
-            terminal.setAttribute('radius', '0.04');
-            terminal.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
-            terminal.setAttribute('color', '#ffdd88');
-            this.el.appendChild(terminal);
+            this.el.appendChild(mainBranch);
+
+            // Create two sub-branches for each main branch
+            const subBranches = [
+              {angleOffset: -30, length: 0.3},
+              {angleOffset: 30, length: 0.3}
+            ];
+
+            subBranches.forEach(subBranch => {
+              const subAngle = (branch.angle + subBranch.angleOffset) * Math.PI / 180;
+              const subEndX = endX + Math.sin(subAngle) * subBranch.length;
+              const subEndY = endY - Math.cos(subAngle) * subBranch.length;
+
+              const terminal = document.createElement('a-entity');
+              terminal.setAttribute('line', {
+                start: {x: endX, y: endY, z: 0},
+                end: {x: subEndX, y: subEndY, z: 0},
+                color: '#ffdd88',
+                width: 0.02
+              });
+              this.el.appendChild(terminal);
+
+              // Add terminal bouton
+              const bouton = document.createElement('a-sphere');
+              bouton.setAttribute('radius', '0.02');
+              bouton.setAttribute('position', `${subEndX} ${subEndY} 0`);
+              bouton.setAttribute('color', '#ffdd88');
+              this.el.appendChild(bouton);
+            });
           });
         }
       });

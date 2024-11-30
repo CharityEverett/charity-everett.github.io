@@ -14,12 +14,16 @@
         }
       });
 
-       AFRAME.registerComponent('multipolar-neuron', {
-    init: function() {
-      this.createHexagonalSoma();
-      this.createDendrites();
-      this.createAxon();
-    },
+      AFRAME.registerComponent('multipolar-neuron', {
+  schema: {
+    gifId: {type: 'string'},
+    url: {type: 'string'}
+  },
+  init: function() {
+    this.createHexagonalSoma();
+    this.createDendrites();
+    this.createAxon();
+  },
     
     createHexagonalSoma: function() {
       const soma = document.createElement('a-cylinder');
@@ -61,27 +65,32 @@
         from: '1 1 1'
       });
 
-      const portal = document.createElement('a-cylinder');
-      portal.setAttribute('segments-radial', '6');
-      portal.setAttribute('height', '0.01');
-      portal.setAttribute('radius', '0.375');
-      portal.setAttribute('position', '0.118 -0.021 0.155');
-      portal.setAttribute('material', {
-        src: '#gif1',
-        opacity: 0.9,
-        transparent: true,
-        emissive: '#aaddff',
-        emissiveIntensity: 0.5,
-        rotation: 45
-      });
-      portal.setAttribute('rotation', '90 30 0');
-      portal.setAttribute('class', 'clickable');
-      portal.setAttribute('cursor-listener', '');
-      
-      this.el.appendChild(soma);
-      this.el.appendChild(nucleus);
-      this.el.appendChild(portal);
-    },
+    const portal = document.createElement('a-cylinder');
+    portal.setAttribute('segments-radial', '6');
+    portal.setAttribute('height', '0.01');
+    portal.setAttribute('radius', '0.375');
+    portal.setAttribute('position', '0.118 -0.021 0.155');
+    portal.setAttribute('material', {
+      src: this.data.gifId,
+      opacity: 0.9,
+      transparent: true,
+      emissive: '#aaddff',
+      emissiveIntensity: 0.5,
+      rotation: 45
+    });
+    portal.setAttribute('rotation', '0 0 90');
+    portal.setAttribute('class', 'clickable');
+    portal.setAttribute('cursor-listener', '');
+
+    // Add click event listener to navigate to the specified URL
+    portal.addEventListener('click', () => {
+      window.location.href = this.data.url;
+    });
+
+    this.el.appendChild(soma);
+    this.el.appendChild(nucleus);
+    this.el.appendChild(portal);
+  },
     
     createDendrites: function() {
       const vertices = [
@@ -324,7 +333,14 @@
     <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
     <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
   </a-assets>
+  <!-- Neuron 1: Go Back Fetch It -->
+  <a-entity multipolar-neuron="gifId: #gif3; url: https://gobackfetchitxr.com" position="0 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
 
+  <!-- Neuron 2: Role Prompting in CI/CD -->
+  <a-entity multipolar-neuron="gifId: #gif2; url: https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" position="-4 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
+
+  <!-- Neuron 3: Microservices Architecture -->
+  <a-entity multipolar-neuron="gifId: #gif1; url: https://charityeverett.github.io/microservices-architecture/" position="4 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
   <!-- Brain outline -->
   <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
     <a-gltf-model src="#brain-model">

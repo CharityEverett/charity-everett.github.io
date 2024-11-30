@@ -1,4 +1,4 @@
-# Charity Everett WebXR Data Journalist Portfolio
+# [Charity Everett WebXR Data Journalist Portfolio](https://charityeverett.github.io/charity-everett.github.io/)
 
 Welcome to a groundbreaking fusion of data journalism and virtual reality. This interactive WebXR portfolio showcases Charity Everett's innovative work, pushing the boundaries of digital storytelling.
 

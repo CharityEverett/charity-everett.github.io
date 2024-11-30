@@ -14,10 +14,7 @@
         }
       });
 
-       AFRAME.registerComponent('multipolar-neuron-2', {
-        schema: {
-    gifId: {type: 'string', default: '#gif2'}
-  },
+       AFRAME.registerComponent('multipolar-neuron', {
     init: function() {
       this.createHexagonalSoma();
       this.createDendrites();
@@ -31,12 +28,9 @@
       soma.setAttribute('radius', '0.4');
       soma.setAttribute('color', '#ffdd88');
       soma.setAttribute('material', {
-        src: this.data.gifId,
-        opacity: 0.9,
-        transparent: true,
-        emissive: '#aaddff',
-        emissiveIntensity: 0.5,
-        rotation: 45
+        roughness: 0.8,
+        metalness: 0.2,
+        opacity: 0.9
       });
       soma.setAttribute('rotation', '90 30 0');
       
@@ -56,7 +50,6 @@
       nucleus.setAttribute('radius', '0.2');
       nucleus.setAttribute('color', '#ffcccc');
       nucleus.setAttribute('rotation', '90 30 0');
-      nucleus.setAttribute('position', '0 1.6 -5');
       
       nucleus.setAttribute('animation', {
         property: 'scale',
@@ -285,551 +278,6 @@
       });
     }
   });
-      AFRAME.registerComponent('multipolar-neuron-3', {
-        schema: {
-    gifId: {type: 'string', default: '#gif3'}
-  },
-    init: function() {
-      this.createHexagonalSoma();
-      this.createDendrites();
-      this.createAxon();
-    },
-    
-    createHexagonalSoma: function() {
-      const soma = document.createElement('a-cylinder');
-      soma.setAttribute('segments-radial', '6');
-      soma.setAttribute('height', '0.3');
-      soma.setAttribute('radius', '0.4');
-      soma.setAttribute('color', '#ffdd88');
-      soma.setAttribute('material', {
-      src: this.data.gifId,  
-      opacity: 0.9,
-      transparent: true,
-      emissive: '#aaddff',
-      emissiveIntensity: 0.5,
-      rotation: 45
-      });
-      soma.setAttribute('rotation', '90 30 0');
-      
-      soma.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.1 1.1 1.1',
-        from: '1 1 1'
-      });
-      
-      const nucleus = document.createElement('a-cylinder');
-      nucleus.setAttribute('segments-radial', '6');
-      nucleus.setAttribute('height', '0.2');
-      nucleus.setAttribute('radius', '0.2');
-      nucleus.setAttribute('color', '#ffcccc');
-      nucleus.setAttribute('rotation', '90 30 0');
-      nucleus.setAttribute('position', '-4 1.6 -5');
-
-      
-      nucleus.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.05 1.05 1.05',
-        from: '1 1 1'
-      });
-
-      const portal = document.createElement('a-cylinder');
-      portal.setAttribute('segments-radial', '6');
-      portal.setAttribute('height', '0.01');
-      portal.setAttribute('radius', '0.375');
-      portal.setAttribute('position', '0.118 -0.021 0.155');
-      portal.setAttribute('material', {
-        src: '#gif1',
-        opacity: 0.9,
-        transparent: true,
-        emissive: '#aaddff',
-        emissiveIntensity: 0.5,
-        rotation: 45
-      });
-      portal.setAttribute('rotation', '90 30 0');
-      portal.setAttribute('class', 'clickable');
-      portal.setAttribute('cursor-listener', '');
-      
-      this.el.appendChild(soma);
-      this.el.appendChild(nucleus);
-      this.el.appendChild(portal);
-    },
-    
-    createDendrites: function() {
-      const vertices = [
-        { x: 0.35, y: 0.2 },
-        { x: 0, y: 0.4 },
-        { x: -0.35, y: 0.2 },
-        { x: -0.35, y: -0.2 },
-        { x: 0.35, y: -0.2 }
-      ];
-      
-      vertices.forEach(vertex => {
-        const branchCount = (vertex.y > 0) ? 3 : 2;
-        for (let i = 0; i < branchCount; i++) {
-          const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
-          const length = 0.6 + Math.random() * 0.3;
-          
-          const end = {
-            x: vertex.x + Math.cos(angle) * length,
-            y: vertex.y + Math.sin(angle) * length,
-            z: (Math.random() - 0.5) * 0.2
-          };
-          
-          const dendrite = document.createElement('a-entity');
-          dendrite.setAttribute('line', {
-            start: vertex,
-            end: end,
-            color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.015
-          });
-
-          dendrite.setAttribute('animation__stretch', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000 + Math.random() * 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.1 1.1 1.1'
-          });
-
-          dendrite.setAttribute('animation__glow', {
-            property: 'line.opacity',
-            dir: 'alternate',
-            dur: 1500,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: 0.6,
-            to: 1.0
-          });
-
-          const tip = document.createElement('a-sphere');
-          tip.setAttribute('radius', '0.01');
-          tip.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-          tip.setAttribute('color', '#ffdd88');
-          tip.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.3 1.3 1.3'
-          });
-          
-          this.createBranches(end, 2, angle);
-          this.el.appendChild(dendrite);
-          this.el.appendChild(tip);
-        }
-      });
-    },
-
-    createBranches: function(start, depth, baseAngle) {
-      if (depth <= 0) return;
-      
-      [-0.7, 0.7].forEach(angleOffset => {
-        const newAngle = baseAngle + angleOffset + (Math.random() - 0.5) * 0.2;
-        const length = (0.3 / depth) * (0.8 + Math.random() * 0.4);
-        
-        const end = {
-          x: start.x + Math.cos(newAngle) * length,
-          y: start.y + Math.sin(newAngle) * length,
-          z: start.z + (Math.random() - 0.5) * 0.1
-        };
-        
-        const branch = document.createElement('a-entity');
-        branch.setAttribute('line', {
-          start: start,
-          end: end,
-          color: '#ffdd88',
-          opacity: 0.9,
-          width: 0.01 / depth
-        });
-        
-        this.el.appendChild(branch);
-        this.createBranches(end, depth - 1, newAngle);
-      });
-    },
-
-    createAxon: function() {
-      const axonLine = document.createElement('a-entity');
-      axonLine.setAttribute('line', {
-        start: {x: 0, y: -0.4, z: 0},
-        end: {x: 0, y: -2.0, z: 0},
-        color: '#ffdd88',
-        opacity: 1.0,
-        width: 0.04
-      });
-      this.el.appendChild(axonLine);
-
-      const segments = 6;
-      let currentY = -0.4;
-      const spacing = 0.3;
-      const height = 0.15;
-
-      for (let i = 0; i < segments; i++) {
-        const segment = document.createElement('a-cylinder');
-        segment.setAttribute('height', height);
-        segment.setAttribute('radius', '0.08');
-        segment.setAttribute('position', `0 ${currentY} 0`);
-        segment.setAttribute('color', '#ffdd88');
-        this.el.appendChild(segment);
-        currentY -= spacing;
-      }
-
-      const signal = document.createElement('a-sphere');
-      signal.setAttribute('radius', '0.04');
-      signal.setAttribute('color', '#ffffff');
-      signal.setAttribute('opacity', '0.6');
-      signal.setAttribute('animation', {
-        property: 'position',
-        dur: 1500,
-        easing: 'linear',
-        loop: true,
-        from: '0 -0.4 0',
-        to: '0 -2.0 0'
-      });
-      this.el.appendChild(signal);
-
-      const terminalY = currentY + spacing;
-      const mainBranches = [
-        {angle: -45, length: 0.7},
-        {angle: 45, length: 0.7}
-      ];
-
-      mainBranches.forEach(branch => {
-        const radians = branch.angle * Math.PI / 180;
-        const endX = Math.sin(radians) * branch.length;
-        const endY = terminalY - Math.cos(radians) * branch.length;
-        
-        const mainBranch = document.createElement('a-entity');
-        mainBranch.setAttribute('line', {
-          start: {x: 0, y: terminalY, z: 0},
-          end: {x: endX, y: endY, z: 0},
-          color: '#ffdd88',
-          width: 0.03
-        });
-        this.el.appendChild(mainBranch);
-
-        const subBranches = [
-          {angleOffset: -30, length: 0.5},
-          {angleOffset: 30, length: 0.5}
-        ];
-
-        subBranches.forEach(subBranch => {
-          const subAngle = (branch.angle + subBranch.angleOffset) * Math.PI / 180;
-          const subEndX = endX + Math.sin(subAngle) * subBranch.length;
-          const subEndY = endY - Math.cos(subAngle) * subBranch.length;
-
-          const terminal = document.createElement('a-entity');
-          terminal.setAttribute('line', {
-            start: {x: endX, y: endY, z: 0},
-            end: {x: subEndX, y: subEndY, z: 0},
-            color: '#ffdd88',
-            width: 0.02
-          });
-          this.el.appendChild(terminal);
-
-          const bouton = document.createElement('a-sphere');
-          bouton.setAttribute('radius', '0.02');
-          bouton.setAttribute('position', `${subEndX} ${subEndY} 0`);
-          bouton.setAttribute('color', '#ffdd88');
-          bouton.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.2 1.2 1.2'
-          });
-          this.el.appendChild(bouton);
-        });
-      });
-    }
-  });
-      AFRAME.registerComponent('multipolar-neuron-1', {
-        schema: {
-    gifId: {type: 'string', default: '#gif1'}
-  },
-    init: function() {
-      this.createHexagonalSoma();
-      this.createDendrites();
-      this.createAxon();
-    },
-    
-    createHexagonalSoma: function() {
-      const soma = document.createElement('a-cylinder');
-      soma.setAttribute('segments-radial', '6');
-      soma.setAttribute('height', '0.3');
-      soma.setAttribute('radius', '0.4');
-      soma.setAttribute('color', '#ffdd88');
-      soma.setAttribute('material', {
-      src: this.data.gifId,  
-      opacity: 0.9,
-      transparent: true,
-      emissive: '#aaddff',
-      emissiveIntensity: 0.5,
-      rotation: 45
-      });
-      soma.setAttribute('rotation', '90 30 0');
-      
-      soma.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.1 1.1 1.1',
-        from: '1 1 1'
-      });
-      
-      const nucleus = document.createElement('a-cylinder');
-      nucleus.setAttribute('segments-radial', '6');
-      nucleus.setAttribute('height', '0.2');
-      nucleus.setAttribute('radius', '0.2');
-      nucleus.setAttribute('color', '#ffcccc');
-      nucleus.setAttribute('rotation', '90 30 0');
-      nucleus.setAttribute('position', '4 1.6 -5');
-
-      
-      nucleus.setAttribute('animation', {
-        property: 'scale',
-        dir: 'alternate',
-        dur: 1000,
-        easing: 'easeInOutSine',
-        loop: true,
-        to: '1.05 1.05 1.05',
-        from: '1 1 1'
-      });
-
-      const portal = document.createElement('a-cylinder');
-      portal.setAttribute('segments-radial', '6');
-      portal.setAttribute('height', '0.01');
-      portal.setAttribute('radius', '0.375');
-      portal.setAttribute('position', '0.118 -0.021 0.155');
-      portal.setAttribute('material', {
-        src: '#gif1',
-        opacity: 0.9,
-        transparent: true,
-        emissive: '#aaddff',
-        emissiveIntensity: 0.5,
-        rotation: 45
-      });
-      portal.setAttribute('rotation', '90 30 0');
-      portal.setAttribute('class', 'clickable');
-      portal.setAttribute('cursor-listener', '');
-      
-      this.el.appendChild(soma);
-      this.el.appendChild(nucleus);
-      this.el.appendChild(portal);
-    },
-    
-    createDendrites: function() {
-      const vertices = [
-        { x: 0.35, y: 0.2 },
-        { x: 0, y: 0.4 },
-        { x: -0.35, y: 0.2 },
-        { x: -0.35, y: -0.2 },
-        { x: 0.35, y: -0.2 }
-      ];
-      
-      vertices.forEach(vertex => {
-        const branchCount = (vertex.y > 0) ? 3 : 2;
-        for (let i = 0; i < branchCount; i++) {
-          const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
-          const length = 0.6 + Math.random() * 0.3;
-          
-          const end = {
-            x: vertex.x + Math.cos(angle) * length,
-            y: vertex.y + Math.sin(angle) * length,
-            z: (Math.random() - 0.5) * 0.2
-          };
-          
-          const dendrite = document.createElement('a-entity');
-          dendrite.setAttribute('line', {
-            start: vertex,
-            end: end,
-            color: '#ffdd88',
-            opacity: 0.9,
-            width: 0.015
-          });
-
-          dendrite.setAttribute('animation__stretch', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 2000 + Math.random() * 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.1 1.1 1.1'
-          });
-
-          dendrite.setAttribute('animation__glow', {
-            property: 'line.opacity',
-            dir: 'alternate',
-            dur: 1500,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: 0.6,
-            to: 1.0
-          });
-
-          const tip = document.createElement('a-sphere');
-          tip.setAttribute('radius', '0.01');
-          tip.setAttribute('position', `${end.x} ${end.y} ${end.z}`);
-          tip.setAttribute('color', '#ffdd88');
-          tip.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.3 1.3 1.3'
-          });
-          
-          this.createBranches(end, 2, angle);
-          this.el.appendChild(dendrite);
-          this.el.appendChild(tip);
-        }
-      });
-    },
-
-    createBranches: function(start, depth, baseAngle) {
-      if (depth <= 0) return;
-      
-      [-0.7, 0.7].forEach(angleOffset => {
-        const newAngle = baseAngle + angleOffset + (Math.random() - 0.5) * 0.2;
-        const length = (0.3 / depth) * (0.8 + Math.random() * 0.4);
-        
-        const end = {
-          x: start.x + Math.cos(newAngle) * length,
-          y: start.y + Math.sin(newAngle) * length,
-          z: start.z + (Math.random() - 0.5) * 0.1
-        };
-        
-        const branch = document.createElement('a-entity');
-        branch.setAttribute('line', {
-          start: start,
-          end: end,
-          color: '#ffdd88',
-          opacity: 0.9,
-          width: 0.01 / depth
-        });
-        
-        this.el.appendChild(branch);
-        this.createBranches(end, depth - 1, newAngle);
-      });
-    },
-
-    createAxon: function() {
-      const axonLine = document.createElement('a-entity');
-      axonLine.setAttribute('line', {
-        start: {x: 0, y: -0.4, z: 0},
-        end: {x: 0, y: -2.0, z: 0},
-        color: '#ffdd88',
-        opacity: 1.0,
-        width: 0.04
-      });
-      this.el.appendChild(axonLine);
-
-      const segments = 6;
-      let currentY = -0.4;
-      const spacing = 0.3;
-      const height = 0.15;
-
-      for (let i = 0; i < segments; i++) {
-        const segment = document.createElement('a-cylinder');
-        segment.setAttribute('height', height);
-        segment.setAttribute('radius', '0.08');
-        segment.setAttribute('position', `0 ${currentY} 0`);
-        segment.setAttribute('color', '#ffdd88');
-        this.el.appendChild(segment);
-        currentY -= spacing;
-      }
-
-      const signal = document.createElement('a-sphere');
-      signal.setAttribute('radius', '0.04');
-      signal.setAttribute('color', '#ffffff');
-      signal.setAttribute('opacity', '0.6');
-      signal.setAttribute('animation', {
-        property: 'position',
-        dur: 1500,
-        easing: 'linear',
-        loop: true,
-        from: '0 -0.4 0',
-        to: '0 -2.0 0'
-      });
-      this.el.appendChild(signal);
-
-      const terminalY = currentY + spacing;
-      const mainBranches = [
-        {angle: -45, length: 0.7},
-        {angle: 45, length: 0.7}
-      ];
-
-      mainBranches.forEach(branch => {
-        const radians = branch.angle * Math.PI / 180;
-        const endX = Math.sin(radians) * branch.length;
-        const endY = terminalY - Math.cos(radians) * branch.length;
-        
-        const mainBranch = document.createElement('a-entity');
-        mainBranch.setAttribute('line', {
-          start: {x: 0, y: terminalY, z: 0},
-          end: {x: endX, y: endY, z: 0},
-          color: '#ffdd88',
-          width: 0.03
-        });
-        this.el.appendChild(mainBranch);
-
-        const subBranches = [
-          {angleOffset: -30, length: 0.5},
-          {angleOffset: 30, length: 0.5}
-        ];
-
-        subBranches.forEach(subBranch => {
-          const subAngle = (branch.angle + subBranch.angleOffset) * Math.PI / 180;
-          const subEndX = endX + Math.sin(subAngle) * subBranch.length;
-          const subEndY = endY - Math.cos(subAngle) * subBranch.length;
-
-          const terminal = document.createElement('a-entity');
-          terminal.setAttribute('line', {
-            start: {x: endX, y: endY, z: 0},
-            end: {x: subEndX, y: subEndY, z: 0},
-            color: '#ffdd88',
-            width: 0.02
-          });
-          this.el.appendChild(terminal);
-
-          const bouton = document.createElement('a-sphere');
-          bouton.setAttribute('radius', '0.02');
-          bouton.setAttribute('position', `${subEndX} ${subEndY} 0`);
-          bouton.setAttribute('color', '#ffdd88');
-          bouton.setAttribute('animation', {
-            property: 'scale',
-            dir: 'alternate',
-            dur: 1000,
-            easing: 'easeInOutSine',
-            loop: true,
-            from: '1 1 1',
-            to: '1.2 1.2 1.2'
-          });
-          this.el.appendChild(bouton);
-        });
-      });
-    }
-  });
-      
 
   AFRAME.registerComponent('neural-animation', {
     init: function() {
@@ -884,23 +332,61 @@
           <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
         </a-gltf-model>
       </a-entity>
-<a-entity id="brain-regions">
-    <!-- Center neuron -->
-    <a-entity position="0 1.6 -5">
-        <a-entity multipolar-neuron="gifId: #gif3" scale="2.5 2.5 2.5"></a-entity>
-    </a-entity>
 
-    <!-- Left neuron -->
-    <a-entity position="-4 1.6 -5">
-        <a-entity multipolar-neuron="gifId: #gif2" scale="2.5 2.5 2.5"></a-entity>
-    </a-entity>
-
-    <!-- Right neuron -->
-    <a-entity position="4 1.6 -5">
-        <a-entity multipolar-neuron="gifId: #gif1" scale="2.5 2.5 2.5"></a-entity>
-    </a-entity>
+      <a-entity id="brain-regions">
+  <!-- Cortex: Go Back Fetch It -->
+<a-entity position="0 1.6 -5">
+    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
+    <a-link href="https://gobackfetchitxr.com" 
+            image="#gif3" 
+            visualAspectEnabled="true" 
+            backgroundColor="#4682B4" 
+            borderColor="#f3b5b8" 
+            highlighted="false" 
+            scale="0.2 0.2 0.2" 
+            position="0 0.3 0.6"
+            rotation="90 0 0"  
+            event-set__mouseenter="scale: 0.22 0.22 0.22" 
+            event-set__mouseleave="scale: 0.2 0.2 0.2" 
+            class="clickable">
+    </a-link>
 </a-entity>
-   
+
+<!-- Thalamus: Microservices Architecture -->
+<a-entity position="-4 1.6 -5">
+    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
+    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"  
+            image="#gif2" 
+            visualAspectEnabled="true" 
+            backgroundColor="#4682B4" 
+            borderColor="#f3b5b8" 
+            highlighted="false" 
+            scale="0.2 0.2 0.2" 
+            position="0 0.3 0.6"
+            rotation="90 0 0"  
+            event-set__mouseenter="scale: 0.22 0.22 0.22" 
+            event-set__mouseleave="scale: 0.2 0.2 0.2" 
+            class="clickable">
+    </a-link>
+</a-entity>
+
+<!-- Hippocampus: Role Prompting in CI/CD -->
+<a-entity position="4 1.6 -5">
+    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
+    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
+            image="#gif1" 
+            visualAspectEnabled="true" 
+            backgroundColor="#32CD32" 
+            borderColor="#f3b5b8" 
+            highlighted="false" 
+            scale="0.2 0.2 0.2" 
+            position="0 0.3 0.6"
+            rotation="90 0 0" 
+            event-set__mouseenter="scale: 0.22 0.22 0.22" 
+            event-set__mouseleave="scale: 0.2 0.2 0.2" 
+            class="clickable">
+    </a-link>
+</a-entity>
 <!-- Neural Network -->
 <a-entity id="neural-network" neural-animation></a-entity>
 

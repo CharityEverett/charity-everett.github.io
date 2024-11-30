@@ -61,7 +61,19 @@
         from: '1 1 1'
       });
 
-    
+      const portal = document.createElement('a-cylinder');
+      portal.setAttribute('segments-radial', '6');
+      portal.setAttribute('height', '0.01');
+      portal.setAttribute('radius', '0.375');
+      portal.setAttribute('position', '0.118 -0.021 0.155');
+      portal.setAttribute('material', {
+        src: '#gif1',
+        opacity: 0.9,
+        transparent: true,
+        emissive: '#aaddff',
+        emissiveIntensity: 0.5,
+        rotation: 45
+      });
       portal.setAttribute('rotation', '90 30 0');
       portal.setAttribute('class', 'clickable');
       portal.setAttribute('cursor-listener', '');

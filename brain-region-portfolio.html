@@ -317,75 +317,27 @@
 </script>
   </head>
   <body>
-    <a-scene background="color: #f3b5b8">
-      <a-assets>
-        <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
-        <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-        <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-        <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
-      </a-assets>
+   <a-scene background="color: #f3b5b8">
+  <a-assets>
+    <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+    <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
+    <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
+    <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
+  </a-assets>
 
-      <!-- Brain outline -->
-      <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
-        <a-gltf-model src="#brain-model">
-          <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
-        </a-gltf-model>
-      </a-entity>
+  <!-- Brain outline -->
+  <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
+    <a-gltf-model src="#brain-model">
+      <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+    </a-gltf-model>
+  </a-entity>
 
-      <a-entity id="brain-regions">
-  <!-- Cortex: Go Back Fetch It -->
-<a-entity position="0 1.6 -5">
-    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
-    <a-link href="https://gobackfetchitxr.com" 
-            image="#gif3" 
-            visualAspectEnabled="true" 
-            backgroundColor="#4682B4" 
-            borderColor="#f3b5b8" 
-            highlighted="false" 
-            scale="0.2 0.2 0.2" 
-            position="0 0.3 0.6"
-            rotation="90 0 0"  
-            event-set__mouseenter="scale: 0.22 0.22 0.22" 
-            event-set__mouseleave="scale: 0.2 0.2 0.2" 
-            class="clickable">
-    </a-link>
-</a-entity>
+  <!-- Neurons -->
+  <a-entity multipolar-neuron="gifId: #gif3" position="0 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
+  <a-entity multipolar-neuron="gifId: #gif2" position="-4 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
+  <a-entity multipolar-neuron="gifId: #gif1" position="4 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
 
-<!-- Thalamus: Microservices Architecture -->
-<a-entity position="-4 1.6 -5">
-    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
-    <a-link href="https://dev.to/charity_everett/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d"  
-            image="#gif2" 
-            visualAspectEnabled="true" 
-            backgroundColor="#4682B4" 
-            borderColor="#f3b5b8" 
-            highlighted="false" 
-            scale="0.2 0.2 0.2" 
-            position="0 0.3 0.6"
-            rotation="90 0 0"  
-            event-set__mouseenter="scale: 0.22 0.22 0.22" 
-            event-set__mouseleave="scale: 0.2 0.2 0.2" 
-            class="clickable">
-    </a-link>
-</a-entity>
-
-<!-- Hippocampus: Role Prompting in CI/CD -->
-<a-entity position="4 1.6 -5">
-    <a-entity multipolar-neuron scale="2.5 2.5 2.5"></a-entity>
-    <a-link href="https://charityeverett.github.io/microservices-architecture/" 
-            image="#gif1" 
-            visualAspectEnabled="true" 
-            backgroundColor="#32CD32" 
-            borderColor="#f3b5b8" 
-            highlighted="false" 
-            scale="0.2 0.2 0.2" 
-            position="0 0.3 0.6"
-            rotation="90 0 0" 
-            event-set__mouseenter="scale: 0.22 0.22 0.22" 
-            event-set__mouseleave="scale: 0.2 0.2 0.2" 
-            class="clickable">
-    </a-link>
-</a-entity>
+    
 <!-- Neural Network -->
 <a-entity id="neural-network" neural-animation></a-entity>
 

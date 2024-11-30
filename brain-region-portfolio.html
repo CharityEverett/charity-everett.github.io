@@ -73,13 +73,11 @@
           ];
           
           vertices.forEach(vertex => {
-            // Create 2-3 dendrites per vertex
             const branchCount = (vertex.y > 0) ? 3 : 2;
             for (let i = 0; i < branchCount; i++) {
               const angle = Math.atan2(vertex.y, vertex.x) + (Math.random() - 0.5) * 0.3;
               const length = 0.6 + Math.random() * 0.3;
               
-              // Add curve control point for natural bending
               const controlPoint = {
                 x: vertex.x + Math.cos(angle) * length * 0.5,
                 y: vertex.y + Math.sin(angle) * length * 0.5 + 0.2,
@@ -138,14 +136,14 @@
           const axonLine = document.createElement('a-entity');
           axonLine.setAttribute('line', {
             start: {x: 0, y: -0.4, z: 0},
-            end: {x: 0, y: -2.4, z: 0},
+            end: {x: 0, y: -2.0, z: 0},
             color: '#ffdd88',
             opacity: 1.0,
             width: 0.04
           });
           this.el.appendChild(axonLine);
           
-          const segments = 8;
+          const segments = 6;
           let currentY = -0.4;
           const spacing = 0.25;
           
@@ -160,55 +158,60 @@
           }
           
           const terminalY = currentY + spacing;
-          const branchAngles = [-45, -15, 15, 45];
           
-          branchAngles.forEach(angle => {
-            const radians = angle * Math.PI / 180;
-            const length = 0.4 + Math.random() * 0.2;
-            
-            const endPoint = {
-              x: Math.cos(radians) * length,
-              y: terminalY - 0.3,
-              z: Math.sin(radians) * length
-            };
-            
+          // Split branches into left and right sides
+          const leftBranches = [
+            {x: -0.3, y: terminalY - 0.2, z: 0.1},
+            {x: -0.2, y: terminalY - 0.3, z: -0.1}
+          ];
+          
+          const rightBranches = [
+            {x: 0.3, y: terminalY - 0.2, z: 0.1},
+            {x: 0.2, y: terminalY - 0.3, z: -0.1}
+          ];
+          
+          [...leftBranches, ...rightBranches].forEach(pos => {
+            // Main branch
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
               start: {x: 0, y: terminalY, z: 0},
-              end: endPoint,
+              end: pos,
               color: '#ffdd88',
-              width: 0.02
+              width: 0.03
             });
             this.el.appendChild(branch);
             
-            // Create sub-branches
-            const subBranchCount = 2;
-            for(let i = 0; i < subBranchCount; i++) {
-              const subAngle = radians + (Math.random() - 0.5) * 0.5;
-              const subLength = 0.2 + Math.random() * 0.1;
-              
-              const subEnd = {
-                x: endPoint.x + Math.cos(subAngle) * subLength,
-                y: endPoint.y - 0.2,
-                z: endPoint.z + Math.sin(subAngle) * subLength
-              };
-              
-              const subBranch = document.createElement('a-entity');
-              subBranch.setAttribute('line', {
-                start: endPoint,
-                end: subEnd,
+            // Create bifurcating terminals
+            const bifurcations = [
+              {
+                x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+                y: pos.y - 0.15,
+                z: pos.z + 0.1
+              },
+              {
+                x: pos.x + (pos.x > 0 ? 0.15 : -0.15),
+                y: pos.y - 0.15,
+                z: pos.z - 0.1
+              }
+            ];
+            
+            bifurcations.forEach(endPos => {
+              const terminal = document.createElement('a-entity');
+              terminal.setAttribute('line', {
+                start: pos,
+                end: endPos,
                 color: '#ffdd88',
-                width: 0.015
+                width: 0.02
               });
               
-              const terminal = document.createElement('a-sphere');
-              terminal.setAttribute('radius', '0.03');
-              terminal.setAttribute('position', `${subEnd.x} ${subEnd.y} ${subEnd.z}`);
-              terminal.setAttribute('color', '#ffdd88');
+              const sphere = document.createElement('a-sphere');
+              sphere.setAttribute('radius', '0.03');
+              sphere.setAttribute('position', `${endPos.x} ${endPos.y} ${endPos.z}`);
+              sphere.setAttribute('color', '#ffdd88');
               
-              this.el.appendChild(subBranch);
               this.el.appendChild(terminal);
-            }
+              this.el.appendChild(sphere);
+            });
           });
         }
       });

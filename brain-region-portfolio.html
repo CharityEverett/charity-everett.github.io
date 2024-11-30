@@ -235,6 +235,7 @@
 <body>
     <a-scene background="color: #f3b5b8">
         <a-assets>
+            <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
             <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
             <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
             <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
@@ -249,6 +250,13 @@
         <!-- Neuron 3: Microservices Architecture -->
         <a-entity multipolar-neuron="gifId: #gif1; url: https://charityeverett.github.io/microservices-architecture/" position="4 1.6 -5" scale="2.5 2.5 2.5"></a-entity>
 
+          <!-- Brain outline -->
+  <a-entity id="brain-model" position="0 0 0" scale="20 20 20" rotation="0 0 0">
+    <a-gltf-model src="#brain-model">
+      <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+    </a-gltf-model>
+  </a-entity>
+        
         <!-- Camera Rig -->
         <a-entity id="rig" position="0 0 0">
             <a-camera look-controls wasd-controls="acceleration: 65">

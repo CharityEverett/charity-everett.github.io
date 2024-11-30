@@ -31,12 +31,34 @@
           });
           soma.setAttribute('rotation', '90 30 0');
           
+          // Add pulsing animation
+          soma.setAttribute('animation', {
+            property: 'scale',
+            dir: 'alternate',
+            dur: 1000,
+            easing: 'easeInOutSine',
+            loop: true,
+            to: '1.1 1.1 1.1',
+            from: '1 1 1'
+          });
+          
           const nucleus = document.createElement('a-cylinder');
           nucleus.setAttribute('segments-radial', '6');
           nucleus.setAttribute('height', '0.2');
           nucleus.setAttribute('radius', '0.2');
           nucleus.setAttribute('color', '#ffcccc');
           nucleus.setAttribute('rotation', '90 30 0');
+          
+          // Add nucleus animation
+          nucleus.setAttribute('animation', {
+            property: 'scale',
+            dir: 'alternate',
+            dur: 1000,
+            easing: 'easeInOutSine',
+            loop: true,
+            to: '1.05 1.05 1.05',
+            from: '1 1 1'
+          });
 
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');

@@ -19,7 +19,6 @@
         },
         
         createHexagonalSoma: function() {
-          // Create hexagonal prism for soma
           const soma = document.createElement('a-cylinder');
           soma.setAttribute('segments-radial', '6');
           soma.setAttribute('height', '0.3');
@@ -32,7 +31,6 @@
           });
           soma.setAttribute('rotation', '90 30 0');
           
-          // Inner nucleus (hexagonal)
           const nucleus = document.createElement('a-cylinder');
           nucleus.setAttribute('segments-radial', '6');
           nucleus.setAttribute('height', '0.2');
@@ -40,7 +38,6 @@
           nucleus.setAttribute('color', '#ffcccc');
           nucleus.setAttribute('rotation', '90 30 0');
 
-          // Portal
           const portal = document.createElement('a-cylinder');
           portal.setAttribute('segments-radial', '6');
           portal.setAttribute('height', '0.01');
@@ -65,11 +62,11 @@
         
         createDendrites: function() {
           const vertices = [
-            { x: 0.35, y: 0.2 },     // Upper right
-            { x: 0, y: 0.4 },        // Top center
-            { x: -0.35, y: 0.2 },    // Upper left
-            { x: -0.35, y: -0.2 },   // Lower left
-            { x: 0.35, y: -0.2 }     // Lower right
+            { x: 0.35, y: 0.2 },
+            { x: 0, y: 0.4 },
+            { x: -0.35, y: 0.2 },
+            { x: -0.35, y: -0.2 },
+            { x: 0.35, y: -0.2 }
           ];
           
           vertices.forEach(vertex => {
@@ -159,7 +156,6 @@
           
           const terminalY = currentY + spacing;
           
-          // Split branches into left and right sides
           const leftBranches = [
             {x: -0.3, y: terminalY - 0.2, z: 0.1},
             {x: -0.2, y: terminalY - 0.3, z: -0.1}
@@ -171,7 +167,6 @@
           ];
           
           [...leftBranches, ...rightBranches].forEach(pos => {
-            // Main branch
             const branch = document.createElement('a-entity');
             branch.setAttribute('line', {
               start: {x: 0, y: terminalY, z: 0},
@@ -181,7 +176,6 @@
             });
             this.el.appendChild(branch);
             
-            // Create bifurcating terminals
             const bifurcations = [
               {
                 x: pos.x + (pos.x > 0 ? 0.15 : -0.15),

@@ -884,23 +884,28 @@
           <a-animation attribute="rotation" dur="60000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
         </a-gltf-model>
       </a-entity>
-<a-entity id="brain-regions">
-    <!-- Center neuron -->
+   <a-entity id="brain-regions">
+    <!-- Cortex: Go Back Fetch It -->
     <a-entity position="0 1.6 -5">
         <a-entity multipolar-neuron="gifId: #gif3" scale="2.5 2.5 2.5"></a-entity>
+        <a-link href="https://gobackfetchitxr.com" image="#gif3" title="Go Back Fetch It" visualAspectEnabled="true" backgroundColor="#4682B4" borderColor="#f3b5b8" highlighted="false" scale="0.2 0.2 0.2" position="0 0.3 0.6" rotation="90 0 0" event-set__mouseenter="scale: 0.22 0.22 0.22" event-set__mouseleave="scale: 0.2 0.2 0.2" class="clickable">
+        </a-link>
     </a-entity>
 
-    <!-- Left neuron -->
+    <!-- Thalamus: Microservices Architecture -->
     <a-entity position="-4 1.6 -5">
-        <a-entity multipolar-neuron="gifId: #gif2" scale="2.5 2.5 2.5"></a-entity>
+        <a-entity multipolar-neuron="gifId: #gif1" scale="2.5 2.5 2.5"></a-entity>
+        <a-link href="https://charityeverett.github.io/microservices-architecture/" image="#gif1" title="Microservices Architecture" visualAspectEnabled="true" backgroundColor="#32CD32" borderColor="#f3b5b8" highlighted="false" scale="0.2 0.2 0.2" position="0 0.3 0.6" rotation="90 0 0" event-set__mouseenter="scale: 0.22 0.22 0.22" event-set__mouseleave="scale: 0.2 0.2 0.2" class="clickable">
+        </a-link>
     </a-entity>
 
-    <!-- Right neuron -->
+    <!-- Hippocampus: Role Prompting in CI/CD -->
     <a-entity position="4 1.6 -5">
-        <a-entity multipolar-neuron="gifId: #gif1" scale="2.5 2.5 2.5"></a-entity>
+        <a-entity multipolar-neuron="gifId: #gif2" scale="2.5 2.5 2.5"></a-entity>
+        <a-link href="https://dev.to/charitylovesxr/boosting-cicd-automation-with-ai-role-prompting-in-devops-2a5d" image="#gif2" title="Role Prompting in CI/CD" visualAspectEnabled="true" backgroundColor="#4682B4" borderColor="#f3b5b8" highlighted="false" scale="0.2 0.2 0.2" position="0 0.3 0.6" rotation="90 0 0" event-set__mouseenter="scale: 0.22 0.22 0.22" event-set__mouseleave="scale: 0.2 0.2 0.2" class="clickable">
+        </a-link>
     </a-entity>
 </a-entity>
-   
 <!-- Neural Network -->
 <a-entity id="neural-network" neural-animation></a-entity>
 

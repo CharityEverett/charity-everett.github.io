@@ -257,7 +257,7 @@
     </a-gltf-model>
   </a-entity>
         
-      <!-- Camera Rig -->
+    <!-- Camera Rig -->
 <a-entity id="rig" position="0 0 20">
     <a-camera look-controls="enabled: true" wasd-controls="enabled: true; acceleration: 65">
         <a-cursor raycaster="objects: .clickable"
@@ -279,6 +279,4 @@
 
 <!-- Animation Trigger -->
 <a-entity onload="document.querySelector('#rig').emit('startAnimation')"></a-entity>
-</a-scene>
-</body>
-</html>
+

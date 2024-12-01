@@ -6,6 +6,17 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
+        AFRAME.registerComponent('cursor-listener', {
+    init: function() {
+        // Add a small delay before enabling click interactions
+        setTimeout(() => {
+            this.el.addEventListener('click', () => {
+                window.location.href = this.data.url;
+            });
+        }, 1000); // 1 second delay
+    }
+});
+
     AFRAME.registerComponent('multipolar-neuron', {
         schema: {
             gifId: {type: 'string'},
@@ -260,12 +271,15 @@
     <!-- Camera Rig -->
 <a-entity id="rig" position="0 0 20">
     <a-camera look-controls="enabled: true" wasd-controls="enabled: true; acceleration: 65">
-        <a-cursor raycaster="objects: .clickable"
-                  animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-                  animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-                  event-set__mouseenter="color: springgreen"
-                  event-set__mouseleave="color: black">
-        </a-cursor>
+    <a-cursor raycaster="objects: .clickable"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          fuse="true"
+          fuseTimeout="1500"
+          event-set__mouseenter="color: springgreen"
+          event-set__mouseleave="color: black">
+</a-cursor>
+
     </a-camera>
    <a-entity animation="property: position; 
                     from: 0 0 20; 

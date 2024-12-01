@@ -267,14 +267,14 @@
                   event-set__mouseleave="color: black">
         </a-cursor>
     </a-camera>
-    <a-animation
-        attribute="position"
-        dur="5000"
-        from="0 0 20"
-        to="0 0 0"
-        easing="easeInOutQuad"
-        begin="startAnimation">
-    </a-animation>
+   <a-entity animation="property: position; 
+                    from: 0 0 20; 
+                    to: 0 0 0; 
+                    dur: 5000; 
+                    easing: easeInOutQuad;
+                    startEvents: startAnimation">
+</a-entity>
+
 </a-entity>
 
 <!-- Animation Trigger -->

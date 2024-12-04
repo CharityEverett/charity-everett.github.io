@@ -1,6 +1,7 @@
 # [Charity Everett WebXR Data Journalist Portfolio](https://charityeverett.github.io/charity-everett.github.io/)
 
-Welcome to a groundbreaking fusion of data journalism and virtual reality. This interactive WebXR portfolio showcases Charity Everett's innovative work, pushing the boundaries of digital storytelling.
+Welcome to a groundbreaking fusion of data journalism and virtual reality. This interactive WebXR portfolio showcases Charity Everett's innovative work, pushing the boundaries of digital storytelling. [View the project here](https://charityeverett.github.io/charity-everett.github.io)
+
 
 ## Immersive Brain Exploration
 
@@ -52,3 +53,4 @@ Embark on a unique journey through neural pathways of innovation. Each neuron ho
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
+MIT License

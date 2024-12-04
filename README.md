@@ -2,7 +2,7 @@
 
 Welcome to a groundbreaking fusion of data journalism and virtual reality. This interactive WebXR portfolio showcases Charity Everett's innovative work, pushing the boundaries of digital storytelling. [View the project here](https://charityeverett.github.io/charity-everett.github.io)
 
-![Brain Neuron Portfolio]([https://github.com/CharityEverett/charity-everett.github.io/blob/3216c4e3215395f525348647130ac71496086657/assets/Brain%20Portals.jpg])
+![Brain Neuron Portfolio](https://github.com/CharityEverett/charity-everett.github.io/blob/3216c4e3215395f525348647130ac71496086657/assets/Brain%20Portals.jpg)
 
 
 ## Immersive Brain Exploration

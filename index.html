@@ -6,7 +6,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
-         AFRAME.registerComponent('scene-setup', {
+        AFRAME.registerComponent('scene-setup', {
   init: function () {
     var sceneEl = this.el;
     var loadingScreen = document.getElementById('custom-loader');
@@ -16,25 +16,13 @@
       if (cameraEl) {
         cameraEl.setAttribute('position', '0 1.6 -9');
         cameraEl.setAttribute('rotation', '0 180 0');
-      } else {
-        console.warn('Camera element not found');
-      }
-    }
-
-    function hideLoadingScreen() {
-      if (loadingScreen) {
-        loadingScreen.style.display = 'none';
       }
     }
 
     if (sceneEl.hasLoaded) {
       setupCamera();
-      hideLoadingScreen();
     } else {
-      sceneEl.addEventListener('loaded', function () {
-        setupCamera();
-        hideLoadingScreen();
-      });
+      sceneEl.addEventListener('loaded', setupCamera);
     }
   }
 });
@@ -58,31 +46,26 @@
 
 
     <!-- Responsive Load Screen -->
-  <style>
+<style>
+  #custom-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 
-#custom-loader {
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-
-#loading-gif {
-  width: 90vw;
-  max-width: 1080px;
-  height: auto;
-  margin-bottom: 4vh;
-}
-
+  #loading-gif {
+    max-width: 90%;
+    max-height: 90%;
+  }
 </style>
+
 
 <div id="custom-loader">
   <img id="loading-gif" src="assets/braininstructions.gif" alt="Loading...">
@@ -94,31 +77,26 @@
 document.addEventListener('DOMContentLoaded', function() {
   const loadingScreen = document.getElementById('custom-loader');
   const loadingGif = document.getElementById('loading-gif');
-
-  function getGifDuration(gif) {
-    return new Promise(resolve => {
-      gif.addEventListener('load', function() {
-        // Assume 25 seconds if duration can't be determined
-        resolve(typeof gif.duration !== 'undefined' ? gif.duration / 1000 : 25);
-      });
-    });
-  }
+  const scene = document.querySelector('a-scene');
 
   function hideLoadingScreen() {
     loadingScreen.style.display = 'none';
   }
 
-  if (loadingScreen && loadingGif) {
-    Promise.all([
-      getGifDuration(loadingGif),
-      new Promise(resolve => {
-        document.querySelector('a-scene').addEventListener('loaded', resolve);
-      })
-    ]).then(([gifDuration]) => {
-      setTimeout(hideLoadingScreen, gifDuration * 1000);
-    });
-  }
+  Promise.all([
+    new Promise(resolve => {
+      loadingGif.onload = () => setTimeout(resolve, 25000); // Assume 25 seconds for GIF duration
+    }),
+    new Promise(resolve => {
+      if (scene.hasLoaded) {
+        resolve();
+      } else {
+        scene.addEventListener('loaded', resolve);
+      }
+    })
+  ]).then(hideLoadingScreen);
 });
+
 
     AFRAME.registerComponent('multipolar-neuron', {
         schema: {
@@ -348,12 +326,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body>
     <a-scene background="color: #f3b5b8">
-        <a-assets>
-            <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
-            <img id="gif1" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" />
-            <img id="gif2" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" />
-            <img id="gif3" crossorigin="anonymous" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" />
-        </a-assets>
+       <a-assets timeout="10000">
+  <a-asset-item id="brain-model" src="assets/Brain_model.glb"></a-asset-item>
+  <img id="gif1" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Microservices%20Architecture%20Animated%20Infographic.gif?v=1728249005775" crossorigin="anonymous">
+  <img id="gif2" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/Role%20Prompting%20Animated%20Infographic.gif?v=1728249018792.gif" crossorigin="anonymous">
+  <img id="gif3" src="https://cdn.glitch.global/5cfc02c2-e08f-4e29-9383-05c3fa57335f/AdamandEve.gif?v=1732220288865" crossorigin="anonymous">
+</a-assets>
+
 
         <!-- Neuron 1: Go Back Fetch It -->
         <a-entity multipolar-neuron="gifId: #gif3; url: https://gobackfetchitxr.com" position="0 1.6 -5" scale="2.5 2.5 2.5"></a-entity>

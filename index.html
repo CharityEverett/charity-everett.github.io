@@ -2,10 +2,161 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Charity Everett WebXR Data Journalism Portfolio</title>
+    <title>Dataversive XR Portfolio</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
     <script>
+         AFRAME.registerComponent('scene-setup', {
+  init: function () {
+    var sceneEl = this.el;
+    var loadingScreen = document.getElementById('custom-loader');
+
+    function setupCamera() {
+      var cameraEl = sceneEl.querySelector('[camera]');
+      if (cameraEl) {
+        cameraEl.setAttribute('position', '0 1.6 -9');
+        cameraEl.setAttribute('rotation', '0 180 0');
+      } else {
+        console.warn('Camera element not found');
+      }
+    }
+
+    function hideLoadingScreen() {
+      if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+      }
+    }
+
+    if (sceneEl.hasLoaded) {
+      setupCamera();
+      hideLoadingScreen();
+    } else {
+      sceneEl.addEventListener('loaded', function () {
+        setupCamera();
+        hideLoadingScreen();
+      });
+    }
+  }
+});
+              
+              </script>
+<script>
+              
+        AFRAME.registerComponent('nav-mesh-link', {
+            init: function () {
+                var el = this.el;
+                var navmesh = document.querySelector('#navmesh');
+                el.setAttribute('movement-controls', {
+                    constrainToNavMesh: true,
+                    speed: 0.1
+                });
+                navmesh.setAttribute('nav-mesh', {});
+            }
+        });
+                       </script>
+  
+
+
+    <!-- Responsive Load Screen -->
+  <style>
+@font-face {
+  font-family: 'Varela Round';
+  src: url('assets/VarelaRound-Regular.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.a-loader-title {
+  font-family: 'Varela Round', sans-serif;
+  font-weight: bold;
+  color: black;
+  font-size: 5vw;
+}
+
+#custom-loader {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-text {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 6vw;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 4vh;
+  text-align: center;
+}
+
+#loading-gif {
+  width: 90vw;
+  max-width: 1080px;
+  height: auto;
+  margin-bottom: 4vh;
+}
+
+.audio-text {
+  font-family: 'Varela Round', sans-serif;
+  font-size: 4vw;
+  color: black;
+  margin-top: 4vh;
+  text-align: center;
+}
+
+@media (min-width: 1200px) {
+  .loading-text {
+    font-size: 70px;
+  }
+  .audio-text {
+    font-size: 48px;
+  }
+}
+</style>
+
+<div id="custom-loader">
+  <img id="loading-gif" src="assets/braininstructions.gif" alt="Loading...">
+</div>
+<script>
+    const loadingScreen = document.getElementById('custom-loader');
+    const loadingGif = document.getElementById('loading-gif');
+
+document.addEventListener('DOMContentLoaded', function() {
+  const loadingScreen = document.getElementById('custom-loader');
+  const loadingGif = document.getElementById('loading-gif');
+
+  function getGifDuration(gif) {
+    return new Promise(resolve => {
+      gif.addEventListener('load', function() {
+        // Assume 25 seconds if duration can't be determined
+        resolve(typeof gif.duration !== 'undefined' ? gif.duration / 1000 : 25);
+      });
+    });
+  }
+
+  function hideLoadingScreen() {
+    loadingScreen.style.display = 'none';
+  }
+
+  if (loadingScreen && loadingGif) {
+    Promise.all([
+      getGifDuration(loadingGif),
+      new Promise(resolve => {
+        document.querySelector('a-scene').addEventListener('loaded', resolve);
+      })
+    ]).then(([gifDuration]) => {
+      setTimeout(hideLoadingScreen, gifDuration * 1000);
+    });
+  }
+});
+
     AFRAME.registerComponent('multipolar-neuron', {
         schema: {
             gifId: {type: 'string'},
